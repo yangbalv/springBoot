@@ -1,0 +1,41 @@
+server:
+  error:
+    path: /error
+  servlet:
+    session:
+      timeout: 30m
+    context-path: /zty
+  tomcat:
+    uri-encoding: utf-8
+    max-threads: 500
+    basedir: /home/zty/tmp
+
+
+book:
+  name: 三国演义
+  author: 罗贯中
+  price: 30
+
+my:
+  users:
+    - name: 江南一点有
+      address: China
+      favorites:
+        - 足球
+        - 走路
+        - coding
+
+
+
+
+
+#非常关键-不使用spring-boot-starter-parent作为父类时的配置
+#设置数据的字符集
+#spring:
+#  messages:
+#    encoding: UTF-8
+
+spring:
+  profiles:
+    active: uat
+#    被配置的文件优先级大于当前文件 （在启动项中也可以配置）

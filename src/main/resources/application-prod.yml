@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+my:
+  users:
+    - name: 江南一点3
+      address: China
+      favorites:
+        - 足球
+        - 走路
+        - coding

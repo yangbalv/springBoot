@@ -1,0 +1,84 @@
+#非常关键-不使用spring-boot-starter-parent作为父类时的配置
+#设置数据的字符集
+#spring:
+#  messages:
+#    encoding: UTF-8
+
+server:
+  error:
+    path: /error
+    port: 80
+  servlet:
+    session:
+      timeout: 30m
+    context-path: /zty
+  tomcat:
+    uri-encoding: utf-8
+    max-threads: 500
+    basedir: /home/zty/tmp
+
+#自定义数据 获取时使用@ConfigurationProperties(prefix = "book")
+book:
+  name: 三国演义
+  author: 罗贯中
+  price: 30
+
+my:
+  users:
+    - name: 江南一点有
+      address: China
+      favorites:
+        - 足球
+        - 走路
+        - coding
+
+
+#视图解析器（同时配置free 和thy 只有free生效）
+spring:
+  #  使用fastjson时防止出现中文乱码的问题
+  http:
+    encoding:
+      force-response: true
+  #  thymeleaf配置项
+  thymeleaf:
+    cache: false
+    check-template: false
+    check-template-location: true
+    encoding: UTF-8
+    prefix: classpath:/templates/thymeleaf/
+    servlet:
+      content-type: text/html
+    suffix: .html
+  #  freemarker配置项
+#  freemarker:
+#    allow-request-override: false
+#    allow-session-override: false
+#    cache: false
+#    charset: UTF-8
+#    check-template-location: true
+#    content-type: text/html
+#    expose-request-attributes: false
+#    expose-session-attributes: false
+#    suffix: .ftl
+#    template-loader-path: classpath:/templates/freemarker/
+#  文件上传设置
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location: D:\\tmp
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
+
+  #静态资源访问
+  #http://localhost:8080/static/p1.png即访问classpath:/static/p1.png
+#  mvc:
+#    static-path-pattern: /static/**
+#  resources:
+#    static-locations: classpath:/static/
+
+
+
+
+
