@@ -1,13 +1,17 @@
 package com.springboot.live_comm.controller;
 
 import com.springboot.live_comm.model.Book;
+import com.springboot.live_comm.model.Hello;
 import com.springboot.live_comm.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -19,6 +23,23 @@ import java.util.Scanner;
 
 @Controller
 public class HelloController {
+    @Autowired
+    Hello hello;
+
+//    @Resource可以看成Autowired+Qualifier
+    @Autowired
+    @Qualifier("book")
+    Book book;
+    @Resource(name = "book")
+    Book book2;
+
+    @RequestMapping(value = "/hello2")
+    @ResponseBody
+    public String hello2(Model model) {
+        return book.toString() + book2.toString() + hello.sayHello();
+    }
+
+
     @GetMapping(value = "/hello")
     @ResponseBody
     public void hello(Model model) {
@@ -41,7 +62,6 @@ public class HelloController {
 //        Parameter属性就是拼接在url后面的
         result.append("姓名: " + req.getParameter("name"));
         result.append("                      ");
-
 
 
         result.append("                      ");
