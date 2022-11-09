@@ -5,6 +5,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -38,5 +39,14 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+//cors跨域访问配置，访问/corsBook/**的子路径时进行了配置，所有的请求头，所有的请求方式，跨域的有效期为1800秒，支持来自localhost://8080的请求
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/corsBook/**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .maxAge(10)
+                .allowedOrigins("http://localhost:8081");
     }
 }
