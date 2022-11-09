@@ -6,10 +6,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.springboot.live_comm.interceptor.MyInterceptor1;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -53,6 +50,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:8081");
     }
 
+    //注册拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new MyInterceptor1())
@@ -62,5 +60,11 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                         "/path/**",//以某个路径开始
                         "/**/hello",//以某个路径结尾
                         "/**/hello2/**");//包涵某个路径
+    }
+
+    //路径映射（根据项目配置的视图层技术，去视图层技术的指定目录下查找并返回文件，与静态资源访问）
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/index").setViewName("index");
     }
 }
