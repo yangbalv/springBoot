@@ -80,6 +80,12 @@ spring:
 #  resources:
 #    static-locations: classpath:/static/
 
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/chapter05?useUnicode=true&amp;useSSL=false
+    username: root
+    password: 123456
+
 
 
 
