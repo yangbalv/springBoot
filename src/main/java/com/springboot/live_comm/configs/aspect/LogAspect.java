@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.*;
 public class LogAspect {
     //    切入点符号分别表示任意返回值，任意类，任意方法，两个点表示任意请求参数
 //    再写一个则可以分别进行切面配置
-    @Pointcut("execution(* com.springboot.live_comm.service.*.*(..))")
+    @Pointcut("execution(* com.springboot.live_comm.services.*.*(..))")
     public void pc1() {
     }
 

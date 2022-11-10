@@ -1,4 +1,4 @@
-package com.springboot.live_comm.service;
+package com.springboot.live_comm.services;
 
 import org.springframework.stereotype.Service;
 
