@@ -49,8 +49,11 @@ spring:
     servlet:
       content-type: text/html
     suffix: .html
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+#    去除特定的启动项配置
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+
+
   #  freemarker配置项
 #  freemarker:
 #    allow-request-override: false

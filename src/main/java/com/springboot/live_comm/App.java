@@ -9,7 +9,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
+//去除某项启动配置项
+//@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 @ServletComponentScan
 public class App {
     public static void main(String[] args) {
