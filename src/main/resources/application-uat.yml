@@ -78,16 +78,26 @@ spring:
 
   #静态资源访问
   #http://localhost:8080/static/p1.png即访问classpath:/static/p1.png
-#  mvc:
-#    static-path-pattern: /static/**
-#  resources:
-#    static-locations: classpath:/static/
+  #  mvc:
+  #    static-path-pattern: /static/**
+  #  resources:
+  #    static-locations: classpath:/static/
 
+  #数据库配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/chapter05?useUnicode=true&amp;useSSL=false
+    url: jdbc:mysql://localhost:3306/jpa?useUnicode=true&amp;useSSL=false
     username: root
     password: 123456
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+    show-sql: true
+
 
 
 

@@ -1,7 +1,7 @@
 package com.springboot.live_comm.controller;
 
 import com.springboot.live_comm.entity.Book;
-import com.springboot.live_comm.services.BookService;
+import com.springboot.live_comm.services.MybatisBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 public class NewBookController {
     @Autowired
-    BookService bookService;
+    MybatisBookService bookService;
 
     @GetMapping("bookOps")
     public void bookOps() {
