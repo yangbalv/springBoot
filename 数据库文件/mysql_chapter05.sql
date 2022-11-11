@@ -12,3 +12,5 @@ create table book
 
 
 INSERT INTO `book` (`id`,`name`,`author`) VALUES(1,'三国演义','罗贯中'),(2,'水浒传','施耐庵');
+
+CREATE DATABASE `jpa` DEFAULT CHARACTER SET utf8;
