@@ -1,4 +1,4 @@
-package com.springboot.live_comm.controller;
+package com.springboot.live_comm.controller.book;
 
 
 

@@ -1,4 +1,4 @@
-package com.springboot.live_comm.controller;
+package com.springboot.live_comm.controller.book;
 
 import com.springboot.live_comm.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
