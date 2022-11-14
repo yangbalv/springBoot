@@ -5,6 +5,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.springboot.live_comm.interceptor.MyInterceptor1;
 //import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
@@ -13,7 +14,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @Configuration
-//@MapperScan("com.springboot.live_comm.mappers")//表明该包下所有的接口都是mapper
+@MapperScan("com.springboot.live_comm.mappers")//表明该包下所有的接口都是mapper
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
 //    fastJSon配置
