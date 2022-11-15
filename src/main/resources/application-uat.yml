@@ -105,6 +105,19 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
 
+#    redis数据库配置
+  redis:
+    database: 0
+    host: 192.168.3.148
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+
 
 
 
