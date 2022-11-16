@@ -49,24 +49,24 @@ spring:
     servlet:
       content-type: text/html
     suffix: .html
-#    去除特定的启动项配置
-#  autoconfigure:
-#    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+  #    去除特定的启动项配置
+  #  autoconfigure:
+  #    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
 
 
   #  freemarker配置项
-#  freemarker:
-#    allow-request-override: false
-#    allow-session-override: false
-#    cache: false
-#    charset: UTF-8
-#    check-template-location: true
-#    content-type: text/html
-#    expose-request-attributes: false
-#    expose-session-attributes: false
-#    suffix: .ftl
-#    template-loader-path: classpath:/templates/freemarker/
-#  文件上传设置
+  #  freemarker:
+  #    allow-request-override: false
+  #    allow-session-override: false
+  #    cache: false
+  #    charset: UTF-8
+  #    check-template-location: true
+  #    content-type: text/html
+  #    expose-request-attributes: false
+  #    expose-session-attributes: false
+  #    suffix: .ftl
+  #    template-loader-path: classpath:/templates/freemarker/
+  #  文件上传设置
   servlet:
     multipart:
       enabled: true
@@ -95,7 +95,8 @@ spring:
       url: jdbc:mysql://localhost:3306/chapter05-2?useUnicode=true&amp;useSSL=false
       username: root
       password: 123456
-
+  #JPA多元数据配置与单数据源相同
+  #多数据源需要预先配置
   jpa:
     database: mysql
     hibernate:
@@ -105,7 +106,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
 
-#    redis数据库配置
+  #    redis数据库配置
   redis:
     database: 0
     host: 192.168.3.148

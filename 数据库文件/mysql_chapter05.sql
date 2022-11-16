@@ -44,3 +44,16 @@ create table book
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 INSERT INTO `book` (`id`, `name`, `author`)
 VALUES (1, '水浒传', '施耐庵');
+
+
+
+-- JPA多数据源操作时不自动生成表，需要自主创建表
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `t_user`;
+CREATE TABLE `t_user` (
+                          `id` int(11) NOT NULL,
+                          `name` varchar(255) DEFAULT NULL,
+                          `gender` varchar(255) DEFAULT NULL,
+                          `age` int(11) DEFAULT NULL,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
