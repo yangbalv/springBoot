@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = "com.springboot.live_comm.dao.jpaDao1"
         , entityManagerFactoryRef = "entityManagerFactoryBeanOne"
         , transactionManagerRef = "platformTransactionManagerOne")
+//JpaConfig配置名称会影响restful服务的配置数据库
 public class JpaConfigOne {
     @Resource(name = "dsOne")
     DataSource dsOne;
