@@ -119,6 +119,19 @@ spring:
         max-wait: -1ms
         min-idle: 0
 
+  #   rest服务配置
+  data:
+    rest:
+      #      分页查询配置
+      default-page-size: 2
+      page-param-name: page
+      limit-param-name: size
+      sort-param-name: sort
+      #      给请求添加路径
+      base-path: /api
+      #      新建与更新是否有返回值
+      return-body-on-create: true
+      return-body-on-update: true
 
 
 
