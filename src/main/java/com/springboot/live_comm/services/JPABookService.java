@@ -32,7 +32,7 @@ public class JPABookService {
     }
 
     public JPABook getMaxIdJPABook() {
-        return jpaBookDao.getMaxIdJPABook();
+        return jpaBookDao.GetMaxIdJPABook();
     }
 
     public List<JPABook> getJPABooksByIdAndAuthor(String author, Integer id) {

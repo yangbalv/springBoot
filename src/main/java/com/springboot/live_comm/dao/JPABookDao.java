@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import java.util.List;
 
 //restful的请求路径设计，path设置为aaaa exported表示不会被restFul规则访问
-@RepositoryRestResource(exported = false, path = "aaaaaa", collectionResourceRel = "bb", itemResourceRel = "lll")
+@RepositoryRestResource(exported = true, path = "aaaaaa", collectionResourceRel = "bb", itemResourceRel = "lll")
 //Spring Data JPA中只要方法的定义符合既定规范，Spring Data 就可以分析出开发者的意图，完成特定的SQL进而完成Sql的设计
 public interface JPABookDao extends JpaRepository<JPABook, Integer> {
     //    继承了JpaRepository后在类中写的方法按照方法名称来进行访问
@@ -22,7 +22,11 @@ public interface JPABookDao extends JpaRepository<JPABook, Integer> {
     List<JPABook> getJPABooksByPriceGreaterThan(Float price);
 
     @Query(value = "select * from t_book where id=(select max(id) from t_book )", nativeQuery = true)
-    JPABook getMaxIdJPABook();
+    JPABook GetMaxIdJPABook();
+
+    //这样写两个方法都会失效
+    @Query(value = "select * from t_book where id=(select min(id) from t_book )", nativeQuery = true)
+    JPABook GetMaxIdJPABook(String aa);
 
     @Query("select b from t_book b where b.id >:id  and b.author=:author ")
     List<JPABook> getJPABooksByIdAndAuthor(@Param("author") String author, @Param("id") Integer id);
