@@ -1,0 +1,15 @@
+首先servlet容器使用的是tomcat容器。
+
+
+首先是java文件与class文件
+java文件是保存源代码的文本文件（所以我们可以使用记事本去编写java代码）
+java文件中public修饰的类的数量小于等于一，包含public修饰的类则文件名必须与public类名相同
+通过javac指令编译该文件转换成.class文件。（javac -encoding UTF-8 -d . ABC.java）
+        (-d 代表按目录输出（若类有package则还会按照package的结构输出）)ABC中有几个类就会输出几个class文件
+        执行javac之前还可以使用set classpath="path.jar"来添加jar包
+        再通过java ABC.class即可执行ABC类中的main方法
+
+servlet类则是实现servlet接口然后重写service方法，然后使用cmd 先set classpath="servlet-api.jar"设置临时环境变量，
+    再使用javac -encoding UTF-8 -d . ABC.java进行编译，再将class文件放到Tomcat 的 webapps/servletDemo/WEB-INF/classes下。
+    然后在WEB-INF下创建web.xml文件并配置这个文件，启动tomcat即可。
+
