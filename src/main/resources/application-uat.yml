@@ -132,6 +132,23 @@ spring:
       #      新建与更新是否有返回值
       return-body-on-create: true
       return-body-on-update: true
+  #      devtools自定义监控内容
+  devtools:
+    restart:
+      exclude: META-INF/**
+      additional-paths: src/main/resources/static
+      #resources下创建一个.trigger-file文件，当这个文件发生变化时项目就会重启
+      trigger-file: .trigger-file
+      #关闭自动重启
+      enabled: false
+    #关闭浏览器LiveReload（服务器静态资源改变时自动加载）（这个是由浏览器直接访问文件，所以比重新启动项目要快）
+    livereload:
+      enabled: false
+
+#      ehcache缓存自定义配置文件的位置
+#  cache:
+#    ehcache:
+#      config: classpath:ehcache.xml
 
 
 
