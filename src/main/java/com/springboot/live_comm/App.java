@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cache.annotation.EnableCaching;
 //import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
@@ -14,7 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 //@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 @ServletComponentScan
 ////开启缓存
-//@EnableCaching
+@EnableCaching
 public class App {
     public static void main(String[] args) {
 //        SpringApplicationBuilder builder = new SpringApplicationBuilder();

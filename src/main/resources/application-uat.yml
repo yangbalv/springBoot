@@ -146,9 +146,9 @@ spring:
       enabled: false
 
 #      ehcache缓存自定义配置文件的位置
-#  cache:
-#    ehcache:
-#      config: classpath:ehcache.xml
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
 
 
 
