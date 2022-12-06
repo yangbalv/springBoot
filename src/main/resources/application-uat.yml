@@ -145,10 +145,15 @@ spring:
     livereload:
       enabled: false
 
-#      ehcache缓存自定义配置文件的位置
+
   cache:
-    ehcache:
-      config: classpath:ehcache.xml
+    cache-names: c1,c2
+#      redis缓存设置缓存过期时间
+    redis:
+      time-to-live: 1800s
+#      ehcache缓存自定义配置文件的位置
+#    ehcache:
+#      config: classpath:ehcache.xml
 
 
 

@@ -67,6 +67,7 @@ public class CacheBookDao {
         return book;
     }
 
+//    @Cacheable(keyGenerator = "myKeyGenerator",cacheNames = "aaa")
     @Cacheable(keyGenerator = "myKeyGenerator")
     public CacheBook addBook2(CacheBook book) {
         System.out.println("addBook2");
