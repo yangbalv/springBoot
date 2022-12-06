@@ -155,6 +155,13 @@ spring:
 #    ehcache:
 #      config: classpath:ehcache.xml
 
+#spirng 安全管理配置用户名和密码(若不配置则默认用户为user密码会在控制台生成)
+  security:
+    user:
+      name: sang
+      password: 123
+      roles: admin
+
 
 
 
