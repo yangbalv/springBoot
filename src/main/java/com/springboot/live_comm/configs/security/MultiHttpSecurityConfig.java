@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -27,18 +28,20 @@ import java.util.Map;
 public class MultiHttpSecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+//        强hash函数，strength为密文迭代次数（取值范围为4-31，默认10）（相同的密码也会加密成不同的密文）
+        return new BCryptPasswordEncoder(10);
     }
 
-//    在spring项目启动时会自动的执行一次Autowired注解的方法（最高优先级）
+    //    在spring项目启动时会自动的执行一次Autowired注解的方法（最高优先级）
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("root").password("123").roles("ADMIN1", "DBA")
                 .and()
-                .withUser("admin").password("123").roles("ADMIN", "USER")
+//                设置了加密之后配置的密码也是加密之后的密文
+                .withUser("admin").password("$2a$10$2e8tTSk7CZiKUUiniKjzbuCGfp0/4vEDflBz8c6YzVd4b3P1g8pQ.").roles("ADMIN", "USER")
                 .and()
-                .withUser("zty").password("123").roles("ADMIN1");
+                .withUser("zty").password("$2a$10$Pa8lMflBy0v2RPqLzc6haOPXj/WbLsCtJKwSc3KNkj5a7NmW9YUre").roles("ADMIN1");
     }
 
     @Configuration
@@ -55,6 +58,7 @@ public class MultiHttpSecurityConfig {
                     .hasRole("ADMIN");
         }
     }
+
     @Configuration
 //            优先级数字越小优先级越大,不写，优先级最小(为100，项目中多个类类继承相同的配置类时需要添加ORDER标签，否则会应该order的值都是100而报错)
     @Order(2)

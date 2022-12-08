@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -28,11 +29,11 @@ import java.util.Map;
 @Configuration
 public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
     //    密码加密方式
-    @Bean
-    PasswordEncoder passwordEncoder() {
-//        不加密
-        return NoOpPasswordEncoder.getInstance();
-    }
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+////        不加密
+//        return NoOpPasswordEncoder.getInstance();
+//    }
 
     //    设置用户(账户密码、权限)
     @Override
