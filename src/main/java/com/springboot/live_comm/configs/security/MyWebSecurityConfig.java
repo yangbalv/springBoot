@@ -42,7 +42,7 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("admin").password("123").roles("ADMIN", "USER")
                 .and()
-                .withUser("zty").password("123").roles("USER");
+                .withUser("zty1").password("123").roles("USER");
     }
 
     //    springSecurity配置之后默认会修改/login接口的get与post请求方式get作为验证登录的界面，post作为验证登陆的接口
