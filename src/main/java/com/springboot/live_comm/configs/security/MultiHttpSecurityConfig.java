@@ -9,14 +9,15 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.*;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -100,13 +101,22 @@ public class MultiHttpSecurityConfig {
 
     //                    一个项目中只能设置一个formLogin
     @Configuration
-    @Order(3)
+    @Order(1)
     public static class OtherSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             System.out.println("*****************configure33*******************");
             http.authorizeRequests()
+                    .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                        @Override
+                        public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                            object.setSecurityMetadataSource(cfisms());
+                            object.setAccessDecisionManager(cadm());
+                            return object;
+                        }
+                    })
+
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
@@ -186,18 +196,18 @@ public class MultiHttpSecurityConfig {
             return roleHierarchy;
         }
 
-//        //设置bean(访问的当前的url需要的用户角色)
-//        @Bean
-//        CustomFilterInvocationSecurityMetadataSource cfisms() {
-//            return new CustomFilterInvocationSecurityMetadataSource();
-//        }
-//
-//        //设置bean(判断用户是否具备 访问的当前的url需要的用户角色)
-//        @Bean
-//        CustomAccessDecisionManager cadm() {
-//            return new CustomAccessDecisionManager();
-//        }
-//
+        //设置bean(访问的当前的url需要的用户角色)
+        @Bean
+        CustomFilterInvocationSecurityMetadataSource cfisms() {
+            return new CustomFilterInvocationSecurityMetadataSource();
+        }
+
+        //设置bean(判断用户是否具备 访问的当前的url需要的用户角色)
+        @Bean
+        CustomAccessDecisionManager cadm() {
+            return new CustomAccessDecisionManager();
+        }
+
     }
 
 }
