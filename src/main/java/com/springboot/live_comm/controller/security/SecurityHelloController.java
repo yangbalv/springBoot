@@ -37,7 +37,7 @@ public class SecurityHelloController {
         return "hello";
     }
 
-    @GetMapping("/db/securityHello")
+    @GetMapping("/dba/securityHello")
     public String dba() {
         return "hello dba";
     }

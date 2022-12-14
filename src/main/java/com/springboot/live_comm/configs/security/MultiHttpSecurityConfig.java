@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +34,8 @@ import java.util.Map;
 public class MultiHttpSecurityConfig {
     @Autowired
     UserService userService;
+
+    //密码加密方式
     @Bean
     PasswordEncoder passwordEncoder() {
 //        强hash函数，strength为密文迭代次数（取值范围为4-31，默认10）（相同的密码也会加密成不同的密文）
@@ -53,30 +57,44 @@ public class MultiHttpSecurityConfig {
 
     @Configuration
 //            优先级数字越小优先级越大,不写，优先级最小(为100，项目中多个类类继承相同的配置类时需要添加ORDER标签，否则会应该order的值都是100而报错)
-    @Order(1)
-    public static class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Order(5)
+    public static class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             System.out.println("*****************configure11*******************");
-            http.antMatcher("/admin/**")
+            http.antMatcher("/user/**")
                     .authorizeRequests()
                     .anyRequest()
-                    .hasRole("ADMIN");
+                    .hasRole("user");
         }
     }
 
     @Configuration
 //            优先级数字越小优先级越大,不写，优先级最小(为100，项目中多个类类继承相同的配置类时需要添加ORDER标签，否则会应该order的值都是100而报错)
     @Order(2)
-    public static class Admin1SecurityConfig extends WebSecurityConfigurerAdapter {
+    public static class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             System.out.println("*****************configure22*******************");
-            http.antMatcher("/admin1/**")
+            http.antMatcher("/admin/**")
                     .authorizeRequests()
                     .anyRequest()
-                    .hasRole("ADMIN1");
+                    .hasRole("admin");
+        }
+    }
+
+    @Configuration
+//            优先级数字越小优先级越大,不写，优先级最小(为100，项目中多个类类继承相同的配置类时需要添加ORDER标签，否则会应该order的值都是100而报错)
+    @Order(10)
+    public static class DBASecurityConfig extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            System.out.println("*****************configure22*******************");
+            http.antMatcher("/dba/**")
+                    .authorizeRequests()
+                    .anyRequest()
+                    .hasRole("dba");
         }
     }
 
@@ -157,6 +175,29 @@ public class MultiHttpSecurityConfig {
                     .csrf()
                     .disable();
         }
+
+        //    角色所属关系管理
+        @Bean
+        RoleHierarchy roleHierarchy() {
+            RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//        ROLE_后面的就是数据库中对应的存储的用户权限的数据，例如ROLE_admin在做权限管理时代表admin，ROLE_ADMIN代表ADMIN
+            String hierarchy = "ROLE_dba > ROLE_admin ROLE_admin > ROLE_user";
+            roleHierarchy.setHierarchy(hierarchy);
+            return roleHierarchy;
+        }
+
+//        //设置bean(访问的当前的url需要的用户角色)
+//        @Bean
+//        CustomFilterInvocationSecurityMetadataSource cfisms() {
+//            return new CustomFilterInvocationSecurityMetadataSource();
+//        }
+//
+//        //设置bean(判断用户是否具备 访问的当前的url需要的用户角色)
+//        @Bean
+//        CustomAccessDecisionManager cadm() {
+//            return new CustomAccessDecisionManager();
+//        }
+//
     }
 
 }
