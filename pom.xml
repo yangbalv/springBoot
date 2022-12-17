@@ -163,17 +163,60 @@
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
+        <!--spring Security配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!--WebSocket配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!--WebSocket 前端页面配置-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.3.1</version>
         </dependency>
 
     </dependencies>
     <build>
         <plugins>
+<!--            添加WebSocket时发现突然变红,删除之后代码正常启动(但是打包出错)其出现错误的原因是plugin的版本与spring的版本不同，所以-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.0.4.RELEASE</version>
+                <configuration>
+                    <mainClass>com.springboot.live_comm.MyGoodSpringBoot</mainClass> <!-- 指定启动主类 -->
+                    <fork>true</fork> <!-- 如果没有该配置，devtools不会生效  打包 将外部jar包打包进项目中 -->
+                    <includeSystemScope>true</includeSystemScope> <!-- 打包 将外部jar包打包进项目中 -->
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -185,6 +228,7 @@
                 </configuration>
             </plugin>
         </plugins>
+<!--        这个是配置数据库文件的写了这个注释之后JAVA文件会与进行整合将class文件与mapper文件放到一起，此时就会出现一个问题，如果mapper文件与-->
         <resources>
             <resource>
                 <directory>src/main/java</directory>

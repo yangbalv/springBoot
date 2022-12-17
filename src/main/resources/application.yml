@@ -37,5 +37,5 @@ my:
 
 spring:
   profiles:
-    active: uat
+    active: prod
 #    被配置的文件优先级大于当前文件 （在启动项中也可以配置）

@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @Configuration
-@MapperScan("com.springboot.live_comm.mappers")//表明该包下所有的接口都是mapper
+//@MapperScan("com.springboot.live_comm.mappers")//表明该包下所有的接口都是mapper
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
 //    fastJSon配置
