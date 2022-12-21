@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @Configuration
-//@MapperScan("com.springboot.live_comm.mappers")//表明该包下所有的接口都是mapper
+//@MapperScan("com.springboot.live_comm.mappers")//表明该包下所有的接口都是mapper（多元数据库测不能使用这个方法进行mapper的扫描）
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
 //    fastJSon配置
