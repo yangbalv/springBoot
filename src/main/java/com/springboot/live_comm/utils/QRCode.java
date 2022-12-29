@@ -20,16 +20,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DateFormate {
+//二维码模块
+public class QRCode {
 
 
     private static final int BLACK = 0xFF000000;
     private static final int WHITE = 0xFFFFFFFF;
 
+    public static void main(String[] args) throws IOException {
+
+        QRCode qrCode = new QRCode();
+        qrCode.outputQrcode("二维码内容","二维码输出路径");
+    }
+
     /**
      * 二维码生成，返回base64编码后的字符串
      *
-     * @param url 链接
+     * @param url （内容）
      * @return
      * @throws IOException
      */
