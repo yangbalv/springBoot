@@ -120,9 +120,11 @@ public class MultiHttpSecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
-                    .loginProcessingUrl("/login")
-//                    .usernameParameter("name")
-//                    .passwordParameter("password")
+                    .loginPage("/online/login.html")
+                    .loginProcessingUrl("/online/login")
+                    .defaultSuccessUrl("/index")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
                     .permitAll()
                     .successHandler(new AuthenticationSuccessHandler() {
                         @Override

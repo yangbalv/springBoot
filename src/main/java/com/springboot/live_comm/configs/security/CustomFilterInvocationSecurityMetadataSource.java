@@ -25,6 +25,10 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
+        System.out.println("requestUrl is: " + requestUrl);
+//        if ("/".equals(requestUrl) || "/login".equals(requestUrl)) {
+//            return null;
+//        }
         List<Menu> allMenus = menuMapper.getAllMenus();
         for (Menu menu : allMenus) {
             if (antPathMatcher.match(menu.getPattern(), requestUrl)) {
@@ -36,7 +40,8 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 return SecurityConfig.createList(roleArr);
             }
         }
-        return SecurityConfig.createList("ROLE_LOGIN");
+        return null;
+//        return SecurityConfig.createList("ROLE_LOGIN");
     }
 
     @Override
