@@ -33,6 +33,7 @@ import java.util.Map;
 //无需继承WebSecurityConfigurerAdapter
 @Configuration
 public class MultiHttpSecurityConfig {
+    public static final int BCrypt_Password_Encoder_TIMES = 10;
     @Autowired
     UserService userService;
 
@@ -40,7 +41,7 @@ public class MultiHttpSecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
 //        强hash函数，strength为密文迭代次数（取值范围为4-31，默认10）（相同的密码也会加密成不同的密文）
-        return new BCryptPasswordEncoder(10);
+        return new BCryptPasswordEncoder(BCrypt_Password_Encoder_TIMES);
     }
 
     //    在spring项目启动时会自动的执行一次Autowired注解的方法（最高优先级）
@@ -120,8 +121,8 @@ public class MultiHttpSecurityConfig {
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
-                    .loginPage("/online/login.html")
-                    .loginProcessingUrl("/online/login")
+                    .loginPage("/")
+                    .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/index")
                     .usernameParameter("username")
                     .passwordParameter("password")

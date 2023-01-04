@@ -10,4 +10,6 @@ public interface UserMapper {
 
     List<Role> getUserRolesByUserId(Integer id);
 
+    Integer addUser(User user);
+
 }

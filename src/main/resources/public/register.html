@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录</title>
+    <title>注册</title>
     <!-- author xjt -->
 </head>
 <body>
 <div class="login">
-    <h2>登录聊天系统</h2>
+    <h2>注册一个账号</h2>
     <form>
         <div class="login_form">
             <span>账号：</span>
@@ -19,8 +19,7 @@
             <input type="password" placeholder="请输入密码" id="password" autocomplete="off">
         </div>
         <div class="btn">
-            <button type="button" class="login_btn" onclick="loginHb()">登 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
-            <span ><small>还没有账号？</small><a href="public/register.html">注册</a></span>
+            <button type="button" class="login_btn" onclick="loginHb()">注 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</button>
         </div>
     </form>
 </div>
@@ -119,11 +118,11 @@
         }
     }
 </style>
-<script src="public/js/vue.js"></script>
+<script src="js/vue.js"></script>
 
-<script src="public/js/index.js"></script>
+<script src="js/index.js"></script>
 
-<script type="text/javascript" src="public/js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
 
     function loginHb() {
@@ -138,18 +137,19 @@
             return;
         }
         $.ajax({
-            url: "login",
+            url: "../register",
             type: 'post',
             data: {
                 "username": username,
                 "password": password
             },
             success: function () {
-                window.location.href = "static/chat.html";
+                alert("注册成功")
+                window.location.href = "../static/chat.html";
             },
             error: function (error) {
                 console.log(error)
-                alert(error.responseJSON.msg)
+                alert(error.responseJSON.customMsg)
             }
         });
     }

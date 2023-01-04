@@ -17,6 +17,10 @@ import java.util.List;
 @Component
 //访问的当前的url需要的用户角色
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+    public static final String PUBLIC_INDEX_URL = "/";
+    public static final String PUBLIC_LOGIN_URL = "/login";
+    public static final String PUBLIC_REGISTER_URL = "/register";
+    public static final String PUBLIC_RESOURCE_URL = "/public/**";
     AntPathMatcher antPathMatcher = new AntPathMatcher();
     @Autowired
     MenuMapper menuMapper;
@@ -26,9 +30,13 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
         System.out.println("requestUrl is: " + requestUrl);
-//        if ("/".equals(requestUrl) || "/login".equals(requestUrl)) {
-//            return null;
-//        }
+        if (PUBLIC_INDEX_URL.equals(requestUrl) ||
+                PUBLIC_LOGIN_URL.equals(requestUrl) ||
+                PUBLIC_REGISTER_URL.equals(requestUrl) ||
+                antPathMatcher.match(PUBLIC_RESOURCE_URL, requestUrl)) {
+
+            return null;
+        }
         List<Menu> allMenus = menuMapper.getAllMenus();
         for (Menu menu : allMenus) {
             if (antPathMatcher.match(menu.getPattern(), requestUrl)) {
@@ -40,8 +48,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 return SecurityConfig.createList(roleArr);
             }
         }
-        return null;
-//        return SecurityConfig.createList("ROLE_LOGIN");
+        return SecurityConfig.createList("ROLE_LOGIN");
     }
 
     @Override
