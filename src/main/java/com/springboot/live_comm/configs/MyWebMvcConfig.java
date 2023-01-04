@@ -40,9 +40,10 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 //    http://localhost:8080/static/p1.png即访问classpath:/static/p1.png
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        下面两个同时写时文件从classpath:/下获取
+//        下面两个同时写时后写的执行
+//        registry.addResourceHandler("/**").addResourceLocations("/");//指向resources\META-INF\resources下的文件
         registry.addResourceHandler("/**").addResourceLocations("classpath:/");//指向classpath:\下的文件(除了resources\META-INF下的文件都会放到classpath:\下)
-        registry.addResourceHandler("/**").addResourceLocations("/");//指向resources\META-INF\resources下的文件
+
 
 //        registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");由于进行了配置（/**-》classpath:/）不需要再进行public的配置
         registry.addResourceHandler("/resource/**").addResourceLocations("classpath:/static/"); //个例配置优先级大于一般配置访问resource也是去static下面寻找文件
