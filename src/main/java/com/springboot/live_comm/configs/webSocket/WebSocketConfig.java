@@ -11,12 +11,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-
-        registry.enableSimpleBroker("/topic");
+//添加一个群发与点对点消息发送的功能
+        registry.enableSimpleBroker("/topic", "/queue");
         registry.setApplicationDestinationPrefixes("/app");
     }
 
-//    创建了一个/chat接口接受请求连接的的SockJS（请求chat则会与之创建一个sockJS连接）此后的信息将由sockJs进行发送
+    //    创建了一个/chat接口接受请求连接的的SockJS（请求chat则会与之创建一个sockJS连接）此后的信息将由sockJs进行发送
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat").withSockJS();
