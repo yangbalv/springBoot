@@ -1,0 +1,18 @@
+文件所在位置：      resources\META-INF\resources\filePathExplain.txt
+
+打包之后的文件位置： META-INF\resources\filePathExplain.txt
+
+是否可以直接访问：   是
+
+是否可以访问：      是
+
+访问地址：         http://localhost:8090/zty/filePathExplain.txt
+
+需要配置：         否
+
+具体配置：         无
+
+是否会被忽略：      是
+
+忽略配置(示例)：    静态资源访问设置了 registry.addResourceHandler("/**").addResourceLocations("classpath:/");
+                        使得访问/static时实际访问的文件是classpath:/下的文件
