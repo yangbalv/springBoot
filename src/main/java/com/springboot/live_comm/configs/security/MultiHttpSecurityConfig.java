@@ -1,6 +1,7 @@
 package com.springboot.live_comm.configs.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.live_comm.entity.security.User;
 import com.springboot.live_comm.services.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,16 +25,23 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 //配置多个HttpSecurity
 //无需继承WebSecurityConfigurerAdapter
 @Configuration
 public class MultiHttpSecurityConfig {
     public static final int BCrypt_Password_Encoder_TIMES = 10;
+    public static final String USER_NAME = "username";
+    public static final String PASSWORD = "password";
     @Autowired
     UserService userService;
 
@@ -124,15 +132,31 @@ public class MultiHttpSecurityConfig {
                     .loginPage("/")
                     .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/index")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
+                    .usernameParameter(USER_NAME)
+                    .passwordParameter(PASSWORD)
                     .permitAll()
+//                    springSecurity的登录时的数据是以from-data传输的
+//                    登录成功时的操作
                     .successHandler(new AuthenticationSuccessHandler() {
-                        @Override
-                        public void onAuthenticationSuccess(HttpServletRequest req,
-                                                            HttpServletResponse resp,
-                                                            Authentication auth)
-                                throws IOException, ServletException {
+                                        @Override
+                                        public void onAuthenticationSuccess(HttpServletRequest req,
+                                                                            HttpServletResponse resp,
+                                                                            Authentication auth)
+                                                throws IOException, ServletException {
+//                            HttpServletRequest.getParameterMap可以获取from-data中的数据
+                                            Map<String, String[]> dataSource = req.getParameterMap();
+                                            User user = new User();
+                                            user.setUsername(dataSource.get(USER_NAME)[0]);
+//                            将登录信息添加到session中
+                                            HttpSession session = req.getSession();
+                                            if (null != session.getAttribute("loginUser")) {
+                                                // 清除旧的用户
+                                                session.removeAttribute("loginUser");
+                                            }
+                                            session.setAttribute("loginUser", user);
+
+
+
 //                        获取登录用户信息
                             Object principal = auth.getPrincipal();
 //                        设置返回格式

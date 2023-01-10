@@ -21,6 +21,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     public static final String PUBLIC_LOGIN_URL = "/login";
     public static final String PUBLIC_REGISTER_URL = "/register";
     public static final String PUBLIC_RESOURCE_URL = "/public/**";
+    public static final String TEST_URL = "/test/**";
     AntPathMatcher antPathMatcher = new AntPathMatcher();
     @Autowired
     MenuMapper menuMapper;
@@ -29,11 +30,13 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
-        System.out.println("requestUrl is: " + requestUrl);
+//        System.out.println("requestUrl is: " + requestUrl);
         if (PUBLIC_INDEX_URL.equals(requestUrl) ||
                 PUBLIC_LOGIN_URL.equals(requestUrl) ||
                 PUBLIC_REGISTER_URL.equals(requestUrl) ||
-                antPathMatcher.match(PUBLIC_RESOURCE_URL, requestUrl)) {
+                antPathMatcher.match(PUBLIC_RESOURCE_URL, requestUrl) ||
+                antPathMatcher.match(TEST_URL, requestUrl)
+        ) {
 
             return null;
         }
