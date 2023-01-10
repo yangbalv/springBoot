@@ -1,0 +1,44 @@
+资源源链接
+https://www.cnblogs.com/AnOneBlog/p/14257414.html
+
+thymeleaf获取ModelAndView值
+一、情况描述
+
+对于ModelAndView的后台处理方式有两种
+
+case1，后台是转发情况
+
+case2，后台是重定向情况
+
+二、处理
+
+case1：
+ modelAndView = new ModelAndView("login");
+ modelAndView.addObject("status","false" );
+ return modelAndView
+ 取值：
+ <p  th:text="${status} "></p>
+
+
+case2：
+  modelAndView = new ModelAndView("redirect:/login");
+  modelAndView.addObject("status", "false"));
+  return modelAndView
+由于使用了重定向，因此返回的数据，是通过url返回的，即：http://localhost:8080/login?status=false
+所以这时候前端页面就需要：
+
+<p  th:text="${param. status } "></p>
+以上参考：
+
+https://blog.csdn.net/qq_33342566/article/details/111874135
+
+https://blog.csdn.net/yubin1285570923/article/details/83796003 (SpringBoot中处理的转发与重定向)
+
+三、问题
+
+以上原本使用字符串返回视图，但是如果仅仅是用字符串返回视图，那么在返回的视图中，如果用到外部的脚本或者外部的css【如下】会出现加载不出来的问题。因此，使用“重定向”的方法来处理。
+
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
+ 重定向：再次请求地址，需要经过controller类的控制
+
+串返回视图：并非再次请求，他是直接访问templates中的相应文件，并非需要经过controller类的控制

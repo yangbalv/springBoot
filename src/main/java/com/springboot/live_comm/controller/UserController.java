@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
@@ -30,5 +31,14 @@ public class UserController {
             throw new Exception();
         }
         return response;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/chat", method = RequestMethod.GET)
+    public ModelAndView register(String username) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("chat");
+        modelAndView.addObject("username", username);
+        return modelAndView;
     }
 }

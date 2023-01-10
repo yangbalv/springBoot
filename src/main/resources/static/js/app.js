@@ -15,6 +15,7 @@ function setConnected(connected) {
 
 function connect() {
     if (!$("#name").val()) {
+        alert($("#name").val())
         return;
     }
     // 这里可以写/zty/chat或者chat（需要/会去除项目的前缀，而chat接口需要项目前缀）
@@ -45,6 +46,7 @@ function showGreeting(message) {
 }
 
 $(function () {
+    connect();
     $("#connect").click(function () {
         connect();
     });

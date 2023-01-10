@@ -20,6 +20,7 @@
         </div>
         <div class="btn">
             <button type="button" class="login_btn" onclick="loginHb()">注 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</button>
+            <span><small>返回</small><a href="/zty/">登录</a><small>？</small></span>
         </div>
     </form>
 </div>
@@ -145,7 +146,7 @@
             },
             success: function () {
                 alert("注册成功")
-                window.location.href = "../static/chat.html";
+                window.location.href = "../templates/thymeleaf/chat.html";
             },
             error: function (error) {
                 console.log(error)
