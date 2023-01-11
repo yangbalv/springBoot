@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserMapper {
     User loadUserByUsername(String username);
 
+    User getUserByUsername(String username);
+
     List<Role> getUserRolesByUserId(Integer id);
 
     Integer addUser(User user);

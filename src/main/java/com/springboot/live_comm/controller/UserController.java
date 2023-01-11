@@ -5,6 +5,7 @@ import com.springboot.live_comm.dto.user.RegisterResponse;
 import com.springboot.live_comm.entity.security.User;
 import com.springboot.live_comm.services.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,13 @@ public class UserController {
     public RegisterResponse register(RegisterRequest request) throws Exception {
         RegisterResponse response = new RegisterResponse();
         System.out.println(request.toString());
+        User findUser = userService.getUserByUserName(request.getUsername());
+        System.out.println(findUser);
+        System.out.println(null != findUser);
+        if (null != findUser) {
+            throw new Exception("用户已被注册");
+        }
+
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());

@@ -34,4 +34,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(password);
         return userMapper.addUser(user);
     }
+
+    public User getUserByUserName(String username) {
+        User user = userMapper.loadUserByUsername(username);
+        return user;
+    }
 }
