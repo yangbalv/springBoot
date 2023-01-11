@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>主菜单页</title>
+</head>
+
+<body>
+<div>
+    <label for="username">当前登录用户:</label>
+    <input type="text" id="username" th:value="${username}" readonly="readonly">
+</div>
+<div>
+    <button type="button" name="chatRoom" onclick="chatRoom()">聊天室</button>
+    <button type="button" name="chatToSomeone" onclick="chatToSomeone()">单独聊天</button>
+    <button type="button" name="woodenFish" onclick="woodenFish()">积点功德</button>
+</div>
+</body>
+<script type="text/javascript">
+    // var username = $("#username").text();
+
+
+    function chatRoom() {
+        window.location.href = "chatRoom";
+    }
+
+    function chatToSomeone() {
+        window.location.href = "chatToSomeone";
+    }
+
+    function woodenFish() {
+        window.location.href = "woodenFish";
+    }
+</script>
+</html>
