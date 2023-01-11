@@ -35,10 +35,17 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/chat", method = RequestMethod.GET)
-    public ModelAndView register(String username) throws Exception {
+    public ModelAndView chat(String username) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("chat");
         modelAndView.addObject("username", username);
+        return modelAndView;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/woodenFish", method = RequestMethod.GET)
+    public ModelAndView woodenFish() throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("woodenFish");
         return modelAndView;
     }
 }
