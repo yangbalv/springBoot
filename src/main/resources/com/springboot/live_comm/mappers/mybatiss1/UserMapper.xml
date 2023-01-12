@@ -7,7 +7,21 @@
         insert into user (id, username, password, enabled, locked)
         values (unix_timestamp(current_timestamp(4)), #{username}, #{password}, 1, 0)
     </insert>
+    <update id="lockUser">
+        update user
+        <set>
+            locked = 1
+        </set>
+        where username = #{username} and locked = 0
+    </update>
 
+    <update id="unlockUser">
+        update user
+        <set>
+            locked = 0
+        </set>
+        where username = #{username} and locked = 1
+    </update>
 
     <select id="loadUserByUsername" resultType="com.springboot.live_comm.entity.security.User">
         select *

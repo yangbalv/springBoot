@@ -113,6 +113,9 @@ public class MultiHttpSecurityConfig {
     @Order(1)
     public static class OtherSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @Autowired
+        UserService userService;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             System.out.println("*****************configure33*******************");
@@ -138,23 +141,24 @@ public class MultiHttpSecurityConfig {
 //                    springSecurity的登录时的数据是以from-data传输的
 //                    登录成功时的操作
                     .successHandler(new AuthenticationSuccessHandler() {
-                                        @Override
-                                        public void onAuthenticationSuccess(HttpServletRequest req,
-                                                                            HttpServletResponse resp,
-                                                                            Authentication auth)
-                                                throws IOException, ServletException {
+                        @Override
+                        public void onAuthenticationSuccess(HttpServletRequest req,
+                                                            HttpServletResponse resp,
+                                                            Authentication auth)
+                                throws IOException, ServletException {
 //                            HttpServletRequest.getParameterMap可以获取from-data中的数据
-                                            Map<String, String[]> dataSource = req.getParameterMap();
-                                            User user = new User();
-                                            user.setUsername(dataSource.get(USER_NAME)[0]);
+//                            登录时将用户锁定
+                            Map<String, String[]> dataSource = req.getParameterMap();
+                            String username = dataSource.get(USER_NAME)[0];
+                            User user = userService.getUserByUserName(username);
+                            userService.lockUser(user);
 //                            将登录信息添加到session中
-                                            HttpSession session = req.getSession();
-                                            if (null != session.getAttribute("loginUser")) {
-                                                // 清除旧的用户
-                                                session.removeAttribute("loginUser");
-                                            }
-                                            session.setAttribute("loginUser", user);
-
+                            HttpSession session = req.getSession();
+                            if (null != session.getAttribute("loginUser")) {
+                                // 清除旧的用户
+                                session.removeAttribute("loginUser");
+                            }
+                            session.setAttribute("loginUser", user);
 
 
 //                        获取登录用户信息
