@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.live_comm.mappers.mybatiss1.UserDetailsMapper">
+
+    <!-- 插入数据 -->
+    <insert id="addUserDetails" parameterType="com.springboot.live_comm.entity.user.UserDetails">
+        insert into userDetail(id,
+                               name,
+                               idNo,
+                               certification,
+                               createTime,
+                               updateTime)
+        values (#{id,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR},
+                #{idNo,jdbcType=VARCHAR},
+                1,
+                CURRENT_TIMESTAMP,
+                CURRENT_TIMESTAMP)
+    </insert>
+    <select id="getById" resultType="com.springboot.live_comm.entity.user.UserDetails">
+        select *
+        from userDetail
+        where id = #{id}
+    </select>
+</mapper>
+

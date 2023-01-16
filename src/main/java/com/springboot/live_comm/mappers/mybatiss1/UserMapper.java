@@ -17,4 +17,6 @@ public interface UserMapper {
     void lockUser(User user);
 
     void unlockUser(User user);
+
+    int update(User user);
 }

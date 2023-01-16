@@ -14,6 +14,7 @@ public class User implements UserDetails {
     private String password;
     private Boolean enabled;
     private Boolean locked;
+    private String detailsId;
     private List<Role> roles;
 
     //    用户关系
@@ -77,7 +78,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-//    由于重写了isEnabled所以不能写set方法不然相当于出现了两个set方法
+    public String getDetailsId() {
+        return detailsId;
+    }
+
+    public void setDetailsId(String detailsId) {
+        this.detailsId = detailsId;
+    }
+    //    由于重写了isEnabled所以不能写set方法不然相当于出现了两个set方法
 //    public String getEnabled() {
 //        return enabled;
 //    }
@@ -110,6 +118,7 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 ", locked=" + locked +
+                ", detailsId='" + detailsId + '\'' +
                 ", roles=" + roles +
                 '}';
     }

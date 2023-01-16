@@ -33,9 +33,7 @@ public class TencentCloudProperties {
     //    回调我们的接口
     @Value("${tencentCloud.h5FaceCore.url}")
     private String url;
-    //    回调我们的接口(电子信用卡)
-    @Value("${tencentCloud.h5FaceCore.electronCardUrl}")
-    private String electronCardUrl;
+
 
     //    结果显示的状态
     @Value("${tencentCloud.h5FaceCore.resultType}")
@@ -139,13 +137,6 @@ public class TencentCloudProperties {
         this.url = url;
     }
 
-    public String getElectronCardUrl() {
-        return electronCardUrl;
-    }
-
-    public void setElectronCardUrl(String electronCardUrl) {
-        this.electronCardUrl = electronCardUrl;
-    }
 
     public String getResultType() {
         return resultType;

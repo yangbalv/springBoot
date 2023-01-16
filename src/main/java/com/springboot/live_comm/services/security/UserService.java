@@ -61,4 +61,8 @@ public class UserService implements UserDetailsService {
         userMapper.unlockUser(user);
     }
 
+
+    public int update(User user) {
+        return userMapper.update(user);
+    }
 }

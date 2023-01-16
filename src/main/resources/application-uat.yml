@@ -165,16 +165,15 @@ spring:
 #腾讯云人脸核身相关配置信息
 tencentCloud:
   h5FaceCore:
-    webankAppId: IDAT0l99
-    secret: phZBZFg9b8ejlA0Fsw3bCaTNpFKZM0JolA4KUMHwuau0gr3MAvOXzOQb3DJ9h0fn
+    webankAppId: TIDAc6gC
+    secret: 0yRGfG9EX6GUkPcU6PrfmduKtGMekpR7NFwHzZ4NHkEloCC7pAwJqXhyMDWi5WlP
     grant_type: client_credential
     sourcePhotoStr:
     sourcePhotoType:
     version: 1.0.0
     SIGN_TYPE: SIGN
     NONCE_TYPE: NONCE
-    url: http://wxtest.allinfinance.com/evercos/creditcard/apply/acceptF5Result
-    electronCardUrl: http://wxtest.allinfinance.com/evercos/electron/card/acceptElectronCardTencentF5Result
+    url: http://www.jpfdx.online:8090/zty/tencentCloud/acceptF5Result
     resultType: 0
     from: browser
     redirectType: 0
