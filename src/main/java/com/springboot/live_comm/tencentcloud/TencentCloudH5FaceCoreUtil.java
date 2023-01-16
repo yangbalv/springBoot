@@ -316,6 +316,8 @@ public class TencentCloudH5FaceCoreUtil {
 
     }
 
+    //    只需要上传orderNo就行了
+//获取人脸核身的信息
     public GetTencentH5CoreResultResponsetDto getTencentH5CoreResult(GetTencentH5CoreResultRequestDto getTencentH5CoreResultRequestDto, TencentCloudProperties tencentCloudProperties) throws ServiceException {
 
 //           腾讯云配置文件
