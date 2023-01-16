@@ -21,7 +21,7 @@ import java.util.List;
 public class TencentCloudH5FaceCoreUtil {
     Logger logger = LoggerFactory.getLogger(TencentCloudH5FaceCoreUtil.class);
 
-    public TencentCloudPressButtonResponseDto pressButton(TencentCloudPressButtonRequestDto pressButtonDto, TencentCloudProperties tencentCloudProperties) throws ServiceException {
+    public TencentCloudPressButtonResponseDto pressButton(TencentCloudPressButtonRequestDto pressButtonDto, TencentCloudProperties tencentCloudProperties, String callbackUrl) throws ServiceException {
         logger.info("now start pressButton and the message is: {}", JSONObject.toJSONString(pressButtonDto));
 
         TencentCloudPressButtonResponseDto pressButtonResponseDto = new TencentCloudPressButtonResponseDto();
@@ -33,58 +33,8 @@ public class TencentCloudH5FaceCoreUtil {
         String version = tencentCloudProperties.getVersion();
         final String SIGN_TYPE = tencentCloudProperties.getSIGN_TYPE();
         final String NONCE_TYPE = tencentCloudProperties.getNONCE_TYPE();
-//        创建回调连接的url
-        String url = tencentCloudProperties.getUrl() + "?";
-        if (null != pressButtonDto.getQueryData()) {
-            logger.info("pressButtonDto.getQueryData() is: " + pressButtonDto.getQueryData());
-            if (StringUtils.isBlank(pressButtonDto.getQueryData().getUserId()) || "null".equals(pressButtonDto.getQueryData().getUserId())) {
-                url = url + "userId=" + "null";
-            } else {
-                url = url + "userId=" + pressButtonDto.getQueryData().getUserId();
-            }
-
-            if (StringUtils.isBlank(pressButtonDto.getQueryData().getProductCode()) || "null".equals(pressButtonDto.getQueryData().getProductCode())) {
-                url = url + "&productCode=" + "null";
-            } else {
-                url = url + "&productCode=" + pressButtonDto.getQueryData().getProductCode();
-            }
-            if (StringUtils.isBlank(pressButtonDto.getQueryData().getApplyChannel()) || "null".equals(pressButtonDto.getQueryData().getApplyChannel())) {
-                url = url + "&applyChannel=" + "null";
-            } else {
-                url = url + "&applyChannel=" + pressButtonDto.getQueryData().getApplyChannel();
-            }
-            if (StringUtils.isBlank(pressButtonDto.getQueryData().getPromoteCode()) || "null".equals(pressButtonDto.getQueryData().getPromoteCode())) {
-                url = url + "&promoteCode=" + "null";
-            } else {
-                url = url + "&promoteCode=" + pressButtonDto.getQueryData().getPromoteCode();
-            }
-            if (StringUtils.isBlank(pressButtonDto.getQueryData().getApplyTypeNo()) || "null".equals(pressButtonDto.getQueryData().getApplyTypeNo())) {
-                url = url + "&applyTypeNo=" + "null";
-            } else {
-                url = url + "&applyTypeNo=" + pressButtonDto.getQueryData().getApplyTypeNo();
-            }
-            if (StringUtils.isBlank(pressButtonDto.getQueryData().getRecommPhone()) || "null".equals(pressButtonDto.getQueryData().getRecommPhone())) {
-                url = url + "&recommPhone=" + "null";
-            } else {
-                url = url + "&recommPhone=" + pressButtonDto.getQueryData().getRecommPhone();
-            }
-        } else {
-            logger.info("pressButtonDto.getQueryData() is null,新网申流程里面queryData不能为空");
-            url = url + "userId=" + "null"
-                    + "&productCode=" + "null"
-                    + "&applyChannel=" + "null"
-                    + "&promoteCode=" + "null"
-                    + "&applyTypeNo=" + "null"
-                    + "&recommPhone=" + "null";
-
-        }
 
 
-        try {
-            url = java.net.URLEncoder.encode(url, "UTF-8");//url做encode处理 encode 是加密，deCode是解密
-        } catch (UnsupportedEncodingException e) {
-            logger.error("UnsupportedEncodingException during decode the url: {}", url, e);
-        }
 
         String resultType = tencentCloudProperties.getResultType();
         String from = tencentCloudProperties.getFrom();
@@ -178,7 +128,7 @@ public class TencentCloudH5FaceCoreUtil {
         List nonceTicketList = tencentCloudMakeNonceSignTicketSignDto.toList();
         String nonceSign = SHA1Util.sign(nonceTicketList, getNonceTicketResponseDto.getTicket());
 
-        TencentCloudStartH5FaceCoreRequestDto tencentCloudStartH5FaceCoreRequestDto = new TencentCloudStartH5FaceCoreRequestDto(webankAppId, version, nonce, orderNo, h5faceId, url, resultType, userId, nonceSign, from, redirectType);
+        TencentCloudStartH5FaceCoreRequestDto tencentCloudStartH5FaceCoreRequestDto = new TencentCloudStartH5FaceCoreRequestDto(webankAppId, version, nonce, orderNo, h5faceId, callbackUrl, resultType, userId, nonceSign, from, redirectType);
 
         String result = tencentH5FaceCoreService.startH5FaceCore(tencentCloudStartH5FaceCoreRequestDto);
         pressButtonResponseDto.setCode(sendIdentityInformationResponseDto.getCode());

@@ -82,4 +82,12 @@ public class UserController {
         modelAndView.setViewName("chatToSomeone");
         return modelAndView;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/tencentCloudF5FaceCore", method = RequestMethod.GET)
+    public ModelAndView tencentCloudF5FaceCore() throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("tencentCloudF5FaceCore");
+        return modelAndView;
+    }
 }

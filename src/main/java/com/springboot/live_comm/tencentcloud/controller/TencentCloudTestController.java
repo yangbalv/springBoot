@@ -1,13 +1,11 @@
 package com.springboot.live_comm.tencentcloud.controller;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.springboot.live_comm.tencentcloud.TencentCloudH5FaceCoreUtil;
 import com.springboot.live_comm.tencentcloud.dto.*;
 import com.springboot.live_comm.tencentcloud.exception.ServiceException;
 import com.springboot.live_comm.tencentcloud.utils.TencentCloudProperties;
-
-import org.apache.commons.lang3.StringUtils;
+import com.springboot.live_comm.utils.IdGeneratedUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 @Controller
 @RequestMapping(value = "/testProperties")
@@ -29,19 +26,28 @@ public class TencentCloudTestController {
     @Value("${hostaddress}")
     private String hostaddress;
 
+
     @ResponseBody
-    @RequestMapping(value = "/testStartF5", method = RequestMethod.POST)
-    public TencentCloudPressButtonResponseDto testStartF5(@RequestBody TencentCloudPressButtonRequestDto tencentCloudPressButtonRequestDto) throws ServiceException {
+    @RequestMapping(value = "/startF5", method = RequestMethod.POST)
+    public TencentCloudPressButtonResponseDto startF5(TencentCloudPressButtonRequestDto tencentCloudPressButtonRequestDto) throws ServiceException {
+        String orderNo = IdGeneratedUtil.generateId();
+        String userId = orderNo;
+        tencentCloudPressButtonRequestDto.setUserId(userId);
+        tencentCloudPressButtonRequestDto.setOrderNo(orderNo);
         TencentCloudH5FaceCoreUtil tencentCloudH5FaceCoreUtil = new TencentCloudH5FaceCoreUtil();
         TencentCloudPressButtonResponseDto tencentCloudPressButtonResponseDto;
+        String callbackUrl = "http://www.jpfdx.online:8090/zty/testProperties/acceptF5Result";
         try {
-            tencentCloudPressButtonResponseDto = tencentCloudH5FaceCoreUtil.pressButton(tencentCloudPressButtonRequestDto, tencentCloudProperties);
+            callbackUrl = java.net.URLEncoder.encode(callbackUrl, "UTF-8");//url做encode处理 encode 是加密，deCode是解密
+        } catch (UnsupportedEncodingException e) {
+            logger.error("UnsupportedEncodingException during decode the url: {}", callbackUrl, e);
+        }
+        try {
+            tencentCloudPressButtonResponseDto = tencentCloudH5FaceCoreUtil.pressButton(tencentCloudPressButtonRequestDto, tencentCloudProperties, callbackUrl);
             return tencentCloudPressButtonResponseDto;
         } catch (ServiceException e) {
             throw e;
         }
-
-
     }
 
     /**

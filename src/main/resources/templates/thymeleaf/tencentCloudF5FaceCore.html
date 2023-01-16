@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>实名认证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<div class="F5FaceCore">
+    <h2>实名认证信息填写</h2>
+    <form>
+        <div class="F5FaceCore_form">
+            <span>姓名：</span>
+            <input type="text" placeholder="请输入姓名" id="name" autocomplete="off">
+            <br>
+            <span>身份证号：</span>
+            <input type="text" placeholder="请输入身份证号" id="idNo" autocomplete="off">
+        </div>
+        <div class="btn">
+            <button type="button" class="F5FaceCore_btn" onclick="F5FaceCore()">开始人脸识别</button>
+        </div>
+    </form>
+</div>
+
+</body>
+
+</html>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        /*background-image: url("https://img1.baidu.com/it/u=7456317,4282812646&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500");*/
+        background-size: cover;
+    }
+</style>
+
+<script src="public/js/vue.js"></script>
+<script src="public/js/index.js"></script>
+<script type="text/javascript" src="public/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    function F5FaceCore() {
+        var name = $("#name").val();
+        var idNo = $("#idNo").val();
+        if (name == null || name == "") {
+            alert("姓名不能为空")
+            return;
+        }
+        if (idNo == null || idNo == "") {
+            alert("身份证号不能为空")
+            return;
+        }
+        $.ajax({
+            url: "testProperties/startF5",
+            type: 'post',
+            data: {
+                "name": name,
+                "idNo": idNo
+            },
+            success: function (data) {
+                window.location.href = data.url;
+            },
+            error: function (error) {
+                console.log(error)
+                alert(error.responseJSON.msg)
+            }
+        });
+    }
+
+</script>
+
+<script>
+
+</script>
