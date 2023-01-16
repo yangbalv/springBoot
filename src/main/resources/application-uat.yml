@@ -148,19 +148,41 @@ spring:
 
   cache:
     cache-names: c1,c2
-#      redis缓存设置缓存过期时间
+    #      redis缓存设置缓存过期时间
     redis:
       time-to-live: 1800s
-#      ehcache缓存自定义配置文件的位置
-#    ehcache:
-#      config: classpath:ehcache.xml
+  #      ehcache缓存自定义配置文件的位置
+  #    ehcache:
+  #      config: classpath:ehcache.xml
 
-#spirng 安全管理配置用户名和密码(若不配置则默认用户为user密码会在控制台生成)
+  #spirng 安全管理配置用户名和密码(若不配置则默认用户为user密码会在控制台生成)
   security:
     user:
       name: sang
       password: 123
       roles: admin
+
+#腾讯云人脸核身相关配置信息
+tencentCloud:
+  h5FaceCore:
+    webankAppId: IDAT0l99
+    secret: phZBZFg9b8ejlA0Fsw3bCaTNpFKZM0JolA4KUMHwuau0gr3MAvOXzOQb3DJ9h0fn
+    grant_type: client_credential
+    sourcePhotoStr:
+    sourcePhotoType:
+    version: 1.0.0
+    SIGN_TYPE: SIGN
+    NONCE_TYPE: NONCE
+    url: http://wxtest.allinfinance.com/evercos/creditcard/apply/acceptF5Result
+    electronCardUrl: http://wxtest.allinfinance.com/evercos/electron/card/acceptElectronCardTencentF5Result
+    resultType: 0
+    from: browser
+    redirectType: 0
+    getH5FaceIdUrl: https://miniprogram-kyc.tencentcloudapi.com/api/server/h5/geth5faceid?
+    access_tokenUrl: https://miniprogram-kyc.tencentcloudapi.com/api/oauth2/access_token?
+    api_ticketUrl: https://miniprogram-kyc.tencentcloudapi.com/api/oauth2/api_ticket?
+    getH5CoreResultUrl: https://miniprogram-kyc.tencentcloudapi.com/api/server/sync?
+    get_file: 3
 
 
 
