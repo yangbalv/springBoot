@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>主菜单页</title>
+
+
+    <style>
+        html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, input, button, fieldset, legend, img {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3 {
+            font-size: 14px;
+        }
+
+        body {
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .top {
+            background: #055c92;
+        }
+
+        .inTop {
+            width: 1200px;
+            margin: 0 auto;
+            height: 40px;
+            line-height: 40px;
+            color: #ffffff;
+        }
+
+        .inTop a {
+            color: #FFFFFF;
+            margin: 0 5px;
+        }
+
+        .inTop a:hover {
+            text-decoration: underline;
+            color: #FF9900;
+        }
+
+        .inTop p {
+            float: left;
+        }
+
+        .inTop span {
+            float: right;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .inTop strong {
+            margin-left: 20px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<!--顶部开始-->
+<div class="top">
+    <div class="inTop">
+        <p>主菜单栏：<a href="http://www.baidu.com/" target="_blank">链接一</a>
+            |<a href="http://www.jpfdx.online:8090/" target="_blank">链接二</a></p>
+        <span>喜欢的老铁点点免费的关注<strong>个人商业电话：180开头的</strong></span>
+    </div>
+</div>
+
+<div class="header">
+    <label for="username">当前登录用户:</label>
+    <input type="text" id="username" th:value="${username}" readonly="readonly">
+    <button type="button" class="but" name="quit" onclick="quit()">点击退出</button>
+</div>
+<div>
+    <div>
+        <button type="button" class="skip_but" name="chatRoom" onclick="chatRoom()">聊天室</button>
+        <button type="button" class="skip_but" name="chatToSomeone" onclick="chatToSomeone()">单独聊天</button>
+        <button type="button" class="skip_but" name="woodenFish" onclick="woodenFish()">积点功德</button>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    // var username = $("#username").text();
+
+
+    function chatRoom() {
+        window.location.href = "chatRoom";
+    }
+
+    function chatToSomeone() {
+        window.location.href = "chatToSomeone";
+    }
+
+    function woodenFish() {
+        window.location.href = "woodenFish";
+    }
+
+    function quit() {
+        window.location.href = "woodenFish";
+    }
+</script>
+
+</html>
