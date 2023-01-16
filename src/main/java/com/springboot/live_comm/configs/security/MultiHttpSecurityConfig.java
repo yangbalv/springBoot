@@ -151,7 +151,7 @@ public class MultiHttpSecurityConfig {
                             Map<String, String[]> dataSource = req.getParameterMap();
                             String username = dataSource.get(USER_NAME)[0];
                             User user = userService.getUserByUserName(username);
-                            userService.lockUser(user);
+//                            userService.lockUser(user);
 //                            将登录信息添加到session中
                             HttpSession session = req.getSession();
                             if (null != session.getAttribute("loginUser")) {
