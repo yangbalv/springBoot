@@ -183,7 +183,7 @@ tencentCloud:
     getH5CoreResultUrl: https://miniprogram-kyc.tencentcloudapi.com/api/server/sync?
     get_file: 3
 
-hostaddress: www.jpfdx.online:8090/zty
+hostaddress: http://www.jpfdx.online:8090/zty
 
 
 

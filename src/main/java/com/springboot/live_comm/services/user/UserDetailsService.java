@@ -18,4 +18,7 @@ public class UserDetailsService {
         return userDetailsMapper.addUserDetails(userDetails);
     }
 
+    public int update(UserDetails userDetails) {
+        return userDetailsMapper.update(userDetails);
+    }
 }

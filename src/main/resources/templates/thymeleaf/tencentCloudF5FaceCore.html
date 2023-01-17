@@ -42,6 +42,21 @@
 
 <script type="text/javascript">
 
+    //获取路由参数
+    function GetQueryString(name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+        let r = window.location.search.substr(1).match(reg) // search,查询？后面的参数，并匹配正则
+        if (r != null) {
+            return unescape(r[2])
+        }
+        return null
+    }
+
+    var code = GetQueryString("code");
+    if (code == '0') {
+        alert("验证成功");
+    }
+
     function F5FaceCore() {
         var name = $("#name").val();
         var idNo = $("#idNo").val();
@@ -61,7 +76,13 @@
                 "idNo": idNo
             },
             success: function (data) {
-                window.location.href = data.url;
+                console.log(data)
+                if (data.code == '0') {
+                    window.location.href = data.url;
+                } else {
+                    alert(data.message)
+                }
+
             },
             error: function (error) {
                 console.log(error)

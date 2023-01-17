@@ -85,8 +85,9 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/tencentCloudF5FaceCore", method = RequestMethod.GET)
-    public ModelAndView tencentCloudF5FaceCore() throws Exception {
+    public ModelAndView tencentCloudF5FaceCore(String code) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("FaceCoreCode", code);
         modelAndView.setViewName("tencentCloudF5FaceCore");
         return modelAndView;
     }

@@ -15,7 +15,7 @@
         values (#{id,jdbcType=VARCHAR},
                 #{name,jdbcType=VARCHAR},
                 #{idNo,jdbcType=VARCHAR},
-                1,
+                0,
                 CURRENT_TIMESTAMP,
                 CURRENT_TIMESTAMP)
     </insert>
@@ -24,5 +24,28 @@
         from userDetail
         where id = #{id}
     </select>
+
+
+    <update id="update">
+        update userDetail
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="idNo != null and idNo != ''">
+                idNo = #{idNo,jdbcType=VARCHAR},
+            </if>
+            <if test="certification != null">
+                <if test="certification == true">
+                    certification = 1,
+                </if>
+                <if test="certification != true">
+                    certification = 0,
+                </if>
+            </if>
+            updateTime = CURRENT_TIMESTAMP,
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 </mapper>
 
