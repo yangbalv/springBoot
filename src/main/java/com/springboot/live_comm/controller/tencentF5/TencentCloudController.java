@@ -50,19 +50,20 @@ public class TencentCloudController {
         String detailsId = user.getDetailsId();
         if (!StringUtils.isBlank(detailsId)) {
             UserDetails userDetails = userDetailsService.getById(detailsId);
-            logger.info("");
-            if (userDetails.getCertification()) {
-                tencentCloudPressButtonResponseDto = new TencentCloudPressButtonResponseDto();
-                tencentCloudPressButtonResponseDto.setCode("101");
-                tencentCloudPressButtonResponseDto.setMessage("已经通过了人脸核身了，无需再次进行人脸核身");
-                return tencentCloudPressButtonResponseDto;
+            if (null != userDetails) {
+                if (userDetails.getCertification()) {
+                    tencentCloudPressButtonResponseDto = new TencentCloudPressButtonResponseDto();
+                    tencentCloudPressButtonResponseDto.setCode("101");
+                    tencentCloudPressButtonResponseDto.setMessage("实名认证已通过，无需重复认证");
+                    return tencentCloudPressButtonResponseDto;
+                }
             }
         }
 
         String orderNo = IdGeneratedUtil.generateId();
         UserDetails userDetails = new UserDetails();
         userDetails.setId(orderNo);
-        userDetails.setName(tencentCloudPressButtonRequestDto.getName());
+        userDetails.setName("**" + tencentCloudPressButtonRequestDto.getName().substring(tencentCloudPressButtonRequestDto.getName().length() - 1));
 //        暂时不将身份证号添加到数据库
 //        userDetails.setIdNo(tencentCloudPressButtonRequestDto.getIdNo());
         userDetailsService.addUserDetails(userDetails);
