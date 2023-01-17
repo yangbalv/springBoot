@@ -80,12 +80,12 @@ CREATE TABLE `user`
 DROP TABLE IF EXISTS `userDetail`;
 CREATE TABLE `userDetail`
 (
-    `id`            varchar(40)  NOT NULL,
-    `name`          varchar(32)  NOT NULL,
-    `idNo`          varchar(255) NOT NULL,
+    `id`            varchar(40) NOT NULL,
+    `name`          varchar(32) NOT NULL,
+    `idNo`          varchar(255),
     `certification` tinyint(1) NOT NULL,
-    `createTime`    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `updateTime`    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `createTime`    timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updateTime`    timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.springboot.live_comm.tencentcloud.TencentCloudH5FaceCoreUtil;
 import com.springboot.live_comm.tencentcloud.dto.*;
 import com.springboot.live_comm.tencentcloud.exception.ServiceException;
+import com.springboot.live_comm.tencentcloud.utils.MakeVideoUtil;
 import com.springboot.live_comm.tencentcloud.utils.TencentCloudProperties;
 import com.springboot.live_comm.utils.IdGeneratedUtil;
 import org.slf4j.Logger;
@@ -128,5 +129,20 @@ public class TencentCloudTestController {
         return getTencentH5CoreResultResponsetDto;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/testGetF5Result2", method = RequestMethod.POST)
+    public GetTencentH5CoreResultResponsetDto testGetF5Result2(@RequestBody GetTencentH5CoreResultRequestDto getTencentH5CoreResultRequestDto) {
+        TencentCloudH5FaceCoreUtil tencentCloudH5FaceCoreUtil = new TencentCloudH5FaceCoreUtil();
+        getTencentH5CoreResultRequestDto.setOrder_no(getTencentH5CoreResultRequestDto.getOrder_no());
+        GetTencentH5CoreResultResponsetDto getTencentH5CoreResultResponsetDto = null;
+        try {
+            getTencentH5CoreResultResponsetDto = tencentCloudH5FaceCoreUtil.getTencentH5CoreResult(getTencentH5CoreResultRequestDto, tencentCloudProperties);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        String video = getTencentH5CoreResultResponsetDto.getVideo();
+        MakeVideoUtil.base64ToVideo(video, "D:\\Java\\a.mp4");
+        return getTencentH5CoreResultResponsetDto;
+    }
 
 }
