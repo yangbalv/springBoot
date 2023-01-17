@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>单聊</title>
     <script src="/zty/webjars/jquery/3.3.1/jquery.min.js"></script>
     <script src="/zty/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
@@ -9,10 +10,11 @@
     <script src="/zty/static/js/chat.js"></script>
 </head>
 <body>
+<div>
+    <label for="username">当前登录用户:</label>
+    <input type="text" id="username" th:value="${username}" readonly="readonly">
+</div>
 <div id="chat">
-    <div id="chatsContent">
-
-    </div>
 
     <div>
         请输入聊天内容：
@@ -20,7 +22,8 @@
         目标用户：
         <input type="text" id="to" placeholder="目标用户">
         <button id="send" type="button">发送</button>
-
+    </div>
+    <div id="chatsContent">
     </div>
 </div>
 </body>

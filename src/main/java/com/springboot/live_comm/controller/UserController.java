@@ -85,8 +85,11 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/tencentCloudF5FaceCore", method = RequestMethod.GET)
-    public ModelAndView tencentCloudF5FaceCore(String code) throws Exception {
+    public ModelAndView tencentCloudF5FaceCore(String code, HttpSession session) throws Exception {
+        User loginUser = (User) session.getAttribute("loginUser");
+        System.out.println("username+" + loginUser.getUsername());
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("username", loginUser.getUsername());
         modelAndView.addObject("FaceCoreCode", code);
         modelAndView.setViewName("tencentCloudF5FaceCore");
         return modelAndView;
