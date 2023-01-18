@@ -94,4 +94,12 @@ public class UserController {
         modelAndView.setViewName("tencentCloudF5FaceCore");
         return modelAndView;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/snake", method = RequestMethod.GET)
+    public ModelAndView snake() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("copy/snake");
+        return modelAndView;
+    }
 }
