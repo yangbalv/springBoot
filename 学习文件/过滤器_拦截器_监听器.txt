@@ -1,0 +1,27 @@
+本文基于Spring-Web工程进行说明。filter过滤器，interceptor拦截器，listener监听器。
+
+【filter】、【interceptor】，这俩最难区分。
+
+1、直观区别是，filter在web.xml这个最根本“配置文件”中定义，而interceptor在servlet.xml（spring对servlet的配置文件）。
+
+2、根据【1】可知，filter是归属容器级别的，interceptor归属spring范畴。
+
+3、filter对请求进入容器之前就进行处理，是容器对请求进行深入包装之前就进行处理的阶段，可以处理request、response（当然了，此时也只有这两类数据啊）；interceptor对“容器已经对其进行了一定包装处理之后的请求”进行处理，所有要进入后续servlet（明确一下，这里特指action吧）的请求的各类数据都能处理，不止request、response，还有handler、modelandview、exception等等，基本就是所有流经此处的数据信息，包括action上下文以及各类对象数据。
+
+4、根据【3】可知，filter就是因为处理“靠前”，所以能处理的数据少，但是能处理的“请求的类型”也多，基本是所有请求；interceptor则因为处理“靠后”，虽然对特定请求  其所能处理的数据类型多，但是能处理的请求仅限于“将要进入后续action”的请求类型。
+
+5、还是根据【3】可推，filter只对请求进入容器前做一次处理，interceptor则有三次机会（容器包装完进入action的servlet的handler之前-prehandler()、刚出servlet之后-posthandler()、以及渲染后而返回响应之前-afterCompletion()）。
+filter：doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+interceptor: preHandle, postHandle, afterCompletion的都可以获取到（HttpServletRequest request, HttpServletResponse response, Object handler）来处理请求与响应
+
+6、技术实现的根本原因造就了上述差异，filter是容器级别，基于函数回调（即dofilter()方法，属于容器约定的基本方法），interceptor则是spring实现的技术，基于AOP切面技术（有网文说是反射？可我记得不是应该算作代理吗），但凡是个方法都能切面，只要是spring的框架内就都能处理（方法级别要结合@aspect）。
+
+7、上述是技术区别，而应用中，filter侧重于“全局性质”的用户请求合法性、日志记录（类比NGINX日志，毕竟所有请求，包括资源请求【资源请求是到不了action的】）、编码（想想Tomcat默认的ios-8859-1和常用编码utf-8的转换），interceptor则更侧重action级别的业务数据（更上层一些），比如用户权限（登录、页面资源访问权限等），当然牵扯到posthandler、aftercompletion等方法其应用就更多了，注意，更侧重上层业务。
+
+以上是对最麻烦但最常用的两者间的说明。
+
+【listener】没那么麻烦。就在web工程启动时提供支撑，容器级，给容器各类功能辅助。名如其人，能够给request、session、servletcontext、乃至单独属性ServletContextAttribute等监听，对相应对象的生命期的特定时间节点执行特定方法。
+这类功能处理涉及对象生命期，而只有容器有能力管理之。
+————————————————
+版权声明：本文为CSDN博主「xy100xy100xy100」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/xy100xy100xy100/article/details/114946012

@@ -8,11 +8,11 @@ import javax.servlet.annotation.WebListener;
 public class MyListener implements ServletRequestListener {
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
-        System.out.println(this.getClass().getName() + ">>> requestDestroyed");
+//        System.out.println(this.getClass().getName() + ">>> requestDestroyed");
     }
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        System.out.println(this.getClass().getName() + ">>> requestInitialized");
+//        System.out.println(this.getClass().getName() + ">>> requestInitialized");
     }
 }
