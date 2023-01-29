@@ -1,17 +1,122 @@
 package com.springboot.live_comm.utils;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 import javax.imageio.ImageIO;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 public class ImageUtils {
+    public static final int COMPRESS_WIDTH = 200;
+    public static final int COMPRESS_HEIGHT = 300;
+    public static final String DEFAULT_FORMAT_NAME = "png";
+
+    @Test
+    public static void testCompress1() throws IOException {
+        ImageUtils imageUtils = new ImageUtils();
+        File file = new File("D:\\test\\a.png");
+        InputStream inputStream = new FileInputStream(file);
+        OutputStream fileOutputStream = new FileOutputStream("D:\\test\\a2.png");
+        imageUtils.compressFromInputStreamToOutputStream(inputStream, null, fileOutputStream);
+    }
+
+    @Test
+    public static void testCompress2() throws IOException {
+        ImageUtils imageUtils = new ImageUtils();
+        InputStream inputStream = new FileInputStream("D:\\test\\a.png");
+        String string = imageUtils.compressFromInputStreamToString(inputStream, null);
+        System.out.println(string);
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] bytes = decoder.decodeBuffer(string);
+        OutputStream outputStream = new FileOutputStream("D:\\test\\a3.png");
+        outputStream.write(bytes);
+    }
+
+    @Test
+    public static void testCompress3() throws IOException {
+        ImageUtils imageUtils = new ImageUtils();
+        byte[] buffer = null;
+        //读取图片字节数组
+        try (InputStream inputStream = new FileInputStream("D:\\test\\a.png");) {
+            int count = 0;
+            while (count == 0) {
+                count = inputStream.available();
+            }
+            buffer = new byte[count];
+            inputStream.read(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        String encode = base64Encoder.encode(buffer);
+        encode = encode.replaceAll("\n", "").replaceAll("\r", "");
+        System.out.println(encode.length());
+        String string = imageUtils.compressFromStringToString(encode, null);
+        System.out.println(string.length());
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] bytes2 = decoder.decodeBuffer(string);
+        OutputStream outputStream = new FileOutputStream("D:\\test\\a5.png");
+        outputStream.write(bytes2);
+    }
+
+
+    public String compressFromStringToString(String base64str, String formatName) throws IOException {
+
+
+        if (StringUtils.isBlank(formatName)) {
+            formatName = DEFAULT_FORMAT_NAME;
+        }
+
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] bytes = decoder.decodeBuffer(base64str);
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        BufferedImage image = ImageIO.read(in);
+
+        ByteArrayOutputStream handlerOutputStream = new ByteArrayOutputStream();
+        Thumbnails.of(image).
+                size(COMPRESS_WIDTH, COMPRESS_HEIGHT).
+                outputFormat(formatName).toOutputStream(handlerOutputStream);
+
+
+        byte[] bytes1 = handlerOutputStream.toByteArray();
+        // 转BASE64编码字符串
+        BASE64Encoder encoder = new BASE64Encoder();
+        String base64String = encoder.encodeBuffer(bytes1).trim();
+        base64String = base64String.replaceAll("\n", "").replaceAll("\r", "");
+        return base64String;
+    }
+
+    public String compressFromInputStreamToString(InputStream inputStream, String formatName) throws IOException {
+        if (StringUtils.isBlank(formatName)) {
+            formatName = DEFAULT_FORMAT_NAME;
+        }
+        ByteArrayOutputStream handlerOutputStream = new ByteArrayOutputStream();
+        Thumbnails.of(inputStream).
+                size(COMPRESS_WIDTH, COMPRESS_HEIGHT).
+                outputFormat(formatName).toOutputStream(handlerOutputStream);
+        byte[] bytes = handlerOutputStream.toByteArray();
+        // 转BASE64编码字符串
+        BASE64Encoder encoder = new BASE64Encoder();
+        String base64String = encoder.encodeBuffer(bytes).trim();
+        base64String = base64String.replaceAll("\n", "").replaceAll("\r", "");
+        return base64String;
+    }
+
+    public void compressFromInputStreamToOutputStream(InputStream inputStream, String formatName, OutputStream outputStream) throws IOException {
+        if (StringUtils.isBlank(formatName)) {
+            formatName = DEFAULT_FORMAT_NAME;
+        }
+        Thumbnails.of(inputStream).
+                size(COMPRESS_WIDTH, COMPRESS_HEIGHT).
+                outputFormat(formatName).toOutputStream(outputStream);
+    }
 
     /**
      * @param args
