@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.live_comm.mappers.mybatiss1.ActivityManageMapper">
+
+    <sql id="Base_Column_List">
+        id
+        ,name
+        ,activitycode,description, time, version, starttime, endtime, enabled, locked, createtime, updatetime
+    </sql>
+    <sql id="selectWhere">
+        <where>
+            <if test="id != null">
+                and id = #{id, jdbcType=NUMERIC}
+            </if>
+
+            <if test="name != null and name != ''">
+                and name = #{name, jdbcType=VARCHAR}
+            </if>
+
+            <if test="activitycode != null and activitycode != ''">
+                and activitycode = #{activitycode, jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description, jdbcType=VARCHAR}
+            </if>
+            <if test="time != null ">
+                and time = #{time, jdbcType=NUMERIC}
+            </if>
+            <if test="version != null ">
+                and version = #{version, jdbcType=NUMERIC}
+            </if>
+            <if test="starttime != null">
+                and starttime = #{starttime, jdbcType=TIMESTAMP}
+            </if>
+            <if test="endtime != null">
+                and endtime = #{endtime, jdbcType=TIMESTAMP}
+            </if>
+            <if test="enabled != null">
+                and enabled = #{enabled, jdbcType=TINYINT}
+            </if>
+            <if test="locked != null">
+                and locked = #{locked, jdbcType=TINYINT}
+            </if>
+        </where>
+    </sql>
+    <select id="selectOne" resultType="com.springboot.live_comm.entity.activity.FlashSale" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        activitymanage
+        <include refid="selectWhere"/>
+    </select>
+
+    <select id="queryById" resultType="com.springboot.live_comm.entity.activity.FlashSale">
+        select name,
+               activitycode,
+               description, time, version, starttime, endtime, enabled, locked, createtime, updatetime
+        from activitymanage
+        where id = #{id}
+    </select>
+
+
+    <update id="update" parameterType="com.springboot.live_comm.entity.activity.FlashSale">
+        update activitymanage
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="activitycode != null and activitycode != ''">
+                activitycode = #{activitycode, jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description, jdbcType=VARCHAR},
+            </if>
+            <if test="time != null ">
+                time = #{time, jdbcType=NUMERIC},
+            </if>
+            <if test="version != null ">
+                version = #{version, jdbcType=NUMERIC},
+            </if>
+            <if test="starttime != null">
+                starttime = #{starttime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                endtime = #{endtime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled, jdbcType=TINYINT},
+            </if>
+            <if test="locked != null">
+                locked = #{locked, jdbcType=TINYINT},
+            </if>
+            updatetime=CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </update>
+
+
+    <select id="getFlashSale" resultType="com.springboot.live_comm.entity.activity.FlashSale">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        activitymanage
+        <include refid="selectWhere"/>
+    </select>
+    <update id="flashSale">
+        update activitymanage
+        <set>
+            time = #{time, jdbcType=NUMERIC} -1
+        </set>
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </update>
+
+
+    <select id="getFlashSalelgs" resultType="com.springboot.live_comm.entity.activity.FlashSale">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        activitymanage
+        <include refid="selectWhere"/>
+    </select>
+
+    <update id="flashSalelgs">
+        update activitymanage
+        <set>
+            time = #{time, jdbcType=NUMERIC} -1,version=version+1
+        </set>
+        WHERE activitycode = #{activitycode, jdbcType=VARCHAR}
+        and version = #{version,jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="getFlashSalebgs" resultType="com.springboot.live_comm.entity.activity.FlashSale">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        activitymanage
+        where
+        activitycode = #{activitycode, jdbcType=VARCHAR} FOR UPDATE
+    </select>
+    <update id="flashSalebgs">
+        update activitymanage
+        <set>
+            time = #{time, jdbcType=NUMERIC}-1
+        </set>
+        WHERE activitycode = #{activitycode, jdbcType=VARCHAR}
+    </update>
+
+</mapper>
+

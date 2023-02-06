@@ -102,4 +102,14 @@ public class UserController {
         modelAndView.setViewName("copy/snake");
         return modelAndView;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/preFlashSale", method = RequestMethod.GET)
+    public ModelAndView preFlashSale(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        User loginUser = (User) session.getAttribute("loginUser");
+        modelAndView.addObject("username", loginUser.getUsername());
+        modelAndView.setViewName("preFlashSale");
+        return modelAndView;
+    }
 }

@@ -186,3 +186,21 @@ VALUES ('2', '2', '2');
 INSERT INTO `menu_role`
 VALUES ('3', '3', '3');
 
+
+-- 秒杀活动对应的表设计
+DROP TABLE IF EXISTS `activitymanage`;
+CREATE TABLE `activitymanage`
+(
+    `id`           int(11) NOT NULL,
+    `activitycode` varchar(10) NOT NULL,
+    `name`         varchar(20) NOT NULL,
+    `description`  varchar(100)         DEFAULT NULL,
+    `time`         int(11) DEFAULT NULL,
+    `starttime`    timestamp NULL DEFAULT NULL,
+    `endtime`      timestamp NULL DEFAULT NULL,
+    `enabled`      tinyint(1) NOT NULL DEFAULT '1',
+    `locked`       tinyint(1) NOT NULL DEFAULT '0',
+    `createtime`   timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updatetime`   timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

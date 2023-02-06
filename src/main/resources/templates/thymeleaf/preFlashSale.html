@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!--手机与电脑在查看时都会兼容-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秒杀活动</title>
+</head>
+
+<body>
+<div>
+    <label for="username">当前登录用户:</label>
+    <input type="text" id="username" th:value="${username}" readonly="readonly">
+</div>
+<div>
+    <button type="button" name="doFlashSale" onclick="doFlashSale()">秒杀</button>
+
+</div>
+</body>
+<script type="text/javascript" src="public/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function doFlashSale() {
+
+
+        $.ajax({
+            url: "test/doFlashSalebgs",
+            type: 'get',
+            success: function (data) {
+                console.log(data)
+                if (data.status == '0') {
+                    alert(data.msg)
+                } else {
+                    alert(data.msg)
+                }
+
+            },
+            error: function (error) {
+                console.log(error)
+                alert(error.responseJSON.msg)
+            }
+        });
+    }
+
+</script>
+</html>

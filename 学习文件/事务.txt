@@ -1,0 +1,55 @@
+https://baike.baidu.com/item/java%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86/3402273?fr=aladdin
+java事务处理
+java数据库事务处理
+Java的事务处理,如果对数据库进行多次操作,每一次的执行或步骤都是一个事务.
+如果数据库操作在某一步没有执行或出现异常而导致事务失败,这样有的事务被执行有的就没有被执行,从而就有了事务的回滚,取消先前的操作.....
+
+
+Java中使用事务处理，首先要求数据库支持事务。如使用MySQL的事务功能，就要求MySQL的表类型为Innodb才支持事务。否则，在Java程序中做了commit或rollback，但在数据库中根本不能生效。
+JavaBean中使用JDBC方式进行事务处理
+public int delete(int sID) {
+dbc = new DataBaseConnection();
+Connection con = dbc.getConnection();
+try {
+con.setAutoCommit(false);// 更改JDBC事务的默认提交方式
+dbc.executeUpdate("delete from xiao where ID=" + sID);
+dbc.executeUpdate("delete from xiao_content where ID=" + sID);
+dbc.executeUpdate("delete from xiao_affix where bylawid=" + sID);
+con.commit();//提交JDBC事务
+con.setAutoCommit(true);// 恢复JDBC事务的默认提交方式
+dbc.close();
+return 1;
+}
+catch (Exception exc) {
+con.rollBack();//回滚JDBC事务
+exc.printStackTrace();
+dbc.close();
+return -1;
+}
+}
+在数据库操作中，一项事务是指由一条或多条对数据库更新的sql语句所组成的一个不可分割的工作单元。只有当事务中的所有操作都正常完成了，整个事务才能被提交到数据库，如果有一项操作没有完成，就必须撤消整个事务。
+例如在银行的转帐事务中，假定张三从自己的帐号上把1000元转到李四的帐号上，相关的sql语句如下：
+update account set monery=monery-1000 where name='zhangsan'
+update account set monery=monery+1000 where name='lisi'
+这个两条语句必须作为一个完成的事务来处理。只有当两条都成功执行了，才能提交这个事务。如果有一句失败，整个事务必须撤消。
+在connection类中提供了3个控制事务的方法：
+（1） setAutoCommit(Boolean autoCommit):设置是否自动提交事务；
+（2） commit();提交事务；
+（3） rollback();撤消事务；
+在jdbc api中，默认的情况为自动提交事务，也就是说，每一条对数据库的更新的sql语句代表一项事务，操作成功后，系统自动调用commit（）来提交，否则将调用rollback（）来撤消事务。
+在jdbc api中，可以通过调用setAutoCommit(false) 来禁止自动提交事务。然后就可以把多条更新数据库的sql语句做为一个事务，在所有操作完成之后，调用commit（）来进行整体提交。倘若其中一项 sql操作失败，就不会执行commit（）方法，而是产生相应的sqlexception，此时就可以捕获异常代码块中调用rollback（）方法撤消事务。
+事务处理是企业应用需要解决的最主要的问题之一。J2EE通过JTA提供了完整的事务管理能力，包括多个事务性资源的管理能力。但是大部分应用都是运行在单一的事务性资源之上（一个数据库），他们并不需要全局性的事务服务。本地事务服务已然足够(比如JDBC事务管理）。
+
+
+
+事务的特性编辑
+Atomic原子性、Consistency一致性、Isolation隔离性和Durability持久性。
+原子性：指整个事务是不可以分割的工作单元。只有事务中所有的操作执行成功，才算整个事务成功，事务中任何一个SQL语句执行失败，那么已经执行成功的SQL语句也必须撤销，数据库状态应该回到执行事务前的状态。
+一致性：指数据库事务不能破坏关系数据的完整性以及业务逻辑上的一致性。例如对于银行转账事务，不管事务成功还是失败，应该保证事务结束后两个转账账户的存款总额是与转账前一致的。
+隔离性：指的是在并发环境中，当不同的事务同时操纵相同的数据时，每个事务都有各自的完整数据空间。
+持久性：指的是只要事务成功结束，它对数据库所做的更新就必须永久保存下来。即使发生系统崩溃，重新启动数据库系统后，数据库还能恢复到事务成功结束时的状态。
+本文并不讨论应该采用何种事务处理方式，主要目的是讨论如何更为优雅地设计事务服务。仅以JDBC事务处理为例。涉及到的DAO，Factory,Proxy,Decorator等模式概念，请阅读相关资料
+
+
+java中jdbc在每一次dbc.executeUpdate都会执行con.commit()，进行自动提交，若想保持事务性则需要设置con.setAutoCommit(false)，然后在所有的语句组织好之后再执行commit();
+设置异常操作时执行con.rollBack();//回滚JDBC事务。
