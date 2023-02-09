@@ -1,4 +1,36 @@
+oracle的账户密码
+1539626240@qq.com
+152346978Zty.
+
+
+
 腾讯云微服务器：
 购买时间：230206
 腾讯云微服务器密码：Aazty123.
 ip:175.24.175.180
+
+mysql安装执行记录：_______________________start
+groupadd mysql
+useradd -r -g mysql mysql1
+
+mkdir -p /data/mysql
+chown mysql1:mysql -R /data/mysql
+
+vim /etc/my.cnf
+
+[mysqld]
+bind-address=0.0.0.0
+port=3306
+user=mysql
+basedir=/usr/local/mysql/mysql(mysql解压文件路径)
+datadir=/data/mysql
+socket=/tmp/mysql.sock
+log-error=/data/mysql/mysql.err
+pid-file=/data/mysql/mysql.pid
+#character config
+character_set_server=utf8mb4
+symbolic-links=0
+explicit_defaults_for_timestamp=true
+
+cd /usr/local/mysql/mysql/bin/
+./mysqld --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql/ --datadir=/data/mysql/ --user=mysql1 --initialize
