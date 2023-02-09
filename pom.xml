@@ -107,10 +107,10 @@
         <!--        session共享配置-->
         <!--        透明化的替换掉应用的session容器-->
         <!--        此项配置需要redis连接必须可以连接-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.session</groupId>-->
-<!--            <artifactId>spring-session-data-redis</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.session</groupId>-->
+        <!--            <artifactId>spring-session-data-redis</artifactId>-->
+        <!--        </dependency>-->
         <!--        rest服务配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
