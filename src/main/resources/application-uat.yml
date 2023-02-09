@@ -5,7 +5,7 @@
 #    encoding: UTF-8
 
 server:
-  port: 80
+  port: 8080
   error:
     path: /error
   servlet:
