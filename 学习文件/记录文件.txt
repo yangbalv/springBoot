@@ -10,6 +10,10 @@ oracle的账户密码
 ip:175.24.175.180
 
 mysql安装执行记录：_______________________start
+参考链接： https://blog.csdn.net/bai_shuang/article/details/122939884
+
+首先上传文件：
+然后
 groupadd mysql
 useradd -r -g mysql mysql1
 
@@ -21,7 +25,7 @@ vim /etc/my.cnf
 [mysqld]
 bind-address=0.0.0.0
 port=3306
-user=mysql
+user=mysql1
 basedir=/usr/local/mysql/mysql(mysql解压文件路径)
 datadir=/data/mysql
 socket=/tmp/mysql.sock
@@ -32,5 +36,145 @@ character_set_server=utf8mb4
 symbolic-links=0
 explicit_defaults_for_timestamp=true
 
-cd /usr/local/mysql/mysql/bin/
+
+sudo passwd mysql1
+12345678
+
+进入mysql目录更改权限
+cd mysql/
+chown -R mysql:mysql ./
+
+
+cd /usr/local/mysql/bin/
 ./mysqld --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql/ --datadir=/data/mysql/ --user=mysql1 --initialize
+
+cat /data/mysql/mysql.err
+内容：
+2023-02-16T07:24:53.562565Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2023-02-16T07:24:53.562657Z 0 [System] [MY-013169] [Server] /usr/local/mysql/bin/mysqld (mysqld 8.0.31) initializing of server in progress as process 2065639
+2023-02-16T07:24:53.802272Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2023-02-16T07:24:55.441527Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2023-02-16T07:24:57.701457Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: hJyQfEu>y4s.
+初始密码：hJyQfEu>y4s
+
+启动mysql
+cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+　　service mysql start
+
+修改密码：
+1. 开启免密码登陆 修改my.cnf文件   默认在/etc/my.cnf。
+　vim /etc/my.cnf         在【mysqld】模块下面添加：skip-grant-tables 保存退出。
+ 2. 重启服务，使配置生效 。
+ service mysql restart
+3. 登陆     /usr/local/mysql/bin/mysql -u root -p   //不输入密码直接敲回车键
+
+/usr/local/mysql/bin/mysql: error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory
+
+------
+报错:/usr/local/mysql/bin/mysql: error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory
+    参考：https://www.cnblogs.com/Star-Haitian/p/16853506.html
+        看报错是因为缺少libtinfo.so.5，可以进入到/usr/local/mysql/bin目录下，使用ldd mysql 看下mysql依赖的库文件：
+        find / -name "libtinfo.so*"
+        /usr/lib64/libtinfo.so.6.1
+        /usr/lib64/libtinfo.so
+        /usr/lib64/libtinfo.so.6
+
+ln -s /usr/lib64/libtinfo.so.6 /usr/lib64/libtinfo.so.5
+
+find / -name "libtinfo.so*"
+/usr/lib64/libtinfo.so.6.1
+/usr/lib64/libtinfo.so
+/usr/lib64/libtinfo.so.6
+/usr/lib64/libtinfo.so.5
+
+创建高版本的软连接到低版本即可；一般可以解决该问题(确实解决)
+        -----补充：
+        error while loading shared libraries: libncursesw.so.5
+        该报错信息也可这样解决
+
+        [root@cwiki ec2-user]# /usr/local/mysql/bin/mysql -u root -p -h127.0.0.1
+        /usr/local/mysql/bin/mysql: error while loading shared libraries: libncursesw.so.5: cannot open shared object file: No such file or directory
+        [root@cwiki ec2-user]# find / -name 'libncursesw.so*'
+        /usr/lib64/libncursesw.so.6
+        /usr/lib64/libncursesw.so.6.0
+        [root@cwiki ec2-user]# ln -s /usr/lib64/libncursesw.so.6 /usr/lib64/libncursesw.so.5
+-----
+
+继续登录：
+mysql下执行
+刷新规则允许外部访问
+　　use mysql 　　　　 #选择访问mysql库
+　　update user set host = '%' where user = 'root'; 　　　　 #使root能再任何host访问
+　　FLUSH PRIVILEGES; 　　 　　 #刷新
+
+.修改密码
+ALTER USER "root"@"%" IDENTIFIED  BY "12138";
+FLUSH PRIVILEGES; 　　 　　 #刷新
+
+退出   quit
+   把/etc/my.cnf免密删掉。（免密登录应该可以不操作，直接将查到的密码输入就行）
+    重启服务    service mysql restart
+
+登陆   /usr/local/mysql/bin/mysql -u root -p   //输入刚修改的密码12138敲回车键
+
+创建mysql新用户
+CREATE USER 'test'@'%' IDENTIFIED BY '123';
+    备注上面@后的命令解释
+    '%' - 所有情况都能访问
+    ‘localhost’ - 本机才能访问
+    ’111.222.33.44‘ - 指定 ip 才能访问
+
+给用户授予权限
+    grant all on *.* to test@'%'  IDENTIFIED BY '123';（实际执行时发生错误，解决方案在下方）
+    grant all on 数据库名.数据库表 to 用户名@'%'  identified by "密码";
+    备注
+    all 可以替换为 select,delete,update,create,drop
+    数据库名 所有的 用*
+    数据库表 所有的 用*
+
+使用
+数据库链接失败
+报错：Can't connect to local MySQL server through socket '/tmp/
+    参考：https://www.jb51.net/article/174244.htm
+        vim /etc/my.cnf
+        添加
+        [client]
+        port=3306
+        socket=/tmp/mysql.sock
+
+报错： lost connection to MySQL server at waiting
+    参考：https://blog.csdn.net/m0_45179506/article/details/106454848
+        vim /etc/my.cnf
+        添加
+        [mysqld]
+        # 这就是我们添加的（注意放置的位置）
+        skip-name-resolve
+
+报错：client does not support authentication
+    参考：https://blog.csdn.net/m0_45179506/article/details/106454848
+    登录：
+    /usr/local/mysql/bin/mysql -u root -p
+    ALTER USER "root"@"%" IDENTIFIED with mysql_native_password  BY "12138";
+
+ALTER USER "root"@"%" IDENTIFIED with mysql_native_password  BY "12138";
+ALTER USER "test"@"%" IDENTIFIED with mysql_native_password  BY "123";
+
+使用navicat执行sql:
+    （报错）
+
+报错：Access denied for user 'test'@'%' to database 'chapter05'
+    参考：
+    原因：之前执行grant all on *.* to test@'%'  IDENTIFIED BY "123";（报错）
+
+
+grant all on *.* to test@'%'  IDENTIFIED BY "123";（报错）
+
+报错：ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IDENTIFIED BY 123' at line 1
+    原因是：安装的mysql版本高了，sql语法变更，导致执行失败
+    参考：https://www.ab62.cn/article/25684.html
+    执行：
+    /usr/local/mysql/bin/mysql -u root -p
+    grant all privileges on *.* to test@'%';
+
+grant all privileges on *.* to test@'%';
+
