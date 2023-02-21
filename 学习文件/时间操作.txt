@@ -1,0 +1,7 @@
+https://baijiahao.baidu.com/s?id=1737825395761163881&wfr=spider&for=pc
+
+
+开发环境：idea、git、Java8、Maven、Mysql、linux、windows。
+项目使用技术：SpringBoot+Mybatis+Mysql+nginx+redis+websocket+css+js
+项目描述：该系统是基于BS框架开发的在线聊天系统，使用webSocket技术使得服务器能够主动向客户主动推送消息，实现消息的传递，支持群聊以及单聊两种方式。使用springSecurity做权限管控，可以拦截非登录用户，使用nginx做反向代理，隐藏实际的接口，保证服务器端的安全。
+担任角色：个人项目--担任所有接口的开发，页面等的开发，腾讯云人脸核身对接，云服务器的部署，域名注册等。

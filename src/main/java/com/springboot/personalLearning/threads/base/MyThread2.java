@@ -18,7 +18,7 @@ public class MyThread2 extends Thread {
 
 
         try {
-            System.out.println(name + "---" + httpUtil.getHTML("http://192.168.3.64:8090/zty/test/doFlashSalebgs?orderName=" + name));
+            System.out.println(name + "---" + httpUtil.getHTML("http://192.168.3.64:8081/evercos/creditcard/mgm/seckill"));
         } catch (IOException e) {
             e.printStackTrace();
         }

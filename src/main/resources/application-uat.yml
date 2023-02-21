@@ -93,7 +93,7 @@ spring:
     two:
       type: com.alibaba.druid.pool.DruidDataSource
       url: jdbc:mysql://localhost:3306/chapter05-2?useUnicode=true&amp;useSSL=false
-      username: root
+      username: test
       password: 123
   #JPA多元数据配置与单数据源相同
   #多数据源需要预先配置

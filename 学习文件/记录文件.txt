@@ -2,6 +2,11 @@ oracle的账户密码
 1539626240@qq.com
 152346978Zty.
 
+jar包启动
+ nohup java -jar chatroom.jar &
+nginx启动
+cd .../nginx/sbin
+./nginx
 
 
 腾讯云微服务器：
