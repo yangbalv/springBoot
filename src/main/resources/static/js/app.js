@@ -19,7 +19,7 @@ function connect() {
         return;
     }
     // 这里可以写/zty/chat或者chat（需要/会去除项目的前缀，而chat接口需要项目前缀）
-    var socket = new SockJS('/zty/chat');
+    var socket = new SockJS('chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);

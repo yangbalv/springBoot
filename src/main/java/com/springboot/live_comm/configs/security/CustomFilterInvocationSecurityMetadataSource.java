@@ -4,6 +4,7 @@ import com.springboot.live_comm.entity.security.Menu;
 import com.springboot.live_comm.entity.security.Role;
 import com.springboot.live_comm.mappers.mybatiss1.MenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -17,6 +18,8 @@ import java.util.List;
 @Component
 //访问的当前的url需要的用户角色
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+    @Value("${tencentCloud.h5FaceCore.webankAppId}")
+    private static String serverServletContextPath;
     public static final String PUBLIC_INDEX_URL = "/";
     public static final String PUBLIC_LOGIN_URL = "/login";
     public static final String PUBLIC_REGISTER_URL = "/register";
@@ -35,8 +38,13 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 PUBLIC_LOGIN_URL.equals(requestUrl) ||
                 PUBLIC_REGISTER_URL.equals(requestUrl) ||
                 antPathMatcher.match(PUBLIC_RESOURCE_URL, requestUrl) ||
-                antPathMatcher.match(TEST_URL, requestUrl)
-        ) {
+                antPathMatcher.match(TEST_URL, requestUrl) ||
+                (serverServletContextPath + PUBLIC_INDEX_URL).equals(requestUrl) ||
+                (serverServletContextPath + PUBLIC_LOGIN_URL).equals(requestUrl) ||
+                (serverServletContextPath + PUBLIC_REGISTER_URL).equals(requestUrl) ||
+                antPathMatcher.match(serverServletContextPath + PUBLIC_RESOURCE_URL, requestUrl) ||
+                antPathMatcher.match(serverServletContextPath + TEST_URL, requestUrl)
+                ) {
 
             return null;
         }

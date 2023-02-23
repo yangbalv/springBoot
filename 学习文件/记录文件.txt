@@ -7,6 +7,8 @@ jar包启动
 nginx启动
 cd .../nginx/sbin
 ./nginx
+mysqL启动
+　　service mysql start
 
 
 腾讯云微服务器：

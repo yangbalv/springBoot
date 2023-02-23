@@ -173,7 +173,7 @@ tencentCloud:
     version: 1.0.0
     SIGN_TYPE: SIGN
     NONCE_TYPE: NONCE
-    url: http://www.jpfdx.online:8090/zty/tencentCloud/acceptF5Result
+    url: http://www.jiuyuetian.xyz/zty/tencentCloud/acceptF5Result
     resultType: 0
     from: browser
     redirectType: 0
@@ -183,7 +183,7 @@ tencentCloud:
     getH5CoreResultUrl: https://miniprogram-kyc.tencentcloudapi.com/api/server/sync?
     get_file: 3
 
-hostaddress: http://www.jpfdx.online:8090/zty
+hostaddress: http://www.jiuyuetian.xyz/zty
 
 
 
