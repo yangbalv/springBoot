@@ -10,6 +10,7 @@ cd .../nginx/sbin
 mysqL启动
 　　service mysql start
 
+Mobaxterm兼容了xftp 与xshell
 
 腾讯云微服务器：
 购买时间：230206
