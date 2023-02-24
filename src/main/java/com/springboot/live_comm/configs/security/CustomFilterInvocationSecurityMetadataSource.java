@@ -3,6 +3,8 @@ package com.springboot.live_comm.configs.security;
 import com.springboot.live_comm.entity.security.Menu;
 import com.springboot.live_comm.entity.security.Role;
 import com.springboot.live_comm.mappers.mybatiss1.MenuMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.ConfigAttribute;
@@ -18,6 +20,7 @@ import java.util.List;
 @Component
 //访问的当前的url需要的用户角色
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Value("${tencentCloud.h5FaceCore.webankAppId}")
     private static String serverServletContextPath;
     public static final String PUBLIC_INDEX_URL = "/";
@@ -33,6 +36,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
+        logger.info("requestUrl is: {}", requestUrl);
 //        System.out.println("requestUrl is: " + requestUrl);
         if (PUBLIC_INDEX_URL.equals(requestUrl) ||
                 PUBLIC_LOGIN_URL.equals(requestUrl) ||
@@ -44,7 +48,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 (serverServletContextPath + PUBLIC_REGISTER_URL).equals(requestUrl) ||
                 antPathMatcher.match(serverServletContextPath + PUBLIC_RESOURCE_URL, requestUrl) ||
                 antPathMatcher.match(serverServletContextPath + TEST_URL, requestUrl)
-                ) {
+        ) {
 
             return null;
         }

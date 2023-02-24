@@ -19,12 +19,12 @@ function connect() {
         return;
     }
     // 这里可以写/zty/chat或者chat（需要/会去除项目的前缀，而chat接口需要项目前缀）
-    var socket = new SockJS('/zty/chat');
+    var socket = new SockJS('chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         // 这两个需要使用/来避开项目前缀
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body));
         });
     });
@@ -38,7 +38,7 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val(), 'content': $("#content").val()}));
+    stompClient.send("app/hello", {}, JSON.stringify({'name': $("#name").val(), 'content': $("#content").val()}));
 }
 
 function showGreeting(message) {

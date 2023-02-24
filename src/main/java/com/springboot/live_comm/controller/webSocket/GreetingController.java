@@ -26,7 +26,7 @@ public class GreetingController {
     public Message greeting1(Message message) throws Exception {
         System.out.println(message);
 //        不使用@SendTo注解进行消费发送
-        simpMessagingTemplate.convertAndSend("/topic/greetings", message);
+        simpMessagingTemplate.convertAndSend("topic/greetings", message);
         return message;
     }
 
@@ -36,6 +36,6 @@ public class GreetingController {
         System.out.println(chat);
         String from = principal.getName();
         chat.setFrom(from);
-        simpMessagingTemplate.convertAndSendToUser(chat.getTo(), "/queue/chat", chat);
+        simpMessagingTemplate.convertAndSendToUser(chat.getTo(), "queue/chat", chat);
     }
 }
