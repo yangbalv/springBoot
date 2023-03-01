@@ -1,7 +1,7 @@
 package com.springboot.personalLearning.threads.base;
 
 
-import com.springboot.live_comm.utils.HttpUtil;
+import com.springboot.live_comm.utils.http.HttpUtil;
 
 import java.io.IOException;
 

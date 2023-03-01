@@ -1,4 +1,4 @@
-package com.springboot.live_comm.utils;
+package com.springboot.live_comm.utils.http;
 
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
