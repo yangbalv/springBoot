@@ -2,6 +2,10 @@ oracle的账户密码
 1539626240@qq.com
 152346978Zty.
 
+openai账户密码：
+账户，qq邮箱
+密码Aa15234.
+
 github密码152346978zty
 
 jar包启动
