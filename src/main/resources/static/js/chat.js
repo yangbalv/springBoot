@@ -11,14 +11,14 @@ function connect() {
     stompClient.connect({}, function (frame) {
 
         //
-        stompClient.subscribe('/user/queue/chat', function (chat) {
+        stompClient.subscribe('/zty/user/queue/chat', function (chat) {
             showGreeting(JSON.parse(chat.body));
         });
     });
 }
 
 function sendMessage() {
-    stompClient.send("/app/chat", {}, JSON.stringify(
+    stompClient.send("/zty/app/chat", {}, JSON.stringify(
             {
                 'content': $("#content").val(),
                 'to': $("#to").val()
