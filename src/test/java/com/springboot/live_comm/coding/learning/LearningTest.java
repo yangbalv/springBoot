@@ -258,7 +258,53 @@ public class LearningTest {
     }
 
 
-//    归并排序
+    //    归并排序
+//    public int[] margeSort(int[] arrays) {
+//        margeSortUtil(0, arrays.length - 1, arrays, arrays.length);
+//        return arrays;
+//    }
+//
+//    public void margeSortUtil(int l, int r, int[] arrays, int mid) {
+//        mid = mid / 2;
+//        if (l >= r) {
+//        } else {
+//            margeSortUtil(l, l + mid, arrays, mid);
+//            margeSortUtil(l + mid + 1, r, arrays, mid);
+//            margeSortUtilx(l, r, arrays, mid);
+//        }
+//    }
+//
+//    public void margeSortUtilx(int l, int r, int[] arrays, int mid) {
+//        int left = l;
+//        int right = r;
+//        while (true) {
+//            if (arrays[l])
+//        }
+//    }
+    @Test
+    public void testQuickSort() {
+        int[] array = {2, 38, 1, 97, 76, 13, 27, 49, 78, 34, 12, 64, 1};
+        int[] array2 = {2, 38, 1, 97, 76, 13, 27, 49, 78, 34, 12, 64, 1};
+        int[] ints = quickSort(array);
+        System.out.println(Arrays.toString(ints));
 
+        Arrays.sort(array2);
+        System.out.println(Arrays.toString(array2));
+    }
+
+    //    快排
+    public int[] quickSort(int[] arrays) {
+        quickSortUtil(arrays, 0, arrays.length - 1);
+        return arrays;
+    }
+
+    public void quickSortUtil(int[] arrays, int l, int r) {
+        if (l < r) {
+            int  num = arrays[l];
+            for (int i = l; i < arrays.length; i++) {
+
+            }
+        }
+    }
 
 }
