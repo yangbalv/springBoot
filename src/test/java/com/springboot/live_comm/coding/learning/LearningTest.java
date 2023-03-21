@@ -1,8 +1,10 @@
 package com.springboot.live_comm.coding.learning;
 
+import com.springboot.live_comm.utils.CommonDateUtil;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -300,11 +302,61 @@ public class LearningTest {
 
     public void quickSortUtil(int[] arrays, int l, int r) {
         if (l < r) {
-            int  num = arrays[l];
+            int num = arrays[l];
             for (int i = l; i < arrays.length; i++) {
 
             }
         }
+    }
+
+    @Test
+    public void time() {
+        CommonDateUtil commonDateUtil = new CommonDateUtil();
+        Date date1 = new Date(1678687419138L);
+        System.out.println(commonDateUtil.DateToString(date1));
+
+        Date date2 = new Date(1678694633948L);
+        System.out.println(commonDateUtil.DateToString(date2));
+
+        Date date3 = new Date(0L);
+        System.out.println(commonDateUtil.DateToString(date3));
+
+        Date date4 = new Date(1678694933110L);
+        System.out.println(commonDateUtil.DateToString(date4));
+
+
+    }
+
+    @Test
+    public void sameStringTest() {
+        System.out.println(sameString("fghjkl;", "fhgjkj"));
+
+    }
+
+    public static String sameString(String s1, String s2) {
+        String max = s1.length() > s2.length() ? s1 : s2;
+        String min = s1.length() > s2.length() ? s2 : s1;
+        int[][] dp = new int[min.length()][max.length()];
+        int end_index = -1;
+        int maxLength = -1;
+        for (int i = 0; i < min.length(); i++) {
+            for (int j = 0; j < max.length(); j++) {
+                if (min.charAt(i) == max.charAt(j)) {
+                    if (i == 0 || j == 0) {
+                        dp[i][j] = 1;
+                    } else {
+                        dp[i][j] = 1 + dp[i - 1][j - 1];
+                    }
+                    if (dp[i][j] > maxLength) {
+                        maxLength = dp[i][j];
+                        end_index = j;
+                    }
+                }
+            }
+        }
+        end_index = end_index + 1;
+        String res = max.substring(end_index - maxLength, end_index);
+        return res;
     }
 
 }
