@@ -154,17 +154,15 @@ class Solution {
 
     public int lengthOfLongestSubstring(String s) {
         Map<Character, Integer> map = new HashMap();
-        int p = -1;
+        int p = 0;
 
         int max = 0;
         for (int i = 0; i < s.length(); i++) {
             if (map.containsKey(s.charAt(i))) {
-                p = map.get(s.charAt(i));
-                map.put(s.charAt(i), i);
-            } else {
-                map.put(s.charAt(i), i);
+                p = map.get(s.charAt(i)) + 1;
             }
-            max = Math.max(max, i - p);
+            map.put(s.charAt(i), i);
+            max = Math.max(max, (i + 1) - p);
         }
         return max;
     }
@@ -176,4 +174,5 @@ class Solution {
         ListNode listNode = solution.addTwoNumbers(l1, l2);
         System.out.println(listNode);
     }
+
 }
