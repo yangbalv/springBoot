@@ -72,6 +72,10 @@ public class HttpUtil {
 
         httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
         httpURLConnection.connect();
+//        此步骤用于请求登录接口后获取cookie
+//        String headerField = httpURLConnection.getHeaderField("set-cookie");
+//        String s = headerField.split(";")[0].split("=")[1];
+//        System.out.println(s);
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(httpURLConnection.getOutputStream(), "UTF-8"));
         bufferedWriter.write(message);
         bufferedWriter.close();
