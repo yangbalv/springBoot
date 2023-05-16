@@ -8,6 +8,13 @@ openai账户密码：
 
 github密码152346978zty
 
+宝塔面板
+外网面板地址: https://175.24.175.180:13315/6a3031d0
+内网面板地址: https://10.0.4.5:13315/6a3031d0
+username: xlczqzks
+password: 85b41f65
+
+
 文心一言账号和密码：
 177--
 1539626240@qq
@@ -195,4 +202,12 @@ grant all on *.* to test@'%'  IDENTIFIED BY "123";（报错）
     grant all privileges on *.* to test@'%';
 
 grant all privileges on *.* to test@'%';
+
+
+
+内存溢出如何解决。
+高手总结的9种 OOM 常见原因及解决方案
+https://zhuanlan.zhihu.com/p/79355050
+JVM 内存分析工具 MAT 的深度讲解与实践——入门篇
+https://juejin.cn/post/6908665391136899079
 
