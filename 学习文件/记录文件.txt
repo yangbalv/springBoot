@@ -213,4 +213,12 @@ grant all privileges on *.* to test@'%';
 https://zhuanlan.zhihu.com/p/79355050
 JVM 内存分析工具 MAT 的深度讲解与实践——入门篇
 https://juejin.cn/post/6908665391136899079
+Android 内存泄漏MAT使用详解
+https://blog.csdn.net/jaynm/article/details/104628882
 
+Java一线大厂高岗面试题解析合集：JAVA基础-中级-高级面试+SSM框架+分布式+性能调优+微服务+并发编程+网络+设计模式+数据结构与算法
+链接：https://pan.baidu.com/s/1ngmpTmBeVRh1AFqnkRN29w 提取码：hnak
+最新面试题目和答案链接：https://pan.baidu.com/s/1r6xT5S2AX75lIYKeC34OMA
+提取码：6666
+2023Java面试资料链接：https://pan.baidu.com/s/18tHcGMszB-ev8N_wpbOGrA
+提取码：6666
