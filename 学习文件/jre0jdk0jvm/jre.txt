@@ -1,0 +1,6 @@
+JRE是java运行时环境
+
+指令：java ABC.class
+    执行ABC类中的main方法
+nohup java -jar chatroom.jar &
+    执行jar文件

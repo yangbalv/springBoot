@@ -1,0 +1,7 @@
+jdk和jre的区别为：JRE是java运行时环境而JDK是java开发工具包，JDK包含JRE，但是JRE可以独立安装。
+JDK 是用于开发 Java 程序的最小环境，JRE是提供给 Java 程序运行的最小环境。
+运行java程序只需安装JRE。如果需要编写java程序，需要安装JDK。
+
+JDK从版本5.0开始，包含了JRE（Java Runtime Environment）。
+在此之前，需要先安装JRE才能运行Java程序，而从版本5.0开始，JDK中包含了JRE，因此只需安装JDK即可运行Java程序。
+

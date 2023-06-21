@@ -1,0 +1,4 @@
+JRE是java运行时环境
+
+指令： javac -encoding UTF-8 -d . ABC.java
+将ABC.java文件编译成ABC.class文件
