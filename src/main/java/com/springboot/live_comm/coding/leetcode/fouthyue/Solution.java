@@ -167,12 +167,87 @@ class Solution {
         return max;
     }
 
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+
+        public String getString() {
+            String lefts = new String();
+            String rights = new String();
+
+            if (left == null) {
+                lefts = "null";
+            } else {
+                lefts = right.getString();
+            }
+
+            if (right == null) {
+                rights = "null";
+            } else {
+                rights = right.getString();
+            }
+
+            return "TreeNode{" +
+                    "val=" + val +
+                    ", left= " + lefts +
+                    ", right= " + rights +
+                    '}';
+
+        }
+
+        @Override
+        public String toString() {
+            return getString();
+        }
+    }
+
+
+    public TreeNode getModel() {
+        TreeNode treeNode1 = new TreeNode(1);
+        TreeNode treeNode2 = new TreeNode(2);
+        TreeNode treeNode3 = new TreeNode(3);
+        TreeNode treeNode4 = new TreeNode(4);
+        TreeNode treeNode5 = new TreeNode(5);
+        TreeNode treeNode6 = new TreeNode(6);
+        TreeNode treeNode7 = new TreeNode(7);
+        TreeNode treeNode8 = new TreeNode(8);
+        TreeNode treeNode9 = new TreeNode(9);
+        treeNode5.left = (treeNode6);
+        treeNode4.left = (treeNode5);
+        treeNode4.right = (treeNode9);
+        treeNode3.left = (treeNode4);
+        treeNode2.left = (treeNode3);
+        treeNode2.right = (treeNode8);
+        treeNode1.left = (treeNode2);
+        treeNode1.right = (treeNode7);
+
+        treeNode7.right = (treeNode8);
+        treeNode8.right = (treeNode2);
+        treeNode9.right = (treeNode5);
+        return treeNode1;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode l1 = solution.makeList(new int[]{2, 4, 9});
-        ListNode l2 = solution.makeList(new int[]{5, 6, 4, 9});
-        ListNode listNode = solution.addTwoNumbers(l1, l2);
-        System.out.println(listNode);
+//        ListNode l1 = solution.makeList(new int[]{2, 4, 9});
+//        ListNode l2 = solution.makeList(new int[]{5, 6, 4, 9});
+//        ListNode listNode = solution.addTwoNumbers(l1, l2);
+        TreeNode treeNode = solution.getModel();
+        System.out.println(treeNode.getString());
     }
 
 }
