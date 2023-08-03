@@ -1,0 +1,67 @@
+https://blog.csdn.net/weixin_45707610/article/details/130900245
+
+
+方法一；replace into
+这种更新会将其它字段更新为默认值，因为它是先将重复记录删掉再更新，谨慎使用
+
+replace into `user` (id,age) values (1,'2'),(2,'3'),(3,'4'),(4,'98');
+
+-- > 时间: 0.038s
+
+
+方法二：insert into [table] values… on duplicate key update
+这种方式应该也是删掉记录，再更新，但是保存的原来的其它字段数据，所以其它字段不会改变
+
+insert into `user`(id,age) values (1,'5'),(2,'7'),(3,'2'),(4,'198') on duplicate key update age=values(age)
+
+-- > > 时间: 0.017s
+
+
+方法三：创建临时表
+创建临时表，将更新数据插入临时表，再执行更新，需要有建表权限
+DROP TABLE if EXISTS tmp;
+
+-- > 时间: 0.016s
+
+create temporary table tmp(id int(4) primary key,age varchar(50));
+
+-- > 时间: 0.01s
+
+insert into tmp values  (1,'13'), (2,'16'),(3,'18'),(4,'18');
+
+-- > 时间: 0.009s
+
+update `user`, tmp set `user`.age=tmp.age where `user`.id=tmp.id;
+
+-- > 时间: 0.022s
+
+
+方法四：使用MySQL自带批量更新语句
+
+update `user`
+
+    set age = CASE id
+
+    WHEN 1 THEN '22'
+
+    WHEN 2 THEN '22'
+
+    WHEN 3 THEN '22'
+
+    WHEN 4 THEN '22'
+
+END WHERE id IN(1,2,3,4);
+
+-- > 时间: 0.015s
+
+update (表名)
+
+set (更新字段) = case (被更新字段)
+
+when (被更新字段值) then (更新字段值)...
+
+end where (被更新字段) in((被更新字段值)...)
+
+举例说明：set age = CASE id WHEN 1 THEN ‘22’
+
+简单来说就是以id为查询条件，当id=1时更新age=22，where语句提高了sql的执行效率，先过滤需要修改的记录然后再更新。
