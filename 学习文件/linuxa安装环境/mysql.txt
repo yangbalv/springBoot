@@ -1,39 +1,3 @@
-oracle的账户密码
-1539626240@qq.com
-152346978Zty.
-
-微信小程序的登录信息
-邮箱：QQ
-密码：Aa1234567
-
-openai账户密码：
-账户，qq邮箱
-密码Aa15234.
-
-github密码152346978zty
-
-个人所得税
-1569Zty.
-
-
-文心一言账号和密码：
-177--
-1539626240@qq
-
-jar包启动
- nohup java -jar chatroom.jar &
-nginx启动
-cd .../nginx/sbin
-./nginx
-mysqL启动
-　　service mysql start
-
-Mobaxterm兼容了xftp 与xshell
-
-腾讯云微服务器：
-购买时间：230206
-腾讯云微服务器密码：Aazty123.
-ip:175.24.175.180
 
 mysql安装执行记录：_______________________start
 参考链接： https://blog.csdn.net/bai_shuang/article/details/122939884
@@ -224,20 +188,3 @@ grant all on *.* to test@'%'  IDENTIFIED BY "123";（报错）
     grant all privileges on *.* to test@'%';
 
 grant all privileges on *.* to test@'%';
-
-
-
-内存溢出如何解决。
-高手总结的9种 OOM 常见原因及解决方案
-https://zhuanlan.zhihu.com/p/79355050
-JVM 内存分析工具 MAT 的深度讲解与实践——入门篇
-https://juejin.cn/post/6908665391136899079
-Android 内存泄漏MAT使用详解
-https://blog.csdn.net/jaynm/article/details/104628882
-
-Java一线大厂高岗面试题解析合集：JAVA基础-中级-高级面试+SSM框架+分布式+性能调优+微服务+并发编程+网络+设计模式+数据结构与算法
-链接：https://pan.baidu.com/s/1ngmpTmBeVRh1AFqnkRN29w 提取码：hnak
-最新面试题目和答案链接：https://pan.baidu.com/s/1r6xT5S2AX75lIYKeC34OMA
-提取码：6666
-2023Java面试资料链接：https://pan.baidu.com/s/18tHcGMszB-ev8N_wpbOGrA
-提取码：6666

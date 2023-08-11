@@ -251,6 +251,7 @@ PrivateTmp=true
 WantedBy=multi-user.target
 
 
+先关闭启动着的nginx
 #启动
 systemctl start nginx.service
 
