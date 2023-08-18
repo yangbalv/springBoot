@@ -7,8 +7,13 @@ oracle的账户密码
 密码：Aa1234567
 
 星随机的
-wxee9ee132fbd03210
-a05d18e29b7c12dca611ee53d03cf4b2
+wxee9ee
+132fbd
+03210
+
+a05d18e29b7c1
+
+2dca611ee53d03cf4b2
 
 openai账户密码：
 账户，qq邮箱
