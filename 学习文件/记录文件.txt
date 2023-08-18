@@ -6,6 +6,10 @@ oracle的账户密码
 邮箱：QQ
 密码：Aa1234567
 
+星随机的
+wxee9ee132fbd03210
+a05d18e29b7c12dca611ee53d03cf4b2
+
 openai账户密码：
 账户，qq邮箱
 密码Aa15234.
@@ -34,6 +38,14 @@ Mobaxterm兼容了xftp 与xshell
 购买时间：230206
 腾讯云微服务器密码：Aazty123.
 ip:175.24.175.180
+
+qq小号密码：
+2187376380
+a1523697840
+
+星随机（公众号）
+2187376380@qq.com
+Aazty123.
 
 mysql安装执行记录：_______________________start
 参考链接： https://blog.csdn.net/bai_shuang/article/details/122939884
