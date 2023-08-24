@@ -5,13 +5,13 @@
 #    encoding: UTF-8
 
 server:
-  port: 8080
+  port: 9090
   error:
     path: /error
   servlet:
     session:
       timeout: 30m
-      context-path: /zty
+    context-path: /zty
   tomcat:
     uri-encoding: utf-8
     max-threads: 500
@@ -87,14 +87,14 @@ spring:
   datasource:
     one:
       type: com.alibaba.druid.pool.DruidDataSource
-      url: jdbc:mysql://rm-bp13dz5ie348hx75h9o.mysql.rds.aliyuncs.com:3306/chapter05-1?useUnicode=true&amp;useSSL=false
-      username: jpfdx
-      password: f06050519J
+      url: jdbc:mysql://175.24.175.180:3306/chapter05-1?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+      username: root
+      password: 12138
     two:
       type: com.alibaba.druid.pool.DruidDataSource
-      url: jdbc:mysql://rm-bp13dz5ie348hx75h9o.mysql.rds.aliyuncs.com:3306/chapter05-2?useUnicode=true&amp;useSSL=false
-      username: jpfdx
-      password: f06050519J
+      url: jdbc:mysql://175.24.175.180:3306/chapter05-1?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+      username: root
+      password: 12138
   #JPA多元数据配置与单数据源相同
   #多数据源需要预先配置
   jpa:
@@ -109,7 +109,7 @@ spring:
   #    redis数据库配置
   redis:
     database: 0
-    host: 172.25.44.135
+    host: 192.168.3.148
     port: 6379
     password: 123456
     jedis:
@@ -183,7 +183,7 @@ tencentCloud:
     getH5CoreResultUrl: https://miniprogram-kyc.tencentcloudapi.com/api/server/sync?
     get_file: 3
 
-hostaddress: http://www.jiuyuetian.xyz/zty
+hostaddress: http://www.jiuyuetian.online/zty
 
 
 
