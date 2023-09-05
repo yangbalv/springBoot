@@ -5,12 +5,15 @@ import com.springboot.live_comm.services.polymorphic.models.abstractmodel.Studen
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 @Controller
@@ -43,5 +46,13 @@ public class TestController {
     @RequestMapping("aa")
     public void aa() {
         student.talk();
+    }
+
+    @RequestMapping("nums")
+    @ResponseBody
+    public void hello(int actIds, @RequestParam("bookName") int bookName,int... nums) {
+        System.out.println(actIds);
+        System.out.println(bookName);
+        System.out.println(Arrays.toString(nums));
     }
 }
