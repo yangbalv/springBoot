@@ -3,17 +3,17 @@ package com.springboot.live_comm.coding.learning;
 import java.util.Arrays;
 
 public class Learning {
-    public static void main(String[] args) {
-        int[] nums1 = new int[]{1, 2, 3, 0, 0, 0};
-        int[] nums2 = new int[]{2, 5, 6};
-        int[] nums3 = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
-        int[] nums4 = new int[]{1, 1, 2};
-        int[] nums5 = new int[]{-1, -100, 3, 99};
-        int[] nums6 = new int[]{2, 0, 2, 4, 6, 0, 0, 3};
-        int[] nums7 = new int[]{100};
-
-        System.out.println(hIndex(nums7));
-    }
+//    public static void main(String[] args) {
+//        int[] nums1 = new int[]{1, 2, 3, 0, 0, 0};
+//        int[] nums2 = new int[]{2, 5, 6};
+//        int[] nums3 = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
+//        int[] nums4 = new int[]{1, 1, 2};
+//        int[] nums5 = new int[]{-1, -100, 3, 99};
+//        int[] nums6 = new int[]{2, 0, 2, 4, 6, 0, 0, 3};
+//        int[] nums7 = new int[]{100};
+//
+//        System.out.println(hIndex(nums7));
+//    }
 
 
     public static int hIndex(int[] citations) {
@@ -262,5 +262,143 @@ public class Learning {
 
     }
 
+//    public static void main(String[] args) {
+//        int[] nums = new int[]{1, 2, 3, 4};
+//        System.out.println(Arrays.toString(productExceptSelf(nums)));
+//    }
 
+    public static int[] productExceptSelf(int[] nums) {
+        int[] resNums = new int[nums.length];
+        int r = 1;
+        resNums[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            resNums[i] = nums[i - 1] * resNums[i - 1];
+        }
+        for (int i = nums.length - 1; i > 0; i--) {
+            resNums[i] = resNums[i] * r;
+            r = r * nums[i];
+        }
+        resNums[0] = r;
+        return resNums;
+    }
+
+//    public static void main(String[] args) {
+//        int[] gas = new int[]{1, 2, 3, 4, 5};
+//        int[] cost = new int[]{3, 4, 5, 1, 2};
+//        Learning learning = new Learning();
+//        System.out.println(learning.canCompleteCircuit(gas, cost));
+//    }
+
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int p = 0;
+        int len = gas.length;
+        if (len == 1) {
+            if (gas[0] >= cost[0]) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+        while (p < len) {
+            if (gas[p] > cost[p]) {
+                int residue = 0;
+                int p1 = p;
+                while (true) {
+                    if (p1 >= p + len) {
+                        return p;
+                    }
+                    int index = p1 % len;
+                    if (gas[index] + residue >= cost[index]) {
+                        residue += (gas[index] - cost[index]);
+                        p1++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            p++;
+        }
+        return -1;
+    }
+
+//    public static void main(String[] args) {
+//        int[] ratings = new int[]{1, 3, 2, 2, 1};
+//        Learning learning = new Learning();
+//        System.out.println(learning.candy2(ratings));
+//    }
+
+    public int candy(int[] ratings) {
+        int count = ratings[0];
+        int minLevel = 0;
+        int res = 0;
+        ratings[0] = 0;
+        for (int i = 1; i < ratings.length; i++) {
+            if (ratings[i] > count) {
+                count = ratings[i];
+                ratings[i] = ratings[i - 1] + 1;
+            } else if (ratings[i] == count) {
+                count = ratings[i];
+                ratings[i] = ratings[i - 1];
+            } else {
+                count = ratings[i];
+                ratings[i] = ratings[i - 1] - 1;
+                minLevel = Math.min(minLevel, ratings[i]);
+            }
+        }
+        for (int rating : ratings) {
+            res = res + rating - minLevel + 1;
+        }
+        return res;
+    }
+
+
+    public int candy2(int[] ratings) {
+        int n = ratings.length;
+        int ret = 1;
+        int inc = 1, dec = 0, pre = 1;
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] >= ratings[i - 1]) {
+                dec = 0;
+                pre = ratings[i] == ratings[i - 1] ? 1 : pre + 1;
+                ret += pre;
+                inc++;
+            } else {
+                dec++;
+                if (inc == dec) {
+                    dec++;
+                }
+                pre = 1;
+                ret += dec;
+            }
+        }
+        return ret;
+    }
+
+
+    public static void main(String[] args) {
+        int[] ratings = new int[]{4, 2, 0, 3, 2, 5};
+        Learning learning = new Learning();
+        System.out.println(learning.trap(ratings));
+    }
+
+    public int trap(int[] height) {
+        int[] beforeLargest = new int[height.length];
+        beforeLargest[0] = 0;
+        int max = height[0];
+        for (int i = 1; i < height.length; i++) {
+            max = Math.max(max, height[i - 1]);
+            beforeLargest[i] = max;
+        }
+        int right = height[height.length - 1];
+        int res = 0;
+        for (int i = height.length - 2; i >= 1; i--) {
+            right = Math.max(right, height[i + 1]);
+            int min = Math.min(beforeLargest[i], right);
+
+            res = res + (min > height[i] ? min - height[i] : 0);
+
+        }
+        return res;
+    }
 }
