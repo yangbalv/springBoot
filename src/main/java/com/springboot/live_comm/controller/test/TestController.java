@@ -1,12 +1,12 @@
 package com.springboot.live_comm.controller.test;
 
+import com.springboot.live_comm.dto.BaseStatusResponseDto;
 import com.springboot.live_comm.services.polymorphic.actions.PersonAction;
 import com.springboot.live_comm.services.polymorphic.models.abstractmodel.Student;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +18,7 @@ import java.util.Enumeration;
 
 @Controller
 @RequestMapping("/test")
+@Slf4j
 public class TestController {
     @Autowired
     Student student;
@@ -50,9 +51,22 @@ public class TestController {
 
     @RequestMapping("nums")
     @ResponseBody
-    public void hello(int actIds, @RequestParam("bookName") int bookName,int... nums) {
+    public void hello(int actIds, @RequestParam("bookName") int bookName, int... nums) {
         System.out.println(actIds);
         System.out.println(bookName);
         System.out.println(Arrays.toString(nums));
+    }
+
+    @RequestMapping("message")
+    @ResponseBody
+    public void message(String message) {
+        log.info("message is: {}", message);
+    }
+
+
+    @PostMapping("/process/checkStatus/{processType}/{checkTime}")
+    public BaseStatusResponseDto processFlowCallback(@PathVariable String processType, @PathVariable String result, @RequestBody ProcessCallbackDto processCallbackDto) {
+        BaseStatusResponseDto responseDto = new BaseStatusResponseDto();
+        return responseDto;
     }
 }

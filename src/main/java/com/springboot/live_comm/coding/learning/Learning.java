@@ -648,11 +648,11 @@ public class Learning {
         }
         return dp[s.length()];
     }
-
-    public static void main(String[] args) {
-        Learning l = new Learning();
-        System.out.println(l.coinChange(new int[]{1, 2, 5}, 11));
-    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.coinChange2(new int[]{1, 2, 5}, 11));
+//    }
 
     public int coinChange(int[] coins, int amount) {
         if (amount == 0) {
@@ -672,7 +672,7 @@ public class Learning {
                 dp[i] = 1;
                 continue;
             }
-            for (int j = 1; j < i/2; j++) {
+            for (int j = 1; j < i / 2; j++) {
                 if (dp[j] != -1 && dp[i - j] != -1) {
                     int b = dp[j] + dp[i - j];
                     if (dp[i] != -1) {
@@ -686,263 +686,426 @@ public class Learning {
         return dp[amount];
     }
 
- public int coinChange2(int[] coins, int amount) {
-        if (amount == 0) {
+    public int coinChange2(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+
+
+        Arrays.fill(dp, amount + 1);
+
+        for (int coin : coins) {
+            if (coin < dp.length) {
+                dp[coin] = 1;
+            }
+        }
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (coin < i)
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+        if (dp[amount] > amount) {
+            return -1;
+        } else {
+            return dp[amount];
+        }
+    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.lengthOfLIS(new int[]{0, 1, 0, 3, 2, 3}));
+//    }
+
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int max = dp[0];
+        for (int i = 1; i < nums.length; i++) {
+            int num = nums[i];
+            dp[i] = 1;
+            for (int j = i - 1; j >= 0; j--) {
+                if (num > nums[j]) {
+                    dp[i] = Math.max(dp[j] + 1, dp[i]);
+                    max = Math.max(max, dp[i]);
+                }
+            }
+
+        }
+        return max;
+    }
+
+    public int lengthOfLIS2(int[] nums) {
+        int len = 1, n = nums.length;
+        if (n == 0) {
             return 0;
         }
-        Set<Integer> set = new HashSet<>();
-        for (int coin : coins) {
-            set.add(coin);
-        }
+        int[] d = new int[n + 1];
+        d[len] = nums[0];
 
-        int[] dp = new int[amount + 1];
-        Arrays.fill(dp, -1);
-
-
-        for (int i = 1; i <= amount; i++) {
-            if (set.contains(i)) {
-                dp[i] = 1;
-                continue;
-            }
-            for (int i1 = 0; i1 < coins.length; i1++) {
-
-            }
-            for (int j = 1; j < i/2; j++) {
-                
-                
-                if (dp[j] != -1 && dp[i - j] != -1) {
-                    int b = dp[j] + dp[i - j];
-                    if (dp[i] != -1) {
-                        dp[i] = Math.min(dp[i], b);
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > d[len]) {
+                d[++len] = nums[i];
+            } else {
+                int l = 1, r = len, pos = 0; // 如果找不到说明所有的数都比 nums[i] 大，此时要更新 d[1]，所以这里将 pos 设为 0
+                while (l <= r) {
+                    int mid = (l + r) >> 1;
+                    if (d[mid] < nums[i]) {
+                        pos = mid;
+                        l = mid + 1;
                     } else {
-                        dp[i] = b;
+                        r = mid - 1;
                     }
                 }
-                
+                d[pos + 1] = nums[i];
             }
         }
-        return dp[amount];
+        return len;
     }
 
-//武汉农村商业银行信用卡用户积分奖励计划
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        List<List<Integer>> triangle = new ArrayList<>();
+//        List<Integer> list1 = new ArrayList<>();
+//        list1.add(2);
+//        triangle.add(list1);
 //
-//为提高武汉农村商业银行（以下简称“本行”）信用卡用户体验，方便信用卡用户更好地累计和使用积分本行特推出信用卡用户积分奖励计划（以下简称“本计划”），具体规则及条款如下(因微信银行、手机银行等渠道正在改造中，本积分奖励计划将于上述渠道延期更新公示，最新版本以官方网站公示为准)：
+//        List<Integer> list2 = new ArrayList<>();
+//        list2.add(3);
+//        list2.add(4);
+//        triangle.add(list2);
+//        List<Integer> list3 = new ArrayList<>();
+//        list3.add(6);
+//        list3.add(5);
+//        list3.add(7);
+//        triangle.add(list3);
+//        List<Integer> list4 = new ArrayList<>();
+//        list4.add(4);
+//        list4.add(1);
+//        list4.add(8);
+//        list4.add(3);
+//        triangle.add(list4);
+//        System.out.println(l.minimumTotal(triangle));
+//    }
+
+    public int minimumTotal(List<List<Integer>> triangle) {
+
+        int[] nums = new int[triangle.size()];
+        nums[0] = triangle.get(0).get(0);
+
+        for (int i = 1; i < triangle.size(); i++) {
+            int util = nums[0];
+            nums[0] = triangle.get(i).get(0) + nums[0];
+            int i1 = 1;
+            for (; i1 < triangle.get(i).size() - 1; i1++) {
+                int count = Math.min(util, nums[i1]);
+                util = nums[i1];
+                nums[i1] = count + triangle.get(i).get(i1);
+            }
+            nums[i1] = util + triangle.get(i).get(i1);
+
+        }
+        int min = nums[0];
+        for (int num : nums) {
+            min = Math.min(num, min);
+        }
+        return min;
+    }
+
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.minPathSum(new int[][]{new int[]{1, 2, 3}, new int[]{4, 5, 6}}));
+//    }
+
+    public int minPathSum(int[][] grid) {
+        int[][] dp = new int[grid.length][grid[0].length];
+        dp[0][0] = grid[0][0];
+        for (int i = 1; i < dp[0].length; i++) {
+            dp[0][i] = dp[0][i - 1] + grid[0][i];
+        }
+
+        for (int i = 1; i < grid.length; i++) {
+            dp[i][0] = dp[i - 1][0] + grid[i][0];
+            for (int j = 1; j < grid[i].length; j++) {
+                dp[i][j] = grid[i][j] + Math.min(dp[i][j - 1], dp[i - 1][j]);
+            }
+        }
+        return dp[dp.length - 1][dp[0].length - 1];
+    }
+
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.uniquePathsWithObstacles(new int[][]{new int[]{0, 1}, new int[]{0, 0}}));
+//    }
+
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+
+        int[][] dp = new int[obstacleGrid.length][obstacleGrid[0].length];
+
+        dp[0][0] = obstacleGrid[0][0] == 1 ? 0 : 1;
+        for (int i = 1; i < obstacleGrid[0].length; i++) {
+            if (obstacleGrid[0][i] == 0 && dp[0][i - 1] == 1) {
+                dp[0][i] = 1;
+            } else {
+                break;
+            }
+        }
+        for (int i = 1; i < obstacleGrid.length; i++) {
+            if (obstacleGrid[i][0] != 1 && dp[i - 1][0] != 0) {
+                dp[i][0] = 1;
+            }
+            for (int j = 1; j < obstacleGrid[0].length; j++) {
+                if (obstacleGrid[i][j] == 0) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        return dp[dp.length - 1][dp[0].length - 1];
+    }
 //
-//一、积分参与资格
-//本行发行的标准信用卡均可参加本计划，专项车位卡、专项装修卡、学生信用卡、美团联名卡、随用金卡等特殊卡种除外，具体以卡产品规定内容为准。
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.longestPalindrome3("babad"));
+//    }
+
+    public String longestPalindrome(String s) {
+        int max = 0;
+        int p = 0;
+        int[][] dp = new int[s.length() + 1][s.length() + 1];
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (s.charAt(i) == s.charAt(s.length() - 1 - j)) {
+                    dp[i + 1][j + 1] = dp[i][j] + 1;
+                    if (dp[i + 1][j + 1] >= max) {
+                        max = dp[i + 1][j + 1];
+                        p = i;
+                    }
+                }
+            }
+        }
+
+        return s.substring(p - max + 1, p + 1);
+    }
+
+
+    public String longestPalindrome2(String s) {
+        int max = 0;
+        int p = 0;
+        if (s.length() >= 1) {
+            max = 1;
+        }
+        for (int i = 0; i < s.length() - 1; i++) {
+            int left = i - 1;
+            int right = i + 1;
+            while (left >= 0 && right < s.length()) {
+                if (s.charAt(left) == s.charAt(right)) {
+                    if (((right - left) + 1) > max) {
+                        max = (right - left) + 1;
+                        p = right;
+                    }
+                    left--;
+                    right++;
+                } else {
+                    break;
+                }
+            }
+            if (s.charAt(i) == s.charAt(i + 1)) {
+                left = i;
+                right = i + 1;
+
+                while (left >= 0 && right < s.length()) {
+                    if (s.charAt(left) == s.charAt(right)) {
+                        if (((right - left) + 1) > max) {
+                            max = (right - left) + 1;
+                            p = right;
+                        }
+                        left--;
+                        right++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return s.substring(p - max + 1, p + 1);
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.longestPalindrome3("cbbd"));
+//    }
+
+    public String longestPalindrome3(String s) {
+        int max = 0;
+        int p = 0;
+
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        if (s.length() < 2) {
+            return s;
+        }
+        if (s.length() == 2) {
+            if (s.charAt(1) == s.charAt(0)) {
+                return s;
+            } else {
+                return s.substring(0, 1);
+            }
+        }
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][i] = true;
+            if (max < 1) {
+                max = 1;
+                p = i;
+            }
+        }
+
+
+        for (int L = 2; L <= dp.length; L++) {
+            for (int l = 0; l < dp[0].length; l++) {
+                int r = l + L - 1;
+                if (r >= dp.length) {
+                    break;
+                }
+
+
+                if (s.charAt(l) == s.charAt(r)) {
+
+                    if (L < 3) {
+                        dp[l][r] = true;
+                    } else {
+                        dp[l][r] = dp[l + 1][r - 1];
+                    }
+
+                } else {
+                    dp[l][r] = false;
+                }
+                if (dp[l][r] && L > max) {
+                    max = L;
+                    p = r;
+                }
+
+            }
+        }
+        return s.substring(p - max + 1, p + 1);
+    }
 //
-//二、积分规则
-//（一）本行信用卡积分包括交易奖励积分和活动奖励积分：
-//1.交易奖励积分为持卡人使用信用卡消费累计的积分，交易奖励积分按单笔消费入账金额计算，每消费人民币1元积1分，不满1元不计分。
-//2.活动奖励积分是本行为鼓励持卡人特定消费、用卡或使用有关产品并符合奖励条件而额外奖励的积分，具体以活动说明为准。
-//（二）持卡人持有多张本行信用卡时，信用卡积分账户依据客户信用卡账户数量为基础建立并进行管理。
-//（三）每自然月交易奖励积分累计不超过账户固定额度的10倍。
-//（四）积分计算日期为该笔消费的银行记账日。
-//（五）积分不可转至其余的流通卡上或转赠其他持卡人。
-//（六）如持卡人卡片存在挂失换卡、到期续卡等情况，原卡积分不变，积分使用需将新卡在本行网上商城或本行其他指定渠道绑定后，方可进行。
-//（七）持卡人因任何原因将持卡交易购买的商品或服务退还、或因签账单争议、或其他原因退还原该笔消费款项的，本行将依照退还款项的金额扣除原先赠送的相应积分。
-//（八）持卡人如有下述任一情形,本行有权取消其参加积分奖励计划的资格。
-//1．所持信用卡账务存在逾期情况的；
-//2．所持信用卡被停用、管制或其他卡片状态不正常的；
-//3．信用卡账户已注销的；
-//4．不偿还本行其他债务的；
-//5．涉嫌利用非真实交易或其他不正当手段恶意套取积分的；
-//6．违反《武汉农村商业银行信用卡章程（修订版）》、《武汉农村商业银行信用卡领用合约（修订版）》或其他相关规定的。
-//7．如上述情形得到有效处理且信用卡恢复正常状态，经本行同意后方可继续参加本积分奖励计划，并恢复已累积的积分。
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.isInterleave("aabcc", "dbbca", "aadbbcbcac"));
+//    }
+
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int len = Math.max(s1.length(), s2.length());
+        if (s3.length() != s1.length() + s2.length()) {
+            return false;
+        }
+        boolean[][] dp = new boolean[len + 1][len + 1];
+        dp[0][0] = true;
+
+        for (int i = 0; i <= s1.length(); i++) {
+            for (int j = 0; j <= s2.length(); j++) {
+                if (i > 0) {
+                    dp[i][j] = dp[i][j] || (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1));
+                }
+                if (j > 0) {
+                    dp[i][j] = dp[i][j] || (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
+                }
+
+            }
+        }
+
+        return dp[s1.length()][s2.length()];
+    }
+
+
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+
+        // 有一个字符串为空串
+        if (n * m == 0) {
+            return n + m;
+        }
+
+        // DP 数组
+        int[][] D = new int[n + 1][m + 1];
+
+        // 边界状态初始化
+        for (int i = 0; i < n + 1; i++) {
+            D[i][0] = i;
+        }
+        for (int j = 0; j < m + 1; j++) {
+            D[0][j] = j;
+        }
+
+        // 计算所有 DP 值
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < m + 1; j++) {
+                int left = D[i - 1][j] + 1;
+                int down = D[i][j - 1] + 1;
+                int left_down = D[i - 1][j - 1];
+                if (word1.charAt(i - 1) != word2.charAt(j - 1)) {
+                    left_down += 1;
+                }
+                D[i][j] = Math.min(left, Math.min(down, left_down));
+            }
+        }
+        return D[n][m];
+    }
+
+    //    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.maxProfit4(new int[]{7, 6, 4, 3, 1}));
+//    }
 //
-//三、积分有效期
-//信用卡积分有效期固定为3年（奖励积分除外），过期日为每笔积分自积分产生日起，3年后的同月月底失效。积分逾期不兑换，将被取消。若信用卡账户关闭或注销，剩余积分将被清零，且无法恢复。
+//    public int maxProfit4(int[] prices) {
 //
-//四、积分累计范围
-//（一）持卡人使用本行信用卡在餐饮、娱乐、宾馆、酒店、百货公司、其他零售商店等用于个人及家庭的日常刷卡消费，或通过参加本行相关营销活动获得的可累积的积分。但下列项目不予计算积分：
-//1．信用卡章程或领用合约规定的各项利息和手续费用，包括但不限于年费、预借现金手续费、透支利息、分期手续费、违约金等；
-//2．信用卡取现及溢缴款领回、存（还）款、转账、分期业务等;
-//3．网络支付交易（指定渠道除外）；
-//4．特定类别消费，包括但不限于房地产、汽车销售、批发类交易、医院、学校、各类公共事业费缴费或代扣代缴业务以及慈善和社会服务等非盈利性行业的商户消费以及金融和政府类支持交易（如保险、投资、纳税、罚款）；
-//（二）不参与本行信用卡积分累计的详细商户类别代码及商户类别名称，依据商户管理机构下发的标准，本行进行认定及调整，具体以我行官方渠道《不累积积分的商户列表》公示为准。如因收单行或商户错误使用商户类别而影响积分累计的，本行不承担相关责任。
-//
-//五、积分查询
-//（一）信用卡账单。账单中显示持卡人账户截至账单日的信用卡积分；
-//（二）客服中心。持卡人可致电本行客户服务电话95367查询积分；
-//（三）信用卡微信银行。持卡人通过本行信用卡官方微信公众号，点击“微银行”进入“业务办理大厅”中的“积分查询”，可查询绑定的信用卡所对应卡号的积分；
-//（四）手机银行。持卡人登录本行手机银行，绑定信用卡，可通过“我的积分”模块查询；
-//（五）信用卡网上商城。持卡人通过本行信用卡网上商城查询绑定的信用卡所对应卡号的积分。
-//（六）本行将根据业务发展，对积分查询渠道进行调整、补充或完善，具体以本行官方渠道公示为准。
-//
-//六、积分兑换
-//（一）持卡人可在本行网上商城或本行其他指定渠道进行积分兑换。
-//（二）持卡人成功兑换积分礼品后，本行将从持卡人的积分账户中扣减相应积分分值，且不可取消及更改。如持卡人账户积分不足，则不予兑换。
-//（三）申请兑换是否成功将视持卡人积分是否足够扣减、礼品库存情况确定。
-//（四）兑换公告或目录中载有有效期的积分礼品到期后不得继续兑换。
-//（五）本行有权要求持卡人提供消费交易发票、购买凭证等材料，以查实交易真实性；如持卡人无法提交相关材料，本行有权不予兑换；一旦查实持卡人为虚假交易获取积分兑换套利的，本行有权采取冻结积分、积分清零、冻结卡片使用、销卡等措施，并保留进一步追索的权利；如前述行为可能构成犯罪的，本行有权向公安机关报案并向司法机关提供相关资料和信息。
-//
-//七、其他
-//（一）信用卡积分为本行对持卡人消费的回馈项目，在兑换取得积分礼品前并不构成持卡人资产。积分不可转让给其他持卡人或任何第三人，任何转让对本行均不产生效力。未经本行同意，积分不能折算现金或给予其它非积分礼品的给付。
-//（二）本行与积分礼品运营商间并无合伙、经销、代理关系或共同出卖人、广告媒体或保证人关系。持卡人所兑换礼品由各供应商提供，其质量、数量、款式、颜色售后服务等问题均由运营商负责。如持卡人对运营商提供的礼品和售后服务有争议时，本行负责协助持卡人与运营商取得联系。本行保证有其选择或指定的运营商具有法律、法规规定的相关资质。
-//（三）本行保留对计积分项及兑换比例的调整权，并在法律许可的范围内保留解释权。
-//（四）本行有权根据需要取消或修改相关规则（包括但不限于参加资格、计分规则、礼品及兑换标准等），并经相关途径(如本行网站、对账单、短信、微信、报刊或各分支网点等)公告后生效，不再另行通知持卡人。
-//（五）本计划于公式之日起正式生效，如有疑问，请致电95367咨询，感谢您长期以来对武汉农村商业银行的信任与支持！
-//
-//
-//不累积积分的商户列表
-//序号	类别	商户类别代码	商户类别名称
-//1 	出租和租赁服务	4468	船舶、海运服务提供商
-//2 	房地产业	1520	一般承包商－住宅与商业楼
-//3 		6542	房产租赁代理、经纪
-//4 		7013	不动产代理－房地产经纪
-//5 	纺织、服装及日用品专门零售店	5971	艺术商和画廊
-//6 	家用电器及电子产品专门零售	4812	通讯设备和电话销售
-//7 		5722	家电
-//8 	交通运输、物流和仓储服务	4011	铁路运输
-//9 		4111	本地和市郊通勤旅客运输（包括轮渡）
-//10 		4112	铁路客运
-//11 		4121	出租车服务
-//12 		4131	公路客运
-//13 		4214	货物搬运和托运—当地和长途，移动和存储公司，以及当地递送服务
-//14 		4215	快递服务（空运、地面运输或海运）
-//15 		4784	路桥通行费
-//16 		4789	未列入其他代码的运输服务
-//17 		9402	国家邮政服务
-//18 		4511	航空公司、航空客票销售
-//19 		3998	国家铁路总公司
-//20 	教育	8211	中小学校（公立）
-//21 		8220	普通高校（公立）
-//22 		8241	函授学校（成人教育）
-//23 		8244	商业和文秘学校（中等专业学校）
-//24 		8249	贸易和职业学校（职业技能培训）
-//25 		8299	其他学校和教育服务
-//26 		8351	儿童保育服务（含学前教育）
-//27 	金融业	5933	当铺
-//28 		6010	金融机构－人工现金支付
-//29 		6011	金融机构－自动现金支付
-//30 		6051	非金融机构－外币兑换、非电子转帐的汇票、临时支付凭证和旅行支票
-//31 		6211	证券公司－经纪人和经销商
-//32 		6300	保险销售、保险业和保险金
-//33 		6761	立码付
-//34 		6541	融资租赁
-//35 		9498	信用卡还款业务
-//36 	居民服务	4900	公共事业（电力、煤气、自来水、清洁服务）
-//37 		7221	照相馆
-//38 		7230	理发店
-//39 		7295	家政服务
-//40 		7299	未列入其他代码的个人服务（其他房地产服务）
-//41 		7523	停车场
-//42 	批发商户	4458	烟草配送
-//43 		5013	机动车供应及零配件（批发商）
-//44 		5021	办公及商务家具（批发商）
-//45 		5039	未列入其他代码的建材批发（批发商）
-//46 		5044	办公、影印及微缩摄影器材（批发商）
-//47 		5045	计算机、计算机外围设备（批发商）
-//48 		5046	未列入其他代码的商用器材（批发商）
-//49 		5047	牙科/实验室/医疗/眼科医院器材和用品（批发商）
-//50 		5051	金属产品服务商和公司（批发商）
-//51 		5065	电器零件和设备（批发商）
-//52 		5072	五金器材及用品（批发商）
-//53 		5074	管道和供暖设备（批发商）
-//54 		5111	文具、办公用品、复印纸和书写纸（批发商）
-//55 		5122	药品、药品经营者（批发商）
-//56 		5131	布料、缝纫用品和其他纺织品（批发商）
-//57 		5137	男女及儿童制服和服装（批发商）
-//58 		5139	鞋类（批发商）
-//59 		5172	石油及石油产品（批发商）
-//60 		5192	书、期刊和报纸（批发商）
-//61 		5193	花木栽种用品、苗木和花卉（批发商）
-//62 		5198	油漆、清漆用品（批发商）
-//63 		5398	大型企业批发
-//64 		5998	其他批发商
-//65 	汽车、摩托车、燃料及零配件专门零售	5271	活动房车经销商
-//66 		5511	汽车货车经销商－新旧车的销售、服
-//67 		5521	汽车货车经销商－专门从事旧车的销售、服务、维修、零件及出租
-//68 		5532	汽车轮胎经销商
-//69 		5533	汽车零配件商店
-//70 		5541	加油站、服务站
-//71 		5542	自助加油站
-//72 		5551	船只经销商
-//73 		5561	旅行拖车、娱乐用车销售商
-//74 		5571	摩托车商店和经销商
-//75 		5592	露营、房车销售商
-//76 		5598	雪车商
-//77 		5599	汽车、飞行器、农用机车综合经营商
-//78 		5983	燃料经销商－燃油、木材、煤炭和液化石油
-//79 	商业服务	763	农业合作
-//80 		5935	海上船只遇难救助
-//81 		7276	税收准备服务
-//82 		7277	咨询服务—债务、婚姻和个人私事
-//83 		7278	购物服务及会所（贸易、经纪服务）
-//84 		7311	广告服务
-//85 		7321	消费者信用报告机构
-//86 		7333	商业摄影服务
-//87 		7392	管理、咨询和公共关系服务
-//88 		7399	未列入其他代码的商业服务
-//89 		8675	汽车协会
-//90 		8911	建筑、工程和测量服务
-//91 		8912	装修、装潢、园艺
-//92 		8931	会计、审计、财务服务
-//93 	社会组织	8641	市民、社会及友爱组织
-//94 		8651	政治组织（政府机构）
-//95 		8661	宗教组织
-//96 		8699	其他会员组织
-//97 	维修及其他专业服务	6513	不动产管理－物业管理
-//98 		7531	车体维修店
-//99 		7538	汽车服务商店
-//100 		8999	未列入其它代码的其他专业服务
-//101 	卫生	8011	其他医疗卫生活动
-//102 		8021	牙科医生
-//103 		8031	正骨医生
-//104 		8041	按摩医生
-//105 		8042	眼科医生
-//106 		8049	手足病医生
-//107 		8050	护理和照料服务
-//108 		8062	公立医院
-//109 		8071	医学及牙科实验室
-//110 		8099	其他医疗保健服务
-//111 	文化、体育用品及器材专门零售	5994	报亭、报摊
-//112 	五金、家具及室内装修材料专门零售	5211	木材和各类建材卖场
-//113 		5231	玻璃、油漆、壁纸商店
-//114 		5251	五金商店
-//115 		5712	家具、家用设备零售商
-//116 		5713	地板商店
-//117 		5714	帏帐、窗帘、室内装潢商店
-//118 		5719	各种家庭装饰专营店
-//119 	信息与计算机服务	4814	电信服务，包括本地和长途电话、信用卡电话、磁卡电话和传真
-//120 		4816	计算机网络/信息服务
-//121 		4899	有线和其他付费电视服务
-//122 		7372	计算机编程、数据处理和系统集成设计服务
-//123 	医药和医疗器材专门零售	5912	药房、药店
-//124 	政府服务与公用事业	8398	慈善和社会公益服务组织
-//125 		9211	法庭费用，包括赡养费和子女抚养费
-//126 		9222	罚款
-//127 		9223	保释金
-//128 		9311	纳税
-//129 		9399	未列入其他代码的政府服务（社会保障服务，国家强制）
-//130 		9312	房地产交易相关税
-//131 		9400	使领馆收费
-//132 	直销商户	5960	保险直销
-//133 		5963	门对门销售
-//134 		5969	其他直销商户
-//135 	住宿、餐饮和休闲娱乐业	4733	大型景区售票
-//136 		7012	分时度假房地产
-//137 		7995	彩票销售
-//138 	其他	4829	邮政服务（电报、汇款）
-//139 		6013	金融机构－商品和服务
-//140 		6016	网上保费代缴
-//141 		8399	非盈利事业
-//142 		9411	政府贷款
-//143 		9704	县乡优惠—房产汽车类
-//144 		9705	县乡优惠—批发类
-//145 		9706	县乡优惠—超市加油类
-//146 		9707	县乡优惠—一般商户类
-//147 		9708	县乡优惠—三农商户类
-//148 	境外其他商户	743	葡萄酒制造商
-//149 		744	香槟酒制造商
-//150 		1799	合同商
-//151 		5085	工业用品
-//152 		5099	耐用品
-//153 		5169	化学及合成物
-//154 		5199	非耐用品
-//155 		5531	汽车商店、家庭用品商店
-//156 		5715	酒精饮料批发商
-//157 		7280	私人医院
-//158 		9405	各国政府内部购买
-//159 		9950	公司内部购买
+//    }
+    public static void main(String[] args) {
+        Learning l = new Learning();
+        System.out.println(l.maximalSquare(new char[][]{new char[]{'1', '0', '1', '0', '0'}, new char[]{'1', '0', '1', '1', '1'}, new char[]{'1', '1', '1', '1', '1'}, new char[]{'1', '0', '0', '1', '0'}}));
+    }
+
+    public int maximalSquare(char[][] matrix) {
+        int max = 0;
+        int[][] dp = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < dp[0].length; i++) {
+            if (matrix[0][i] == '1') {
+                dp[0][i] = 1;
+                max = 1;
+            }
+        }
+        for (int i = 1; i < dp.length; i++) {
+            if (matrix[i][0] == '1') {
+                dp[i][0] = 1;
+                max = Math.max(max, dp[i][0]);
+            }
+            for (int j = 1; j < dp[i].length; j++) {
+                if (matrix[i][j] == '1') {
+                    if (dp[i - 1][j] > 0 && dp[i][j - 1] > 0) {
+
+                        if (dp[i - 1][j] == dp[i][j - 1]) {
+                            if (matrix[i - dp[i - 1][j]][j - dp[i - 1][j]] == '1') {
+                                dp[i][j] = dp[i - 1][j] + 1;
+                            } else {
+                                dp[i][j] = dp[i - 1][j];
+                            }
+
+                        } else {
+                            dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + 1;
+                        }
+                    } else {
+                        dp[i][j] = 1;
+                    }
+
+                }
+                max = Math.max(max, dp[i][j]);
+
+            }
+
+        }
+        return max * max;
+    }
+
 }
