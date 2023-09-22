@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>播放列表</h2>
+<div class="musicList">
+    <table id="myTable"></table>
+</div>
+<button>上一首</button>
+<button>下一首</button>
+<button id="music_rand">随机播放</button>
+<input type="checkbox" id="loop_ck">单曲循环</button>
+<div>
+    <audio></audio>
+</div>
+</body>
+<style>
+    .musicList {
+        width: 300px;
+        height: 10em;
+        border: 1px solid black;
+        table-layout: fixed;
+    }
+
+    #myTable {
+        width: 100%;
+        border: 1px solid black;
+        border-collapse: collapse;
+        table-layout: fixed;
+        overflow-y: auto;
+    }
+
+    /* 为什么把myTable的高度超出样式设置为自动，后文会讲到 */
+    td {
+        text-align: left;
+        font-weight: 700;
+        border: 1px solid black;
+    }
+
+    th {
+        text-align: left;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        padding: 0.25em;
+        vertical-align: text-bottom;
+        border: 1px solid black
+    }
+
+    .ML {
+        width: 95.5%;
+        padding-left: 0.5em;
+        outline: none;
+        cursor: pointer
+    }
+</style>
+<script>
+    var files = [];
+    var audio = document.getElementById("audio1");
+    $.ajax({
+        url: "./json/musicName.json",
+        type: "get",
+        success: function (res) {
+            files = res;
+            let ls = res;
+            // 动态添加音乐资源于audio控件，这条语句↓的作用是设置默认播放的音乐，我选择的是json中的首位
+            $("#audio1").prop("src", "src/audio/" + res[0] + ".mp3");
+            for (let i = 0; i < res.length; i++) {
+                /* 动态生成表格内容，实际上我不推荐这样做，乐曲数量太多会给网页带来加载负担，最好是分次数动态请求，笔者这里是因为只有
+                三个就稍微写简单一点，笔者会写分次请求，有需要时会教给各位读者。 */
+                $("#myTable").append('<tr><td><input type="text" class="ML" readonly id="ml' + i + '" value="' + ls[i]
+                    + '" οnclick="musicPlaying(`ml' + i + '`)"></td></tr>');
+            }
+        }
+    });
+</script>
+
+
+</html>

@@ -1,5 +1,7 @@
 package com.springboot.live_comm.coding.learning;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -1062,10 +1064,10 @@ public class Learning {
 //    public int maxProfit4(int[] prices) {
 //
 //    }
-    public static void main(String[] args) {
-        Learning l = new Learning();
-        System.out.println(l.maximalSquare(new char[][]{new char[]{'1', '0', '1', '0', '0'}, new char[]{'1', '0', '1', '1', '1'}, new char[]{'1', '1', '1', '1', '1'}, new char[]{'1', '0', '0', '1', '0'}}));
-    }
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.maximalSquare(new char[][]{new char[]{'1', '0', '1', '0', '0'}, new char[]{'1', '0', '1', '1', '1'}, new char[]{'1', '1', '1', '1', '1'}, new char[]{'1', '0', '0', '1', '0'}}));
+//    }
 
     public int maximalSquare(char[][] matrix) {
         int max = 0;
@@ -1108,4 +1110,152 @@ public class Learning {
         return max * max;
     }
 
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.isPalindrome("ab2a"));
+//    }
+
+
+    public boolean isPalindrome(String s) {
+        int l = 0;
+        int r = s.length() - 1;
+        if (s.length() < 2) {
+            return true;
+        }
+        while (l <= r) {
+            if (!(Character.isLetter(s.charAt(l)) || Character.isDigit(s.charAt(l)))) {
+                l++;
+            } else if (!(Character.isLetter(s.charAt(r)) || Character.isDigit(s.charAt(r)))) {
+                r--;
+            } else {
+                char left = Character.toLowerCase(s.charAt(l));
+                char right = Character.toLowerCase(s.charAt(r));
+                if (left != right) {
+                    return false;
+                }
+                l++;
+                r--;
+            }
+        }
+        return true;
+
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.isSubsequence("axc", "ahbgdc"));
+//    }
+
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() > t.length()) {
+            return false;
+        }
+        int i = 0;
+        int p = 0;
+        while (i < s.length()) {
+            while (p <= t.length()) {
+                if (p == t.length()) {
+                    return false;
+                } else {
+                    if (s.charAt(i) == t.charAt(p++)) {
+                        break;
+                    }
+
+                }
+            }
+            i++;
+        }
+        return true;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(Arrays.toString(l.twoSum(new int[]{2, 7, 11, 15}, 9)));
+//    }
+
+    public int[] twoSum(int[] numbers, int target) {
+        int[] res = new int[2];
+        int l = 0;
+        int r = numbers.length - 1;
+        while (l < r) {
+            if (numbers[l] + numbers[r] > target) {
+                r--;
+            } else if (numbers[l] + numbers[r] < target) {
+                l++;
+            } else {
+                res[0] = l + 1;
+                res[1] = r + 1;
+                break;
+            }
+
+        }
+        return res;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.maxArea(new int[]{1, 3, 2, 5, 25, 24, 5}));
+//    }
+
+    public int maxArea(int[] height) {
+        int l = 0;
+        int r = height.length - 1;
+        int max = 0;
+        while (l < r) {
+            max = Math.max((r - l) * Math.min(height[l], height[r]), max);
+            if (height[l] < height[r]) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return max;
+    }
+
+    public static void main(String[] args) {
+        Learning l = new Learning();
+        System.out.println(l.threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        System.out.println(Arrays.toString(nums));
+        List<List<Integer>> list = new ArrayList<>();
+        for (int l = 0; l < nums.length - 2; ) {
+
+            for (int r = nums.length - 1; r > l + 2; ) {
+                int left = l + 1;
+                int right = r - 1;
+                int p = (left + right + 1) / 2;
+                while (left < right) {
+                    if (nums[l] + nums[r] + nums[p] == 0) {
+                        List<Integer> num = new ArrayList<>();
+                        num.add(l);
+                        num.add(p);
+                        num.add(r);
+                        list.add(num);
+                        break;
+                    } else if (nums[l] + nums[r] + nums[p] > 0) {
+                        right = p - 1;
+                    } else {
+                        left = p + 1;
+                    }
+                    p = (left + right + 1) / 2;
+                }
+
+
+
+
+                while (nums[r] == nums[r - 1] && r > l + 3) {
+                    r--;
+                }
+                r--;
+            }
+            while (nums[l] == nums[l + 1] && l < nums.length - 3) {
+                l++;
+            }
+            l++;
+        }
+        return list;
+    }
 }

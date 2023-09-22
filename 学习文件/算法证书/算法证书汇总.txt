@@ -1,0 +1,14 @@
+参考网址：
+个人的网站：http://zhangshiyu.com/post/46716.html
+知乎：https://zhuanlan.zhihu.com/p/580867875
+
+
+浙江大学PAT证书
+账号：17755063121
+密码：Aa15234.
+
+ccf csp认证
+账号：17755063121
+密码：Aa15234.
+(可以进行测试，算法结合了数据运算，常使用矩阵)
+数据采用scanner获取System.in捕获
