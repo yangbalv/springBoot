@@ -1212,10 +1212,10 @@ public class Learning {
         return max;
     }
 
-    public static void main(String[] args) {
-        Learning l = new Learning();
-        System.out.println(l.threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
-    }
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.threeSum(new int[]{0, 0, 0, 0}));
+//    }
 
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
@@ -1223,39 +1223,291 @@ public class Learning {
         List<List<Integer>> list = new ArrayList<>();
         for (int l = 0; l < nums.length - 2; ) {
 
-            for (int r = nums.length - 1; r > l + 2; ) {
+            for (int r = nums.length - 1; r >= l + 2; ) {
                 int left = l + 1;
                 int right = r - 1;
                 int p = (left + right + 1) / 2;
-                while (left < right) {
+                while (left <= right) {
+                    if (left == right) {
+                        if (nums[l] + nums[r] + nums[p] == 0) {
+                            List<Integer> num = new ArrayList<>();
+                            num.add(nums[l]);
+                            num.add(nums[p]);
+                            num.add(nums[r]);
+                            list.add(num);
+                        }
+                        break;
+                    }
                     if (nums[l] + nums[r] + nums[p] == 0) {
                         List<Integer> num = new ArrayList<>();
-                        num.add(l);
-                        num.add(p);
-                        num.add(r);
+                        num.add(nums[l]);
+                        num.add(nums[p]);
+                        num.add(nums[r]);
                         list.add(num);
                         break;
                     } else if (nums[l] + nums[r] + nums[p] > 0) {
                         right = p - 1;
                     } else {
-                        left = p + 1;
+                        left = p;
                     }
                     p = (left + right + 1) / 2;
                 }
 
 
-
-
-                while (nums[r] == nums[r - 1] && r > l + 3) {
+                while (nums[r] == nums[r - 1] && r > l + 2) {
                     r--;
                 }
                 r--;
             }
-            while (nums[l] == nums[l + 1] && l < nums.length - 3) {
+            while (nums[l] == nums[l + 1] && l < nums.length - 2) {
                 l++;
             }
             l++;
         }
         return list;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.minSubArrayLen(11, new int[]{1, 1, 1, 1, 1, 1, 1, 1}));
+//    }
+
+    public int minSubArrayLen(int target, int[] nums) {
+        int length = nums.length;
+        int res = length + 1;
+        if (nums.length < 1) {
+            return 0;
+        }
+        int num = 0;
+        int l = 0;
+        int r = 0;
+        while (r < length) {
+            num += nums[r];
+            while (num >= target) {
+                res = Math.min(res, r - l + 1);
+                num -= nums[l];
+                l++;
+            }
+            r++;
+        }
+        return res == length + 1 ? 0 : res;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.lengthOfLongestSubstring("tmmzuxt"));
+//    }
+
+    public int lengthOfLongestSubstring(String s) {
+        char[] chars = s.toCharArray();
+        Map<Character, Integer> map = new HashMap<>();
+        int res = 0;
+        int start = 0;
+        int end = 0;
+
+        while (end < chars.length) {
+            if (map.containsKey(chars[end]) && map.get(chars[end]) >= start) {
+                start = map.get(chars[end]) + 1;
+                map.put(chars[end], end);
+            } else {
+                res = Math.max(res, end - start + 1);
+                map.put(chars[end], end);
+            }
+            end++;
+        }
+        return res;
+    }
+
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<Integer>();
+        int m = words.length, n = words[0].length(), ls = s.length();
+
+        for (int i = 0; i < n; i++) {
+            if (i + m * n > ls) {
+                break;
+            }
+            Map<String, Integer> differ = new HashMap<String, Integer>();
+            for (int j = 0; j < m; j++) {
+                String word = s.substring(i + j * n, i + (j + 1) * n);
+                differ.put(word, differ.getOrDefault(word, 0) + 1);
+            }
+            for (String word : words) {
+                differ.put(word, differ.getOrDefault(word, 0) - 1);
+                if (differ.get(word) == 0) {
+                    differ.remove(word);
+                }
+            }
+            for (int start = i; start < ls - m * n + 1; start += n) {
+                if (start != i) {
+                    String word = s.substring(start + (m - 1) * n, start + m * n);
+                    differ.put(word, differ.getOrDefault(word, 0) + 1);
+                    if (differ.get(word) == 0) {
+                        differ.remove(word);
+                    }
+                    word = s.substring(start - n, start);
+                    differ.put(word, differ.getOrDefault(word, 0) - 1);
+                    if (differ.get(word) == 0) {
+                        differ.remove(word);
+                    }
+                }
+                if (differ.isEmpty()) {
+                    res.add(start);
+                }
+            }
+        }
+        return res;
+    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.minWindow("ADOBECODEBANC", "ABC"));
+////        BANC
+//    }
+
+    public String minWindow(String s, String t) {
+        Map<Character, Integer> map = new HashMap<>();
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < t.length(); i++) {
+            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+            set.add(t.charAt(i));
+        }
+        int min = s.length() + 1;
+        int p = 0;
+        int l = 0;
+        int r = 0;
+        while (r < s.length()) {
+            char c = s.charAt(r);
+            if (map.containsKey(c)) {
+                map.put(c, map.getOrDefault(c, 0) - 1);
+                if (map.get(c) == 0) {
+                    map.remove(c);
+                }
+            }
+
+
+            if (map.isEmpty()) {
+                min = Math.min(min, r - l + 1);
+                p = r;
+                boolean haveOne = false;
+                while (l < r) {
+                    if (set.contains(s.charAt(l))) {
+                        if (haveOne) {
+                            break;
+                        } else {
+                            min = Math.min(min, r - l + 1);
+                            haveOne = true;
+                            map.put(s.charAt(l), 1);
+                        }
+                    }
+                    l++;
+                }
+            }
+
+            r++;
+        }
+
+        return min == s.length() + 1 ? "" : s.substring(p - min + 1, p + 1);
+    }
+
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.isValidSudoku(
+//                new char[][]{
+//                        new char[]{'8', '3', '.', '.', '7', '.', '.', '.', '.'},
+//                        new char[]{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+//                        new char[]{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+//                        new char[]{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+//                        new char[]{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+//                        new char[]{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+//                        new char[]{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+//                        new char[]{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+//                        new char[]{'.', '.', '.', '.', '8', '.', '.', '7', '9'},
+//                }
+//        ));
+//
+//    }
+
+    public boolean isValidSudoku(char[][] board) {
+//        判断每一行
+        int[][] set3 = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            int[] set1 = new int[9];
+            int[] set2 = new int[9];
+
+            for (int j = 0; j < 9; j++) {
+//        判断每一列
+                char c = board[i][j];
+                if (c != '.') {
+                    int c1 = c - '1';
+                    if (set1[c1] == 1) {
+                        return false;
+                    } else {
+                        set1[c1] = 1;
+                    }
+
+//                    每一个九宫格
+                    int num = (i / 3) * 3 + (j / 3);
+                    if (set3[num][c1] == 1) {
+                        return false;
+                    } else {
+                        set3[num][c1] = 1;
+                    }
+
+
+                }
+//        判断每一行
+                char c2 = board[j][i];
+                if (c2 != '.') {
+                    int c3 = c2 - '1';
+                    if (set2[c3] == 1) {
+                        return false;
+                    } else {
+                        set2[c3] = 1;
+                    }
+                }
+
+
+            }
+
+        }
+
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Learning l = new Learning();
+        System.out.println(l.spiralOrder(
+                new int[][]{
+                        new int[]{1, 2, 3, 4},
+                        new int[]{5, 6, 7, 8},
+                        new int[]{9, 10, 11, 12},
+                        new int[]{13, 14, 15, 16}
+                }));
+    }
+
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> order = new ArrayList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return order;
+        }
+        int rows = matrix.length, columns = matrix[0].length;
+        boolean[][] visited = new boolean[rows][columns];
+        int total = rows * columns;
+        int row = 0, column = 0;
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int directionIndex = 0;
+        for (int i = 0; i < total; i++) {
+            order.add(matrix[row][column]);
+            visited[row][column] = true;
+            int nextRow = row + directions[directionIndex][0], nextColumn = column + directions[directionIndex][1];
+            if (nextRow < 0 || nextRow >= rows || nextColumn < 0 || nextColumn >= columns || visited[nextRow][nextColumn]) {
+                directionIndex = (directionIndex + 1) % 4;
+            }
+            row += directions[directionIndex][0];
+            column += directions[directionIndex][1];
+        }
+        return order;
     }
 }
