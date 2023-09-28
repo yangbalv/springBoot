@@ -1475,39 +1475,492 @@ public class Learning {
 
         return true;
     }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        System.out.println(l.spiralOrder(
+//                new int[][]{
+//                        new int[]{1, 2, 3, 4},
+//                        new int[]{5, 6, 7, 8},
+//                        new int[]{9, 10, 11, 12},
+//                        new int[]{13, 14, 15, 16}
+//                }));
+//    }
+
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int[][] help = new int[matrix.length][matrix[0].length];
+        int x = 0;
+        int y = 0;
+        help[0][0] = 1;
+        int xp = 0;
+        int yp = 1;
+        List<Integer> list = new ArrayList<>();
+        list.add(matrix[x][y]);
+        while (true) {
+            if (!(x + xp < matrix.length && 0 <= x + xp && y + yp < matrix[0].length && 0 <= y + yp && help[x + xp][y + yp] != 1)) {
+                if (y + 1 < matrix[0].length && help[x][y + 1] != 1) {
+                    yp = 1;
+                    xp = 0;
+                } else if (x + 1 < matrix.length && help[x + 1][y] != 1) {
+                    xp = 1;
+                    yp = 0;
+                } else if (0 <= y - 1 && y - 1 < matrix[0].length && help[x][y - 1] != 1) {
+                    yp = -1;
+                    xp = 0;
+                } else if (0 <= x - 1 && help[x - 1][y] != 1) {
+                    xp = -1;
+                    yp = 0;
+                } else {
+                    break;
+                }
+            }
+            x = x + xp;
+            y = y + yp;
+            help[x][y] = 1;
+            list.add(matrix[x][y]);
+        }
+        return list;
+    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        int[][] ints = {
+//                new int[]{1, 2, 3, 4},
+//                new int[]{5, 6, 7, 8},
+//                new int[]{9, 10, 11, 12},
+//                new int[]{13, 14, 15, 16}};
+//        l.rotate(ints);
+//        for (int[] anInt : ints) {
+//            System.out.println(Arrays.toString(anInt));
+//        }
+//    }
+
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; ++i) {
+            for (int j = 0; j < (n + 1) / 2; ++j) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = temp;
+            }
+        }
+    }
+
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        boolean flagCol0 = false, flagRow0 = false;
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][0] == 0) {
+                flagCol0 = true;
+            }
+        }
+        for (int j = 0; j < n; j++) {
+            if (matrix[0][j] == 0) {
+                flagRow0 = true;
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = matrix[0][j] = 0;
+                }
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if (flagCol0) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+        if (flagRow0) {
+            for (int j = 0; j < n; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        int[][] ints = {
+//                new int[]{0, 1, 0},
+//                new int[]{0, 0, 1},
+//                new int[]{1, 1, 1},
+//                new int[]{0, 0, 0}};
+//        l.gameOfLife(ints);
+//        for (int[] anInt : ints) {
+//            System.out.println(Arrays.toString(anInt));
+//        }
+//    }
+
+
+    public void gameOfLife(int[][] board) {
+
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                int count = 0;
+                if (0 <= i - 1 && i - 1 < board.length && 0 <= j - 1 && j - 1 < board[i].length && (board[i - 1][j - 1] == 1 || board[i - 1][j - 1] == 2 || board[i - 1][j - 1] == 3)) {
+                    count++;
+                }
+                if (0 <= i - 1 && i - 1 < board.length && 0 <= j && j < board[i].length && (board[i - 1][j] == 1 || board[i - 1][j] == 2 || board[i - 1][j] == 3)) {
+                    count++;
+                }
+                if (0 <= i - 1 && i - 1 < board.length && 0 <= j + 1 && j + 1 < board[i].length && (board[i - 1][j + 1] == 1 || board[i - 1][j + 1] == 2 || board[i - 1][j + 1] == 3)) {
+                    count++;
+                }
+                if (0 <= i && i < board.length && 0 <= j - 1 && j - 1 < board[i].length && (board[i][j - 1] == 1 || board[i][j - 1] == 2 || board[i][j - 1] == 3)) {
+                    count++;
+                }
+                if (0 <= i && i < board.length && 0 <= j + 1 && j + 1 < board[i].length && (board[i][j + 1] == 1 || board[i][j + 1] == 2 || board[i][j + 1] == 3)) {
+                    count++;
+                }
+                if (0 <= i + 1 && i + 1 < board.length && 0 <= j - 1 && j - 1 < board[i].length && (board[i + 1][j - 1] == 1 || board[i + 1][j - 1] == 2 || board[i + 1][j - 1] == 3)) {
+                    count++;
+                }
+                if (0 <= i + 1 && i + 1 < board.length && 0 <= j && j < board[i].length && (board[i + 1][j] == 1 || board[i + 1][j] == 2 || board[i + 1][j] == 3)) {
+                    count++;
+                }
+                if (0 <= i + 1 && i + 1 < board.length && 0 <= j + 1 && j + 1 < board[i].length && (board[i + 1][j + 1] == 1 || board[i + 1][j + 1] == 2 || board[i + 1][j + 1] == 3)) {
+                    count++;
+                }
+                if (board[i][j] == 1) {
+                    if (count == 2 || count == 3) {
+                        board[i][j] = 2;
+                    } else {
+                        board[i][j] = 3;
+                    }
+                } else {
+                    if (count == 3) {
+                        board[i][j] = 4;
+                    } else {
+                        board[i][j] = 5;
+                    }
+                }
+
+
+            }
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] == 2 || board[i][j] == 4) {
+                    board[i][j] = 1;
+                } else {
+                    board[i][j] = 0;
+                }
+            }
+        }
+    }
+
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.canConstruct("ac", "aab"));
+//    }
+
+    public boolean canConstruct(String ransomNote, String magazine) {
+        if (ransomNote.length() > magazine.length()) {
+            return false;
+        }
+        int[] letter = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            char c = magazine.charAt(i);
+            letter[c - 'a']++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char c = ransomNote.charAt(i);
+
+            letter[c - 'a']--;
+            if (letter[c - 'a'] < 0) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.isIsomorphic("aac", "aab"));
+//    }
+
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> map1 = new HashMap<>();
+        Map<Character, Character> map2 = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            char c2 = t.charAt(i);
+
+            if (map1.containsKey(c)) {
+                if (map1.get(c) != c2) {
+                    return false;
+                }
+            } else {
+                if (map2.containsKey(c2)) {
+                    if (map2.get(c2) != c) {
+                        return false;
+                    }
+                }
+                map1.put(c, c2);
+                map2.put(c2, c);
+            }
+        }
+        return true;
+
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.wordPattern("aac", "aab ab aac"));
+//    }
+
+    public boolean wordPattern(String pattern, String s) {
+        int len = pattern.length();
+        String[] split = s.split(" ");
+        if (split.length != len) {
+            return false;
+        }
+        Map<Character, String> map1 = new HashMap<>();
+        Map<String, Character> map2 = new HashMap<>();
+        for (int i = 0; i < len; i++) {
+            char c = pattern.charAt(i);
+            if (map1.containsKey(c)) {
+                String s1 = map1.get(c);
+                if (!s1.equals(split[i])) {
+                    return false;
+                }
+            } else {
+                if (map2.containsKey(split[i])) {
+                    if (!map2.get(split[i]).equals(c)) {
+                        return false;
+                    }
+                } else {
+                    map1.put(c, split[i]);
+                    map2.put(split[i], c);
+
+                }
+
+            }
+
+        }
+        return true;
+    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.isAnagram("aac", "aab ab aac"));
+//    }
+
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        int[] letter = new int[26];
+        for (int i = 0; i < t.length(); i++) {
+            char c = t.charAt(i);
+            letter[c - 'a']++;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            letter[c - 'a']--;
+            if (letter[c - 'a'] < 0) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
+//    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String util = new String(chars);
+            if (map.containsKey(util)) {
+                map.get(util).add(str);
+            } else {
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                map.put(util, list);
+            }
+        }
+
+
+        return new ArrayList<>(map.values());
+
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(Arrays.toString(l.twoSum2(new int[]{1, 1, 2}, 1)));
+//    }
+
+    public int[] twoSum2(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int[] res = new int[2];
+        for (int i = 0; i < nums.length; i++) {
+
+            if (map.containsKey(target - nums[i])) {
+                res[0] = map.get(target - nums[i]);
+                res[1] = i;
+                return res;
+            } else {
+                map.put(nums[i], i);
+            }
+
+        }
+
+        return res;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.isHappy(19));
+//    }
+
+    public boolean isHappy(int n) {
+        Set<Integer> set = new HashSet<>();
+        while (!set.contains(n) && n != 1) {
+            set.add(n);
+            n = getNext(n);
+        }
+        return n == 1;
+    }
+
+    public int getNext(int n) {
+        int p = 0;
+        while (n > 0) {
+            int k = n % 10;
+
+            n = n / 10;
+            p = p + (k * k);
+        }
+        return p;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.containsNearbyDuplicate(new int[]{1, 1, 2}, 1));
+//    }
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                if (i - map.get(nums[i]) <= k) {
+                    return true;
+                }
+            }
+            map.put(nums[i], i);
+        }
+        return false;
+    }
+
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//
+//        System.out.println(l.summaryRanges(new int[]{0, 2, 3, 4, 6, 8, 9}));
+//    }
+
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        if (nums.length == 0) {
+            return res;
+        }
+        if (nums.length == 1) {
+            res.add(String.valueOf(nums[0]));
+            return res;
+        }
+
+        int start = nums[0];
+        for (int i = 0; i < nums.length; i++) {
+            if (i - 1 < 0 || nums[i - 1] != nums[i] - 1) {
+                start = nums[i];
+            }
+            if (i + 1 == nums.length || nums[i + 1] != nums[i] + 1) {
+//代表时末尾
+                String s;
+                if (start == nums[i]) {
+                    s = String.valueOf(start);
+                } else {
+                    s = "" + start + "->" + nums[i];
+                }
+                res.add(s);
+            }
+
+
+        }
+
+        return res;
+    }
+
 
     public static void main(String[] args) {
         Learning l = new Learning();
-        System.out.println(l.spiralOrder(
-                new int[][]{
-                        new int[]{1, 2, 3, 4},
-                        new int[]{5, 6, 7, 8},
-                        new int[]{9, 10, 11, 12},
-                        new int[]{13, 14, 15, 16}
-                }));
+        int[][] ints = {
+                new int[]{1, 3},
+                new int[]{2, 6},
+                new int[]{8, 10},
+                new int[]{19, 20}};
+        int[][] merge = l.merge(ints);
+        for (int[] anInt : merge) {
+            System.out.println(Arrays.toString(anInt));
+        }
     }
 
-    public List<Integer> spiralOrder(int[][] matrix) {
-        List<Integer> order = new ArrayList<>();
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-            return order;
-        }
-        int rows = matrix.length, columns = matrix[0].length;
-        boolean[][] visited = new boolean[rows][columns];
-        int total = rows * columns;
-        int row = 0, column = 0;
-        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        int directionIndex = 0;
-        for (int i = 0; i < total; i++) {
-            order.add(matrix[row][column]);
-            visited[row][column] = true;
-            int nextRow = row + directions[directionIndex][0], nextColumn = column + directions[directionIndex][1];
-            if (nextRow < 0 || nextRow >= rows || nextColumn < 0 || nextColumn >= columns || visited[nextRow][nextColumn]) {
-                directionIndex = (directionIndex + 1) % 4;
+    public int[][] merge(int[][] intervals) {
+        int[][] res = new int[intervals.length][2];
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
             }
-            row += directions[directionIndex][0];
-            column += directions[directionIndex][1];
+        });
+
+        int start = -1;
+        int end = -1;
+        int p = 0;
+        for (int i = 0; i < intervals.length; i++) {
+//            如果是头部更新start
+            if (intervals[i][0] > end) {
+                start = intervals[i][0];
+            }
+            end = Math.max(end, intervals[i][1]);
+            if (i + 1 == intervals.length || end < intervals[i + 1][0]) {
+                int[] ints = new int[]{start, end};
+
+                res[p++] = ints;
+
+            }
+
         }
-        return order;
+        return Arrays.copyOf(res, p );
+
     }
+
 }
