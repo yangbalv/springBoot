@@ -1919,19 +1919,19 @@ public class Learning {
         return res;
     }
 
-
-    public static void main(String[] args) {
-        Learning l = new Learning();
-        int[][] ints = {
-                new int[]{1, 3},
-                new int[]{2, 6},
-                new int[]{8, 10},
-                new int[]{19, 20}};
-        int[][] merge = l.merge(ints);
-        for (int[] anInt : merge) {
-            System.out.println(Arrays.toString(anInt));
-        }
-    }
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        int[][] ints = {
+//                new int[]{1, 3},
+//                new int[]{2, 6},
+//                new int[]{8, 10},
+//                new int[]{19, 20}};
+//        int[][] merge = l.merge(ints);
+//        for (int[] anInt : merge) {
+//            System.out.println(Arrays.toString(anInt));
+//        }
+//    }
 
     public int[][] merge(int[][] intervals) {
         int[][] res = new int[intervals.length][2];
@@ -1959,8 +1959,95 @@ public class Learning {
             }
 
         }
-        return Arrays.copyOf(res, p );
+        return Arrays.copyOf(res, p);
 
     }
+
+//
+//    public static void main(String[] args) {
+//        Learning l = new Learning();
+//        int[][] ints = {
+//                new int[]{1, 3},
+//                new int[]{6, 9}};
+//        int[][] merge = l.insert(ints, new int[]{2, 5});
+//        for (int[] anInt : merge) {
+//            System.out.println(Arrays.toString(anInt));
+//        }
+//    }
+
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+
+        List<int[]> res = new ArrayList<>();
+
+
+        int left = newInterval[0];
+        int right = newInterval[1];
+        boolean flag = false;
+        for (int[] interval : intervals) {
+            if (interval[0] > right) {
+                if (!flag) {
+                    res.add(new int[]{left, right});
+                    flag = true;
+                }
+                res.add(interval);
+
+            } else if (interval[1] < left) {
+                res.add(interval);
+
+            } else {
+                left = Math.min(left, interval[0]);
+                right = Math.max(right, interval[1]);
+            }
+
+        }
+        if (!flag) {
+            res.add(new int[]{left, right});
+        }
+
+        return res.toArray(new int[res.size()][]);
+
+    }
+
+    public static void main(String[] args) {
+        Learning l = new Learning();
+        int[][] ints = {
+                new int[]{-2147483646, -2147483645},
+                new int[]{2147483646, 2147483647}};
+        System.out.println(l.findMinArrowShots(ints));
+    }
+
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] point1, int[] point2) {
+                if (point1[1] > point2[1]) {
+                    return 1;
+                } else if (point1[1] < point2[1]) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+
+            }
+        });
+
+        int res = 1;
+        int[] interval = new int[2];
+        interval[0] = points[0][0];
+        interval[1] = points[0][1];
+        for (int i = 1; i < points.length; i++) {
+            if (points[i][0] > interval[1]) {
+                res++;
+                interval[0] = points[i][0];
+                interval[1] = points[i][1];
+            } else {
+                interval[0] = Math.max(interval[0], points[i][0]);
+                interval[1] = Math.min(interval[1], points[i][1]);
+            }
+        }
+        return res;
+
+    }
+
 
 }
