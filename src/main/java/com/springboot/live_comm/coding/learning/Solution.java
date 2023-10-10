@@ -22,18 +22,18 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode listNode1 = new ListNode(2);
-        ListNode listNode2 = new ListNode(4);
-        ListNode listNode3 = new ListNode(3);
+        ListNode listNode2 = new ListNode(3);
+        ListNode listNode3 = new ListNode(4);
         listNode1.next = listNode2;
         listNode2.next = listNode3;
 
         ListNode listNode4 = new ListNode(5);
         ListNode listNode5 = new ListNode(6);
-        ListNode listNode6 = new ListNode(4);
+        ListNode listNode6 = new ListNode(7);
         listNode4.next = listNode5;
         listNode5.next = listNode6;
 
-        ListNode listNode = solution.addTwoNumbers(listNode1, listNode4);
+        ListNode listNode = solution.mergeTwoLists(listNode1, listNode4);
 
         while (null != listNode) {
             System.out.println(listNode.val);
@@ -75,28 +75,26 @@ public class Solution {
     }
 
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode head = new ListNode();
+        ListNode head = new ListNode(-1);
         ListNode p = head;
-
-        if (null != list1 && null != list2) {
-            if (list1.val >= list2.val) {
-                p = list1;
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                p.next = list1;
                 list1 = list1.next;
             } else {
-                p = list2;
+                p.next = list2;
                 list2 = list2.next;
             }
-            head = p;
-        }
-
-        while (list1 != null && list2 != null) {
-            list1.next
-
+            p = p.next;
         }
         if (list1 != null) {
-
+            p.next = list1;
+        }
+        if (list2 != null) {
+            p.next = list2;
         }
 
+        return head.next;
 
     }
 }
