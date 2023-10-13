@@ -3,11 +3,13 @@
 知乎：https://zhuanlan.zhihu.com/p/580867875
 
 
+官网：https://www.patest.cn/home
 浙江大学PAT证书
 账号：17755063121
 密码：Aa15234.
 
 ccf csp认证
+官网：https://www.cspro.org/
 账号：17755063121
 密码：Aa15234.
 (可以进行测试，算法结合了数据运算，常使用矩阵)

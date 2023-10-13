@@ -2,7 +2,9 @@ package com.springboot.live_comm.coding.learning;
 
 
 import javax.management.Query;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Queue;
 import java.util.Stack;
 
 class ListNode {
@@ -26,6 +28,7 @@ class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
+
 
     TreeNode() {
     }
@@ -210,11 +213,11 @@ public class Solution {
         }
         return left.val == right.val && isSymmetricUtil(left.left, right.right) && isSymmetricUtil(left.right, right.left);
     }
-
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        solution.buildTree3(new int[]{9, 3, 15, 20, 7}, new int[]{9, 15, 7, 20, 3});
-    }
+//
+//    public static void main(String[] args) {
+//        Solution solution = new Solution();
+//        solution.buildTree3(new int[]{9, 3, 15, 20, 7}, new int[]{9, 15, 7, 20, 3});
+//    }
 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
 
@@ -301,6 +304,170 @@ public class Solution {
         }
 
         return head;
+    }
+
+    public Node connect(Node root) {
+        if (null == root) {
+            return null;
+        }
+        Queue<Node> queue = new ArrayDeque();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size > 0) {
+                Node pop = queue.poll();
+                if (pop.left != null) {
+                    queue.add(pop.left);
+                }
+                if (pop.right != null) {
+                    queue.add(pop.right);
+                }
+                if (size > 1) {
+                    pop.next = queue.element();
+                }
+                size--;
+            }
+        }
+        return root;
+    }
+
+
+    public void flatten(TreeNode root) {
+        flattenUtil(root);
+
+    }
+
+    public TreeNode flattenUtil(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+        TreeNode treeNodeLeft = flattenUtil(left);
+        TreeNode treeNodeRight = flattenUtil(right);
+        if (root.left == null && root.right == null) {
+            return root;
+        } else if (root.left == null) {
+            return treeNodeRight;
+        } else if (root.right == null) {
+            root.left = null;
+            root.right = left;
+            return treeNodeLeft;
+        } else {
+            root.left = null;
+            root.right = left;
+            treeNodeLeft.right = right;
+            return treeNodeRight;
+        }
+    }
+
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        } else {
+            return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+        }
+    }
+
+//
+//    public static void main(String[] args) {
+//        TreeNode treeNode1 = new TreeNode(1);
+//        TreeNode treeNode2 = new TreeNode(2);
+//        TreeNode treeNode3 = new TreeNode(3);
+//        treeNode1.left = treeNode2;
+//        treeNode1.right = treeNode3;
+//        Solution solution = new Solution();
+//        System.out.println(solution.sumNumbers(treeNode1));
+//    }
+
+    public int sumNumbers(TreeNode root) {
+        int res = 0;
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> treeNodeQueue = new ArrayDeque<>();
+        Queue<Integer> integerQueue = new ArrayDeque<>();
+
+        treeNodeQueue.add(root);
+        integerQueue.add(root.val);
+
+        while (!treeNodeQueue.isEmpty()) {
+            TreeNode peek = treeNodeQueue.remove();
+            int element = integerQueue.remove();
+            if (peek.left == null && peek.right == null) {
+                res += element;
+            } else {
+                if (peek.left != null) {
+                    treeNodeQueue.add(peek.left);
+                    integerQueue.add(element * 10 + peek.left.val);
+                }
+                if (peek.right != null) {
+                    treeNodeQueue.add(peek.right);
+                    integerQueue.add(element * 10 + peek.right.val);
+                }
+            }
+
+        }
+        return res;
+
+    }
+
+
+    public int sumNumbersDfs(TreeNode root) {
+        return sumNumbersDfsUtil(root, 0);
+    }
+
+    public int sumNumbersDfsUtil(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int num = sum * 10 + root.val;
+        if (root.left == null && root.right == null) {
+            return num;
+        }
+        return sumNumbersDfsUtil(root.left, num) + sumNumbersDfsUtil(root.right, num);
+    }
+
+
+    public static void main(String[] args) {
+        TreeNode treeNode1 = new TreeNode(1);
+        TreeNode treeNode2 = new TreeNode(2);
+        TreeNode treeNode3 = new TreeNode(3);
+        treeNode1.left = treeNode2;
+        treeNode1.right = treeNode3;
+        Solution solution = new Solution();
+        System.out.println(solution.maxPathSum(treeNode1));
+    }
+
+    public int maxPathSum(TreeNode root) {
+        return maxPathSumUtil(root, 0);
+    }
+
+    public int maxPathSumUtil(TreeNode root, int num) {
+        if (root == null) {
+            return 0;
+        }
+
+        if (num < 0) {
+            num = 0;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val;
+        }
+        int left = maxPathSumUtil(root.left, root.val);
+        if (left < 0) {
+            left = 0;
+        }
+        int right = maxPathSumUtil(root.right, root.val);
+        if (right < 0) {
+            right = 0;
+        }
+        int max = Math.max(right + left, left + num);
+        return Math.max(max, right + num);
     }
 
 }
