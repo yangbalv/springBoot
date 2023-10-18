@@ -1,11 +1,7 @@
 package com.springboot.live_comm.coding.learning;
 
 
-import javax.management.Query;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 class ListNode {
     int val;
@@ -433,41 +429,345 @@ public class Solution {
     }
 
 
-    public static void main(String[] args) {
-        TreeNode treeNode1 = new TreeNode(1);
-        TreeNode treeNode2 = new TreeNode(2);
-        TreeNode treeNode3 = new TreeNode(3);
-        treeNode1.left = treeNode2;
-        treeNode1.right = treeNode3;
-        Solution solution = new Solution();
-        System.out.println(solution.maxPathSum(treeNode1));
-    }
+//    public static void main(String[] args) {
+//        TreeNode treeNode1 = new TreeNode(1);
+//        TreeNode treeNode2 = new TreeNode(2);
+//        TreeNode treeNode3 = new TreeNode(3);
+//        treeNode1.left = treeNode2;
+//        treeNode1.right = treeNode3;
+//        Solution solution = new Solution();
+//        System.out.println(solution.maxPathSum(treeNode1));
+//    }
+
+    int maxPathNum = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {
-        return maxPathSumUtil(root, 0);
+        return maxPathSumUtil(root);
     }
 
-    public int maxPathSumUtil(TreeNode root, int num) {
+    public int maxPathSumUtil(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(maxPathSumUtil(root.left), 0);
+        int right = Math.max(maxPathSumUtil(root.right), 0);
+        int res = root.val + left + right;
+        maxPathNum = Math.max(maxPathNum, res);
+
+        return root.val + Math.max(left, res);
+    }
+
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+
+    Map<TreeNode, TreeNode> nodeMap = new HashMap<>();
+    Set<TreeNode> nodeSet = new HashSet<>();
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root);
+
+        while (p != null) {
+            nodeSet.add(p);
+            p = nodeMap.get(p);
+        }
+
+        while (q != null) {
+            if (nodeSet.contains(q)) {
+                return q;
+            }
+            q = nodeMap.get(q);
+        }
+        return q;
+
+    }
+
+    public void dfs(TreeNode root) {
+        if (root != null) {
+            if (root.left != null) {
+                nodeMap.put(root.left, root);
+                dfs(root.left);
+            }
+            if (root.right != null) {
+                nodeMap.put(root.right, root);
+                dfs(root.right);
+            }
+        }
+    }
+
+//    public static void main(String[] args) {
+//        TreeNode treeNode1 = new TreeNode(1);
+//        TreeNode treeNode2 = new TreeNode(2);
+//        TreeNode treeNode3 = new TreeNode(3);
+//        TreeNode treeNode4 = new TreeNode(4);
+//        TreeNode treeNode5 = new TreeNode(5);
+//        treeNode1.left = treeNode2;
+//        treeNode1.right = treeNode3;
+//        treeNode2.right = treeNode5;
+//        treeNode3.right = treeNode4;
+//        Solution solution = new Solution();
+//        System.out.println(solution.rightSideView(treeNode1));
+//    }
+
+
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> stack = new ArrayDeque<>();
+        stack.add(root);
+
+
+        while (!stack.isEmpty()) {
+            int i = stack.size();
+            while (i > 0) {
+                TreeNode pop = stack.remove();
+
+                if (i == 1) {
+                    res.add(pop.val);
+                }
+                if (pop.left != null) {
+                    stack.add(pop.left);
+                }
+                if (pop.right != null) {
+                    stack.add(pop.right);
+                }
+                i--;
+            }
+
+        }
+        return res;
+
+    }
+
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+
+
+        while (!queue.isEmpty()) {
+            int i = queue.size();
+            int num = queue.size();
+            double util = 0D;
+            while (i > 0) {
+                TreeNode pop = queue.remove();
+
+                util += pop.val;
+                if (i == 1) {
+                    double v = util / num;
+                    res.add(v);
+
+                }
+                if (pop.left != null) {
+                    queue.add(pop.left);
+                }
+                if (pop.right != null) {
+                    queue.add(pop.right);
+                }
+                i--;
+            }
+        }
+        return res;
+    }
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root != null) {
+            Queue<TreeNode> queue = new ArrayDeque<>();
+            queue.add(root);
+            while (!queue.isEmpty()) {
+                List<Integer> list = new ArrayList<>();
+                int i = queue.size();
+                while (i > 0) {
+                    TreeNode pop = queue.remove();
+                    list.add(pop.val);
+                    if (i == 1) {
+                        res.add(list);
+                    }
+                    if (pop.left != null) {
+                        queue.add(pop.left);
+                    }
+                    if (pop.right != null) {
+                        queue.add(pop.right);
+                    }
+                    i--;
+                }
+            }
+        }
+        return res;
+    }
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        boolean turn = true;
+        if (root != null) {
+            Queue<TreeNode> queue = new ArrayDeque<>();
+            queue.add(root);
+            while (!queue.isEmpty()) {
+                List<Integer> list = new ArrayList<>();
+                int i = queue.size();
+                while (i > 0) {
+                    TreeNode pop = queue.remove();
+                    if (turn) {
+                        list.add(pop.val);
+                    } else {
+                        list.add(0, pop.val);
+                    }
+                    if (i == 1) {
+                        res.add(list);
+                    }
+                    if (pop.left != null) {
+                        queue.add(pop.left);
+                    }
+                    if (pop.right != null) {
+                        queue.add(pop.right);
+                    }
+                    i--;
+                }
+                turn = !turn;
+            }
+
+        }
+        return res;
+    }
+
+    int pre = -1;
+    int minNum = Integer.MAX_VALUE;
+
+    public int getMinimumDifference(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
-        if (num < 0) {
-            num = 0;
-        }
-        if (root.left == null && root.right == null) {
-            return root.val;
-        }
-        int left = maxPathSumUtil(root.left, root.val);
-        if (left < 0) {
-            left = 0;
-        }
-        int right = maxPathSumUtil(root.right, root.val);
-        if (right < 0) {
-            right = 0;
-        }
-        int max = Math.max(right + left, left + num);
-        return Math.max(max, right + num);
+        getMinimumDifferenceUtil(root);
+        return minNum;
     }
+
+
+    public void getMinimumDifferenceUtil(TreeNode root) {
+        if (root != null) {
+
+            getMinimumDifferenceUtil(root.left);
+            if (pre == -1) {
+                pre = root.val;
+            } else {
+                minNum = Math.min(minNum, root.val - pre);
+                pre = root.val;
+            }
+            getMinimumDifferenceUtil(root.right);
+        }
+    }
+
+    int kth = 0;
+    int kthVal;
+
+    public int kthSmallest(TreeNode root, int k) {
+        kthSmallestUtil(root, k);
+        return kthVal;
+    }
+
+
+    public void kthSmallestUtil(TreeNode root, int k) {
+        if (root != null) {
+            kthSmallestUtil(root.left, k);
+            if (++kth == k) {
+                kthVal = root.val;
+            } else {
+
+                kthSmallestUtil(root.right, k);
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+        TreeNode treeNode1 = new TreeNode(5);
+        TreeNode treeNode2 = new TreeNode(1);
+
+        TreeNode treeNode3 = new TreeNode(4);
+        TreeNode treeNode4 = new TreeNode(3);
+        TreeNode treeNode5 = new TreeNode(6);
+        treeNode1.left = treeNode2;
+        treeNode1.right = treeNode3;
+
+        treeNode3.left = treeNode4;
+        treeNode3.right = treeNode5;
+        Solution solution = new Solution();
+        System.out.println(solution.isValidBST(treeNode1));
+    }
+
+
+    public boolean isValidBST2(TreeNode root) {
+        boolean res = true;
+
+        if (root.left != null) {
+            res = res && root.val > root.left.val && isValidBST2(root.left);
+        }
+        if (root.right != null) {
+            res = res && root.right.val > root.val && isValidBST2(root.right);
+        }
+        return res;
+    }
+
+    int isValidNum;
+    boolean isValid = true;
+    boolean isValidRes = true;
+
+    public boolean isValidBST(TreeNode root) {
+        boolean res = true;
+        if (root.left != null) {
+            if (!isValidBST(root.left)) {
+                return false;
+            }
+        } else {
+            if (isValid) {
+                isValidNum = root.val;
+            } else {
+                res = root.val > isValidNum;
+            }
+        }
+        if (root.right != null) {
+            if (!isValidBST(root.right)) {
+                return false;
+            }
+        }
+        return res;
+    }
+
+    public int numIslands(char[][] grid) {
+        int res = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == '1') {
+                    res++;
+                    numIslandsUtil(grid, i, j);
+                }
+
+            }
+        }
+        return res;
+    }
+
+    public void numIslandsUtil(char[][] grid, int i, int j) {
+        if (0 <= i && i < grid.length && 0 <= j && j < grid[0].length) {
+            if (grid[i][j] == '1') {
+                grid[i][j] = '2';
+                numIslandsUtil(grid, i + 1, j);
+                numIslandsUtil(grid, i - 1, j);
+                numIslandsUtil(grid, i, j + 1);
+                numIslandsUtil(grid, i, j - 1);
+            }
+
+        }
+    }
+
 
 }
