@@ -769,5 +769,46 @@ public class Solution {
         }
     }
 
+    public void solve(char[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][0] == 'O') {
+                solveUtil(board, i, 0);
+            }
+            if (board[i][board[0].length - 1] == 'O') {
+                solveUtil(board, i, board[0].length - 1);
+            }
+        }
+        for (int j = 1; j < board[0].length - 1; j++) {
+            if (board[0][j] == 'O') {
+                solveUtil(board, 0, j);
+            }
+            if (board[board.length - 1][j] == 'O') {
+                solveUtil(board, board.length - 1, j);
+            }
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] == 'A') {
+                    board[i][j] = 'O';
+                } else if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+
+    public void solveUtil(char[][] board, int i, int j) {
+        if (0 <= i && i < board.length && 0 <= j && j < board[0].length) {
+            if (board[i][j] == 'O') {
+                board[i][j] = 'A';
+                solveUtil(board, i + 1, j);
+                solveUtil(board, i - 1, j);
+                solveUtil(board, i, j + 1);
+                solveUtil(board, i, j - 1);
+            }
+        }
+    }
+
+
 
 }
