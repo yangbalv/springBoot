@@ -61,7 +61,37 @@ public class AA {
 //    }
     public static void main(String[] args) {
         AA aa = new AA();
-        System.out.println(aa.equationsPossible(new String[]{"a==b", "b==c","c==d", "d==a"}));
+        System.out.println(aa.equationsPossible2(new String[]{"a==b","b!=a"}));
+    }
+
+    public boolean equationsPossible2(String[] equations) {
+        Map<Character, Set<Character>> map = new HashMap<>();
+        for (String equation : equations) {
+            if (equation.charAt(1) == '=') {
+                if (map.get(equation.charAt(0)) == null) {
+                    Set<Character> set = new HashSet<>();
+                    set.add(equation.charAt(0));
+                    map.put(equation.charAt(0), set);
+                }
+                if (map.get(equation.charAt(3)) == null) {
+                    Set<Character> set = new HashSet<>();
+                    set.add(equation.charAt(3));
+                    map.put(equation.charAt(3), set);
+                }
+                map.get(equation.charAt(0)).addAll(map.get(equation.charAt(3)));
+                for (Character character : map.get(equation.charAt(3))) {
+                    map.put(character, map.get(equation.charAt(0)));
+                }
+            }
+        }
+        for (String equation : equations) {
+            if (equation.charAt(1) == '!') {
+                if (map.get(equation.charAt(0)) != null && map.get(equation.charAt(3)) != null && map.get(equation.charAt(0)) == map.get(equation.charAt(3))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean equationsPossible(String[] equations) {
@@ -85,11 +115,11 @@ public class AA {
                 if (!c1Num.equals(c2Num)) {
                     if (upsetDown.get(-c1Num).contains(c2Num) || upsetDown.get(-c2Num).contains(c1Num)) {
                         return false;
-                    }else {
+                    } else {
                         c1Set.addAll(c2Set);
                         upsetDownSet1.addAll(upsetDownSet2);
                         for (Character character : c2Set) {
-                            map.put(character,c1Num);
+                            map.put(character, c1Num);
                         }
                     }
                 }
