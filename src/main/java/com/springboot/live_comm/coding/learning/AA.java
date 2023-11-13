@@ -86,9 +86,13 @@ public class AA {
         }
         for (String equation : equations) {
             if (equation.charAt(1) == '!') {
+                if (map.get(equation.charAt(0)) == null && map.get(equation.charAt(3)) == null && equation.charAt(0) == equation.charAt(3)) {
+                    return false;
+                }
                 if (map.get(equation.charAt(0)) != null && map.get(equation.charAt(3)) != null && map.get(equation.charAt(0)) == map.get(equation.charAt(3))) {
                     return false;
                 }
+
             }
         }
         return true;
