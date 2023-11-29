@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springboot.live_comm.mappers.mybatiss1.UploadFileDetailMapper">
+
+
+    <sql id="MainDatabase">
+        upload_file_detail
+    </sql>
+    <sql id="PrimaryKey">
+        id
+    </sql>
+
+
+    <!--使用时注意逗号-->
+    <sql id="attributeNameTests">
+        <if test="id != null">id,</if>
+        <if test="userId != null and userId != ''">userId,</if>
+        <if test="path != null and path != ''">path,</if>
+        <if test="fileName != null and fileName != ''">fileName,</if>
+    </sql>
+
+    <sql id="Base_Column_List">
+        id
+        ,userId
+        ,path
+        ,fileName
+    </sql>
+    <sql id="selectWhere">
+        <where>
+            <if test="id != null">
+                and id = #{id, jdbcType=NUMERIC}
+            </if>
+
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId, jdbcType=VARCHAR}
+            </if>
+            <if test="path != null and path != ''">
+                and path = #{path, jdbcType=VARCHAR}
+            </if>
+            <if test="fileName != null and fileName != ''">
+                and file_name = #{fileName, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="attributeValueTests">
+        <if test="id != null and id != ''">#{id},</if>
+        <if test="userId != null and userId != ''">#{userId},</if>
+        <if test="path != null and path != ''">#{path},</if>
+        <if test="fileName != null and fileName != ''">#{fileName},</if>
+
+
+    </sql>
+
+    <select id="selectOne" resultType="com.springboot.live_comm.entity.activity.FlashSale" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        ,created_time
+        ,update_time
+        from
+        activitymanage
+        <include refid="selectWhere"/>
+    </select>
+
+
+    <select id="selectAll" resultType="com.springboot.live_comm.entity.activity.FlashSale" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        ,created_time
+        ,update_time
+        from
+        activitymanage
+    </select>
+
+    <update id="update" parameterType="com.springboot.live_comm.entity.activity.FlashSale">
+        update activitymanage
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="activitycode != null and activitycode != ''">
+                activitycode = #{activitycode, jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description, jdbcType=VARCHAR},
+            </if>
+            <if test="time != null ">
+                time = #{time, jdbcType=NUMERIC},
+            </if>
+            <if test="version != null ">
+                version = #{version, jdbcType=NUMERIC},
+            </if>
+            <if test="starttime != null">
+                starttime = #{starttime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                endtime = #{endtime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled, jdbcType=TINYINT},
+            </if>
+            <if test="locked != null">
+                locked = #{locked, jdbcType=TINYINT},
+            </if>
+            updatetime=CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </update>
+    <insert id="insert">
+        insert into
+        <include refid="MainDatabase"></include>(
+        <include refid="attributeNameTests"></include>
+        createTime,
+        updateTime
+        )
+        values(
+        <include refid="attributeValueTests"></include>
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+        )
+    </insert>
+
+
+</mapper>
+
