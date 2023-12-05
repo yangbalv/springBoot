@@ -18,13 +18,14 @@ import java.util.List;
 @Component
 //访问的当前的url需要的用户角色
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-    @Value("${tencentCloud.h5FaceCore.webankAppId}")
+    @Value("${server.servlet.context}")
     private static String serverServletContextPath;
     public static final String PUBLIC_INDEX_URL = "/";
     public static final String PUBLIC_LOGIN_URL = "/login";
     public static final String PUBLIC_REGISTER_URL = "/register";
     public static final String PUBLIC_RESOURCE_URL = "/public/**";
     public static final String TEST_URL = "/test/**";
+    public static final String File_SYS_URL = "/fileSys/**";
     AntPathMatcher antPathMatcher = new AntPathMatcher();
     @Autowired
     MenuMapper menuMapper;
@@ -39,11 +40,13 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 PUBLIC_REGISTER_URL.equals(requestUrl) ||
                 antPathMatcher.match(PUBLIC_RESOURCE_URL, requestUrl) ||
                 antPathMatcher.match(TEST_URL, requestUrl) ||
+                antPathMatcher.match(File_SYS_URL, requestUrl) ||
                 (serverServletContextPath + PUBLIC_INDEX_URL).equals(requestUrl) ||
                 (serverServletContextPath + PUBLIC_LOGIN_URL).equals(requestUrl) ||
                 (serverServletContextPath + PUBLIC_REGISTER_URL).equals(requestUrl) ||
                 antPathMatcher.match(serverServletContextPath + PUBLIC_RESOURCE_URL, requestUrl) ||
-                antPathMatcher.match(serverServletContextPath + TEST_URL, requestUrl)
+                antPathMatcher.match(serverServletContextPath + TEST_URL, requestUrl) ||
+                antPathMatcher.match(serverServletContextPath + File_SYS_URL, requestUrl)
                 ) {
 
             return null;

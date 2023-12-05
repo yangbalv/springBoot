@@ -185,6 +185,10 @@ tencentCloud:
 
 hostaddress: http://www.jiuyuetian.online/zty
 
+configuration:
+  fileSys:
+    basePath: /usr/local/server/chatRoom/fileSys
+
 
 
 

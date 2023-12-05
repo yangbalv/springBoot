@@ -185,6 +185,17 @@ tencentCloud:
 
 
 hostaddress: http://localhost:8080/zty
+logging:
+  level:
+    com.springboot.live_comm.mappers.mybatiss1.*: DEBUG
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+configuration:
+  fileSys:
+    basePath: D:\\ZTY\\springBootUtil
 
 
 

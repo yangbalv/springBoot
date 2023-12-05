@@ -1,31 +1,37 @@
 package com.springboot.live_comm.controller;
 
-import com.springboot.live_comm.entity.fileSyetem.UploadFileDetail;
+import com.springboot.live_comm.dto.DownFileReq;
+import com.springboot.live_comm.entity.fileSystem.UploadFileDetail;
 import com.springboot.live_comm.entity.security.User;
-
 import com.springboot.live_comm.mappers.mybatiss1.UploadFileDetailMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@ResponseBody
+@RequestMapping("/fileSys")
+@Slf4j
 public class FileSystemController {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     @Autowired
     private UploadFileDetailMapper uploadFileDetailMapper;
+
+    @Value("${configuration.fileSys.basePath}")
+    private String systemBasePath;
 
 
     @PostMapping("/upload")
@@ -44,13 +50,13 @@ public class FileSystemController {
 
             // 创建要保存的文件对象
             String format = sdf.format(new Date());
-            File destFile = new File("filesystem/" + format + '/' + UUID.randomUUID() + extension);
+            File destFile = new File(systemBasePath + "/filesystem/" + format + '/' + UUID.randomUUID() + '.' + extension);
 
             File realfile = new File(destFile.getAbsolutePath());
             realfile.getParentFile().mkdirs(); // 如果目录不存在，则创建目录
             System.out.println(realfile.getAbsoluteFile());
             UploadFileDetail uploadFileDetail = new UploadFileDetail();
-            uploadFileDetail.setId(UUID.randomUUID().toString());
+            uploadFileDetail.setFileId(UUID.randomUUID().toString());
             uploadFileDetail.setFileName(fileName);
             uploadFileDetail.setPath(destFile.getAbsolutePath());
             uploadFileDetail.setUserId(loginUser.getId());
@@ -72,8 +78,48 @@ public class FileSystemController {
     }
 
     @GetMapping("/downFile")
-    public ResponseEntity<List<UploadFileDetail>> downFile(DownFileReq req) {
-        return ResponseEntity.status(HttpStatus.OK).body(uploadFileDetailMapper.selectAll());
+    public void downFile(DownFileReq req, HttpServletResponse response) throws Exception {
+        UploadFileDetail uploadFileDetail = uploadFileDetailMapper.selectById(req.getFileId());
+        downFile(response, uploadFileDetail.getFileName(), uploadFileDetail.getPath());
+    }
+
+    public void downFile(HttpServletResponse response, String str, String path) throws Exception {
+        BufferedOutputStream bouts = null;
+        OutputStream outs = null;
+        BufferedInputStream bins = null;
+        InputStream ins = null;
+        try {
+            ins = new FileInputStream(path);
+            bins = new BufferedInputStream(ins);// 放到缓冲流里面
+            outs = response.getOutputStream();// 获取文件输出IO流
+            bouts = new BufferedOutputStream(outs);
+            response.setContentType("application/x-download");// 设置response内容的类型
+            response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(str, "UTF-8"));// 设置头部信息
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            // 开始向网络传输文件流
+            while ((bytesRead = bins.read(buffer, 0, 8192)) != -1) {
+                bouts.write(buffer, 0, bytesRead);
+            }
+            bouts.flush();
+
+        } catch (Exception e) {
+            log.error("文件下载失败，异常信息：", e);
+            throw e;
+        } finally {
+            if (bouts != null) {
+                bouts.close();
+            }
+            if (outs != null) {
+                outs.close();
+            }
+            if (bins != null) {
+                bins.close();
+            }
+            if (ins != null) {
+                ins.close();
+            }
+        }
     }
 
 }

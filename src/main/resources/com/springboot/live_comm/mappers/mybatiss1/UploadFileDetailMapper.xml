@@ -16,22 +16,22 @@
 
     <!--使用时注意逗号-->
     <sql id="attributeNameTests">
-        <if test="id != null">id,</if>
+        <if test="fileId != null">id,</if>
         <if test="userId != null and userId != ''">userId,</if>
         <if test="path != null and path != ''">path,</if>
         <if test="fileName != null and fileName != ''">fileName,</if>
     </sql>
 
     <sql id="Base_Column_List">
-        id
+        id as fileId
         ,userId
         ,path
         ,fileName
     </sql>
     <sql id="selectWhere">
         <where>
-            <if test="id != null">
-                and id = #{id, jdbcType=NUMERIC}
+            <if test="fileId != null">
+                and id = #{fileId, jdbcType=NUMERIC}
             </if>
 
             <if test="userId != null and userId != ''">
@@ -47,7 +47,7 @@
     </sql>
 
     <sql id="attributeValueTests">
-        <if test="id != null and id != ''">#{id},</if>
+        <if test="fileId != null and id != ''">#{fileId},</if>
         <if test="userId != null and userId != ''">#{userId},</if>
         <if test="path != null and path != ''">#{path},</if>
         <if test="fileName != null and fileName != ''">#{fileName},</if>
@@ -55,60 +55,41 @@
 
     </sql>
 
-    <select id="selectOne" resultType="com.springboot.live_comm.entity.activity.FlashSale" parameterType="map">
+    <select id="selectOne" resultType="com.springboot.live_comm.entity.fileSystem.UploadFileDetail" parameterType="map">
         select
         <include refid="Base_Column_List"/>
-        ,created_time
-        ,update_time
+        ,createTime
+        ,updateTime
         from
-        activitymanage
+        <include refid="MainDatabase"/>
         <include refid="selectWhere"/>
     </select>
 
 
-    <select id="selectAll" resultType="com.springboot.live_comm.entity.activity.FlashSale" parameterType="map">
+    <select id="selectById" resultType="com.springboot.live_comm.entity.fileSystem.UploadFileDetail"
+            parameterType="string">
         select
         <include refid="Base_Column_List"/>
-        ,created_time
-        ,update_time
+        ,createTime
+        ,updateTime
         from
-        activitymanage
+        <include refid="MainDatabase"/>
+        where
+        <include refid="PrimaryKey"/>
+        = #{fileId}
     </select>
 
-    <update id="update" parameterType="com.springboot.live_comm.entity.activity.FlashSale">
-        update activitymanage
-        <set>
-            <if test="name != null and name != ''">
-                name = #{name, jdbcType=VARCHAR},
-            </if>
-            <if test="activitycode != null and activitycode != ''">
-                activitycode = #{activitycode, jdbcType=VARCHAR},
-            </if>
-            <if test="description != null and description != ''">
-                description = #{description, jdbcType=VARCHAR},
-            </if>
-            <if test="time != null ">
-                time = #{time, jdbcType=NUMERIC},
-            </if>
-            <if test="version != null ">
-                version = #{version, jdbcType=NUMERIC},
-            </if>
-            <if test="starttime != null">
-                starttime = #{starttime, jdbcType=TIMESTAMP},
-            </if>
-            <if test="endtime != null">
-                endtime = #{endtime, jdbcType=TIMESTAMP},
-            </if>
-            <if test="enabled != null">
-                enabled = #{enabled, jdbcType=TINYINT},
-            </if>
-            <if test="locked != null">
-                locked = #{locked, jdbcType=TINYINT},
-            </if>
-            updatetime=CURRENT_TIMESTAMP
-        </set>
-        WHERE id = #{id,jdbcType=NUMERIC}
-    </update>
+
+    <select id="selectAll" resultType="com.springboot.live_comm.entity.fileSystem.UploadFileDetail" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        ,createTime
+        ,updateTime
+        from
+        <include refid="MainDatabase"/>
+    </select>
+
+
     <insert id="insert">
         insert into
         <include refid="MainDatabase"></include>(
