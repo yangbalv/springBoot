@@ -206,13 +206,14 @@ CREATE TABLE `activitymanage`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 文件系统
+DROP TABLE IF EXISTS `upload_file_detail`;
 CREATE TABLE `upload_file_detail`
 (
-    `id`         INT(11) NOT NULL AUTO_INCREMENT,
-    `userId`     INT(11) NULL DEFAULT NULL,
-    `path`       VARCHAR(255) NULL DEFAULT NULL,
-    `fileName`   VARCHAR(255) NULL DEFAULT NULL,
-    `createTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `updateTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`         varchar(255) NOT NULL,
+    `userId`     int(11) DEFAULT NULL,
+    `path`       varchar(255)          DEFAULT NULL,
+    `fileName`   varchar(255)          DEFAULT NULL,
+    `createTime` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updateTime` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
