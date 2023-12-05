@@ -112,6 +112,7 @@ public class UserController {
         modelAndView.setViewName("preFlashSale");
         return modelAndView;
     }
+
     @ResponseBody
     @RequestMapping(value = "/fileSystem", method = RequestMethod.GET)
     public ModelAndView fileSystem(HttpSession session) {
@@ -119,6 +120,16 @@ public class UserController {
         User loginUser = (User) session.getAttribute("loginUser");
         modelAndView.addObject("username", loginUser.getUsername());
         modelAndView.setViewName("fileSystem");
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/fileIndex", method = RequestMethod.GET)
+    public ModelAndView fileIndex(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        User loginUser = (User) session.getAttribute("loginUser");
+        modelAndView.addObject("username", loginUser.getUsername());
+        modelAndView.setViewName("fileIndex");
         return modelAndView;
     }
 }

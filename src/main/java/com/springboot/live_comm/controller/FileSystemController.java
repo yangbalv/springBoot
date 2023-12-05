@@ -73,7 +73,7 @@ public class FileSystemController {
     }
 
     @GetMapping("/listFileDetails")
-    public ResponseEntity<List<UploadFileDetail>> listFileDetails(HttpSession session) {
+    public ResponseEntity<List<UploadFileDetail>> listFileDetails(String fileName, HttpSession session) {
         return ResponseEntity.status(HttpStatus.OK).body(uploadFileDetailMapper.selectAll());
     }
 
