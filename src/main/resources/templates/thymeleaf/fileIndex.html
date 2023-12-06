@@ -1,70 +1,78 @@
-<!DOCTYPE html>  
-<html>  
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <!--手机与电脑在查看时都会兼容-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文件列表</title>
-  <style>  
-    table {  
-      border-collapse: collapse;  
-      width: 100%;  
-    }  
-    th, td {  
-      border: 1px solid black;  
-      padding: 8px;  
-      text-align: left;  
-    }  
-    .hidden {  
-      display: none;  
-    }  
-  </style>  
-</head>  
-<body>  
-  <h1>文件列表</h1>  
-  <button id="refreshBtn">刷新</button>  
-  <table id="fileListTable">  
-    <tr>  
-      <th>文件名</th>  
-      <th>用户ID</th>  
-      <th>创建时间</th>  
-      <th>更新时间</th>  
-      <th></th> <!-- 添加一个隐藏列用于下载按钮 -->  
-    </tr>  
-  </table>  
-  
-  <script>  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!--手机与电脑在查看时都会兼容-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件列表</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1>文件上传</h1>
+<form action="/zty/fileSys/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" value="请选择文件">
+    <input type="submit" value="上传">
+</form>
+
+<h1>文件列表</h1>
+<button id="refreshBtn">刷新</button>
+<table id="fileListTable">
+    <tr>
+        <th>文件名</th>
+        <th>用户ID</th>
+        <th>创建时间</th>
+        <th>更新时间</th>
+        <th></th> <!-- 添加一个隐藏列用于下载按钮 -->
+    </tr>
+</table>
+
+<script>
     // 初始化页面，从接口获取数据并填充到表格中  
-    document.addEventListener('DOMContentLoaded', function() {  
-      fetch('/zty/fileSys/listFileDetails')
-        .then(response => response.json()) // 将响应转换为JSON对象  
-        .then(data => {  
-          const table = document.getElementById('fileListTable');  
-          data.forEach(file => {  
-            const row = table.insertRow(-1); // 在表格最后添加一行  
-            row.insertCell().textContent = file.fileName; // 文件名  
-            row.insertCell().textContent = file.userId; // 用户ID  
-            row.insertCell().textContent = file.createTime; // 创建时间  
-            row.insertCell().textContent = file.updateTime; // 更新时间  
-            const downloadBtn = document.createElement('button'); // 创建下载按钮  
-            downloadBtn.textContent = '下载'; // 设置按钮文本  
-            downloadBtn.addEventListener('click', function() { // 添加点击事件监听器  
-              const fileId = file.fileId; // 获取文件ID  
-              const url = '/zty/fileSys/downFile?fileId=' + encodeURIComponent(fileId); // 构造下载请求的URL
-              window.open(url); // 打开新窗口来下载文件  
-            });  
-            row.insertCell().appendChild(downloadBtn); // 在最后一列添加下载按钮  
-          });  
-        })  
-        .catch(error => {  
-          console.error('Error:', error); // 打印错误信息到控制台（调试用）  
-        });  
-    });  
-  
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/zty/fileSys/listFileDetails')
+            .then(response => response.json()) // 将响应转换为JSON对象
+            .then(data => {
+                const table = document.getElementById('fileListTable');
+                data.forEach(file => {
+                    const row = table.insertRow(-1); // 在表格最后添加一行
+                    row.insertCell().textContent = file.fileName; // 文件名
+                    row.insertCell().textContent = file.userId; // 用户ID
+                    row.insertCell().textContent = file.createTime; // 创建时间
+                    row.insertCell().textContent = file.updateTime; // 更新时间
+                    const downloadBtn = document.createElement('button'); // 创建下载按钮
+                    downloadBtn.textContent = '下载'; // 设置按钮文本
+                    downloadBtn.addEventListener('click', function () { // 添加点击事件监听器
+                        const fileId = file.fileId; // 获取文件ID
+                        const url = '/zty/fileSys/downFile?fileId=' + encodeURIComponent(fileId); // 构造下载请求的URL
+                        window.open(url); // 打开新窗口来下载文件
+                    });
+                    row.insertCell().appendChild(downloadBtn); // 在最后一列添加下载按钮
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error); // 打印错误信息到控制台（调试用）
+            });
+    });
+
     // 处理刷新按钮点击事件，重新获取数据并填充到表格中  
-    document.getElementById('refreshBtn').addEventListener('click', function() {  
-      location.reload(); // 重新加载页面，获取最新数据并填充到表格中  
-    });  
-  </script>  
-</body>  
+    document.getElementById('refreshBtn').addEventListener('click', function () {
+        location.reload(); // 重新加载页面，获取最新数据并填充到表格中
+    });
+</script>
+</body>
 </html>

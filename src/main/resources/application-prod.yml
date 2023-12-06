@@ -185,6 +185,10 @@ tencentCloud:
 
 hostaddress: http://www.jiuyuetian.online/zty
 
+logging:
+  level:
+    com.springboot.live_comm.mappers.mybatiss1.*: ERROR
+
 configuration:
   fileSys:
     basePath: /usr/local/server/chatRoom/fileSys

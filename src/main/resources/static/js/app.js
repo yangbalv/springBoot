@@ -39,6 +39,7 @@ function disconnect() {
 
 function sendName() {
     stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val(), 'content': $("#content").val()}));
+    document.getElementById('content').cl;
 }
 
 function showGreeting(message) {
@@ -58,7 +59,7 @@ $(function () {
     });
 })
 
-document.getElementById('password').addEventListener('keydown', function (event) {
+document.getElementById('content').addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         sendName();
     }
