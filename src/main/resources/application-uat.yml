@@ -195,7 +195,7 @@ mybatis:
 
 configuration:
   fileSys:
-    basePath: D:\\ZTY\\springBootUtil
+    basePath: D:/ZTY/springBootUtil
 
 
 

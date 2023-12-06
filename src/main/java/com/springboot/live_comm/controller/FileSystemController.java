@@ -47,14 +47,18 @@ public class FileSystemController {
             // 获取文件的名称和扩展名
             String fileName = file.getOriginalFilename();
             String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-
+            char property = System.getProperty("file.separator").charAt(0);
+            log.info("property is:" + property);
             // 创建要保存的文件对象
             String format = sdf.format(new Date());
-            File destFile = new File(systemBasePath + "/filesystem/" + format + '/' + UUID.randomUUID() + '.' + extension);
+            String path = systemBasePath + '/' + "filesystem" + '/' + format + '/' + UUID.randomUUID() + '.' + extension;
+            path = path.replace('/', property);
+            log.info(path);
+            File destFile = new File(path);
 
-            File realfile = new File(destFile.getAbsolutePath());
-            realfile.getParentFile().mkdirs(); // 如果目录不存在，则创建目录
-            System.out.println(realfile.getAbsoluteFile());
+//            File realfile = new File(destFile.getAbsolutePath());
+            destFile.getParentFile().mkdirs(); // 如果目录不存在，则创建目录
+            log.info(destFile.getAbsolutePath());
             UploadFileDetail uploadFileDetail = new UploadFileDetail();
             uploadFileDetail.setFileId(UUID.randomUUID().toString());
             uploadFileDetail.setFileName(fileName);
@@ -63,7 +67,7 @@ public class FileSystemController {
             uploadFileDetailMapper.insert(uploadFileDetail);
 
             // 将文件保存到磁盘上
-            file.transferTo(realfile);
+            file.transferTo(destFile);
 
             return ResponseEntity.status(HttpStatus.OK).body("File saved successfully");
         } catch (IOException e) {
