@@ -71,7 +71,7 @@ spring:
     multipart:
       enabled: true
       file-size-threshold: 0
-      location: D:\\tmp
+      location: /
       max-file-size: 1MB
       max-request-size: 10MB
       resolve-lazily: false
