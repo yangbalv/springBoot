@@ -17,9 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @ResponseBody
@@ -79,6 +77,14 @@ public class FileSystemController {
     @GetMapping("/listFileDetails")
     public ResponseEntity<List<UploadFileDetail>> listFileDetails(String fileName, HttpSession session) {
         return ResponseEntity.status(HttpStatus.OK).body(uploadFileDetailMapper.selectAll());
+    }
+
+    @GetMapping("/listAllFileDetails")
+    public ResponseEntity<List<UploadFileDetail>> listAllFileDetails(String fileName, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", loginUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(uploadFileDetailMapper.selectList(params));
     }
 
     @GetMapping("/downFile")
