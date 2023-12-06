@@ -7,6 +7,9 @@
     <title>thymeleaf的index</title>
     <!-- author xjt -->
 </head>
+<script src="public/js/vue.js"></script>
+<script src="public/js/index.js"></script>
+<script type="text/javascript" src="public/js/jquery.min.js"></script>
 <body background="">
 <div class="login">
     <h2>登录聊天系统</h2>
@@ -25,6 +28,41 @@
     </form>
 </div>
 </body>
+<script type="text/javascript">
+    document.getElementById('password').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            loginHb();
+        }
+    });
+
+    function loginHb() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        if (username == null || username == "") {
+            alert("账号不能为空")
+            return;
+        }
+        if (password == null || password == "") {
+            alert("密码不能为空")
+            return;
+        }
+        $.ajax({
+            url: "login",
+            type: 'post',
+            data: {
+                "username": username,
+                "password": password
+            },
+            success: function () {
+                window.location.href = "menu";
+            },
+            error: function (error) {
+                console.log(error)
+                alert(error.responseJSON.msg)
+            }
+        });
+    }
+</script>
 <style>
     body {
         padding: 0;
@@ -121,44 +159,7 @@
             box-shadow: 2px 2px 15px 2px rgb(190, 225, 255);
         }
     }
+
 </style>
-<script src="public/js/vue.js"></script>
-
-<script src="public/js/index.js"></script>
-
-<script type="text/javascript" src="public/js/jquery.min.js"></script>
-<script type="text/javascript">
-
-    function loginHb() {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        if (username == null || username == "") {
-            alert("账号不能为空")
-            return;
-        }
-        if (password == null || password == "") {
-            alert("密码不能为空")
-            return;
-        }
-        $.ajax({
-            url: "login",
-            type: 'post',
-            data: {
-                "username": username,
-                "password": password
-            },
-            success: function () {
-                window.location.href = "menu";
-            },
-            error: function (error) {
-                console.log(error)
-                alert(error.responseJSON.msg)
-            }
-        });
-    }
-
-
-</script>
-
 </html>
 
