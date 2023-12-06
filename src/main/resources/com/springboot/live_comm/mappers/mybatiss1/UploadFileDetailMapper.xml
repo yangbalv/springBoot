@@ -23,25 +23,27 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id as fileId
+        id
+        as fileId
         ,userId
         ,path
         ,fileName
     </sql>
     <sql id="selectWhere">
         <where>
+            1=1
             <if test="fileId != null">
                 and id = #{fileId, jdbcType=NUMERIC}
             </if>
 
             <if test="userId != null and userId != ''">
-                and user_id = #{userId, jdbcType=VARCHAR}
+                and userId = #{userId, jdbcType=VARCHAR}
             </if>
             <if test="path != null and path != ''">
                 and path = #{path, jdbcType=VARCHAR}
             </if>
             <if test="fileName != null and fileName != ''">
-                and file_name = #{fileName, jdbcType=VARCHAR}
+                and fileName = #{fileName, jdbcType=VARCHAR}
             </if>
         </where>
     </sql>
@@ -87,6 +89,17 @@
         ,updateTime
         from
         <include refid="MainDatabase"/>
+    </select>
+
+    <select id="selectList" resultType="com.springboot.live_comm.entity.fileSystem.UploadFileDetail"
+            parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        ,createTime
+        ,updateTime
+        from
+        <include refid="MainDatabase"/>
+        <include refid="selectWhere"/>
     </select>
 
 
