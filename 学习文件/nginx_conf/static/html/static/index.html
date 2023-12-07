@@ -28,9 +28,8 @@
         </div>
         <nav>
             <ul>
-			    <li><a target="_top" href="http://www.jiuyuetian.online:9090/zty">在线聊天室</a></li>
-                  <!--  <li><a target="_top" href="http://www.jiuyuetian.online/zty">在线聊天室</a></li>-->
-
+                <li><a target="_top" href="http://www.jiuyuetian.online:9090/zty">在线聊天室</a></li>
+                <li><a target="_top" href="http://www.jiuyuetian.online/lifeGame">生命游戏</a></li>
                 <!--      <li> <a target="_blank" href="http://www.baidu.com/">百度主页</a></li>-->
                 <!--      <li> <a target="_blank" href="http://baidu.nianbroken.top/">帮你百度</a></li> -->
                 <!--      <li> <a target="_top" href="http://pan.nianbroken.top/">碎念云盘</a></li>-->
@@ -43,7 +42,7 @@
     <!-- Footer -->
     <footer id="footer">
 
-	<a class="text-color" href="http://beian.miit.gov.cn/" target="_blank">皖ICP备2023002523号-2</a>
+        <a class="text-color" href="http://beian.miit.gov.cn/" target="_blank">皖ICP备2023002523号-2</a>
         <p class="copyright">您的IP：
             <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
             <script type="text/javascript">document.write(returnCitySN["cip"])</script>
@@ -68,10 +67,10 @@
                     target="_blank" href="http://www.coolapk.com/u/1315644"> <img src="images\svg\coolapk.svg"
                                                                                   width="30" alt="Coolapk"
                                                                                   title="Coolapk"/></a></p>
-																				        </div>
+</div>
 
-    </div>
-    </footer>
+</div>
+</footer>
 </div>
 
 <canvas id="sakura" style="z-index: 2;
@@ -186,6 +185,9 @@ void main(void) {
     distancefade = min(1.0, exp((uFade.x - pdist) * 0.69315 / uFade.y));
 }
 
+
+
+
 </script>
 <script id="sakura_point_fsh" type="x-shader/x_fragment">
 #ifdef GL_ES
@@ -259,6 +261,9 @@ void main(void) {
     gl_FragColor = vec4(col * 0.5, alpha);
 }
 
+
+
+
 </script>
 <!-- effects -->
 <script id="fx_common_vsh" type="x-shader/x_vertex">
@@ -273,6 +278,9 @@ void main(void) {
     texCoord = aPosition.xy * 0.5 + vec2(0.5, 0.5);
     screenCoord = aPosition.xy * vec2(uResolution.z, 1.0);
 }
+
+
+
 
 </script>
 <script id="bg_fsh" type="x-shader/x_fragment">
@@ -295,6 +303,9 @@ void main(void) {
     gl_FragColor = vec4(col * 0.5, 1.0);
 }
 
+
+
+
 </script>
 <script id="fx_brightbuf_fsh" type="x-shader/x_fragment">
 #ifdef GL_ES
@@ -311,6 +322,9 @@ void main(void) {
     vec4 col = texture2D(uSrc, texCoord);
     gl_FragColor = vec4(col.rgb * 2.0 - vec3(0.5), 1.0);
 }
+
+
+
 
 </script>
 <script id="fx_dirblur_r4_fsh" type="x-shader/x_fragment">
@@ -334,6 +348,9 @@ void main(void) {
     gl_FragColor = col / 5.0;
 }
 
+
+
+
 </script>
 <!-- effect fragment shader template -->
 <script id="fx_common_fsh" type="x-shader/x_fragment">
@@ -351,6 +368,9 @@ void main(void) {
     gl_FragColor = texture2D(uSrc, texCoord);
 }
 
+
+
+
 </script>
 <!-- post processing -->
 <script id="pp_final_vsh" type="x-shader/x_vertex">
@@ -363,6 +383,9 @@ void main(void) {
     texCoord = aPosition.xy * 0.5 + vec2(0.5, 0.5);
     screenCoord = aPosition.xy * vec2(uResolution.z, 1.0);
 }
+
+
+
 
 </script>
 <script id="pp_final_fsh" type="x-shader/x_fragment">
@@ -386,6 +409,9 @@ void main(void) {
     gl_FragColor = vec4(col.rgb, 1.0);
     gl_FragColor.a = 1.0;
 }
+
+
+
 
 </script>
 <script>
