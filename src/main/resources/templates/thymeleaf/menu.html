@@ -5,14 +5,49 @@
     <!--手机与电脑在查看时都会兼容-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>主菜单页</title>
-</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
 
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
 <body>
-<div>
-    <label for="username">当前登录用户:</label>
+<div class="container">
+    <h2>当前登录用户:</h2>
     <input type="text" id="username" th:value="${username}" readonly="readonly">
 </div>
-<div>
+<div class="buttons">
     <button type="button" name="chatRoom" onclick="chatRoom()">聊天室</button>
     <button type="button" name="chatToSomeone" onclick="chatToSomeone()">单独聊天</button>
     <button type="button" name="woodenFish" onclick="woodenFish()">积点功德</button>
@@ -24,8 +59,6 @@
 </body>
 <script type="text/javascript">
     // var username = $("#username").text();
-
-
     function chatRoom() {
         window.location.href = "chatRoom";
     }
@@ -45,9 +78,11 @@
     function snake() {
         window.location.href = "snake";
     }
+
     function preFlashSale() {
         window.location.href = "preFlashSale";
     }
+
     function fileIndex() {
         window.location.href = "fileIndex";
     }
