@@ -20,7 +20,7 @@ public enum SystemEnums {
     mds("dhbailian-publish-dhbailian-mds"),
     mgr("dhbailian-publish-dhbailian-mgr"),
     pss("dhbailian-publish-dhbailian-pss"),
-    cm("dhbailian-publish-dhbailian-cm"),
+    rcm("dhbailian-publish-dhbailian-rcm"),
     sys("dhbailian-publish-dhbailian-sys"),
     timeservice("dhbailian-publish-dhbailian-timeservice"),
     user("dhbailian-publish-dhbailian-user"),
