@@ -14,7 +14,7 @@ import java.io.IOException;
 @Slf4j
 public class JenkinsSystemController {
 
-    @GetMapping("/dh/{system}")
+    @GetMapping("/{system}")
     public String jenkins(@PathVariable String system) throws IOException {
         if ("publishAll".equals(system)){
             for (SystemEnums value : SystemEnums.values()) {
