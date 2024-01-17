@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 public class JenkinsSystemController {
 
-    @Value("${configuration.fileSys.basePath}")
+    @Value("${dh.jkpath}")
     private String jkpath;
 
     @GetMapping("/pu/{system}")
