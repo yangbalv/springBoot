@@ -194,5 +194,6 @@ configuration:
     basePath: /usr/local/server/chatRoom/fileSys
 
 
-
+dh:
+  jkpath: http://183.195.144.230:9503/dhjk
 

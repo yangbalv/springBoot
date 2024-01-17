@@ -197,6 +197,8 @@ configuration:
   fileSys:
     basePath: D:/ZTY/springBootUtil
 
+dh:
+  jkpath: http://172.16.10.162:11250/dhjk/
 
 
 
