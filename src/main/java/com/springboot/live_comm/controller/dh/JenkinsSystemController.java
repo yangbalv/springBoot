@@ -23,7 +23,7 @@ public class JenkinsSystemController {
         if ("publishAll".equals(system)) {
             for (SystemEnums value : SystemEnums.values()) {
                 String path = jkpath + value.getPublish() +
-                        "/buildWithParameters?token=qwertyui&branch=feat/dh2.2_dependency_cleanup&deploy_env=dh2dev";
+                        "/buildWithParameters?token=qwertyui&branch=test/dh2.2dev&deploy_env=dh2dev";
                 HttpUtil httpUtil = new HttpUtil();
                 System.out.println(httpUtil.getHTML(path));
             }
@@ -31,7 +31,7 @@ public class JenkinsSystemController {
         } else {
             String systemValue = SystemEnums.valueOf(system).getPublish();
             String path = jkpath + systemValue +
-                    "/buildWithParameters?token=qwertyui&branch=feat/dh2.2_dependency_cleanup&deploy_env=dh2dev";
+                    "/buildWithParameters?token=qwertyui&branch=test/dh2.2dev&deploy_env=dh2dev";
             HttpUtil httpUtil = new HttpUtil();
             System.out.println(httpUtil.getHTML(path));
             return "发布" + system + "应用成功，详情在 （" + jkpath + "） 页面查看";
